@@ -1,4 +1,6 @@
 #include <Python.h>
+#include <dirent.h>
+#include <string>
 #include "PyEngine.h"
 
 // Singleton instance is null until referenced first time
@@ -86,6 +88,7 @@ PyEngine::PyEngine()
 {
     PyImport_AppendInittab("eng", &PyInit_emb);
     Py_Initialize();
+    LoadPyFiles("Content");
 }
 
 /*
@@ -97,6 +100,33 @@ PyEngine::~PyEngine()
     Py_Finalize();
 }
 
+/*
+    Load Python files in the given directory and all subdirectories
+*/
+void PyEngine::LoadPyFiles(std::string directoryName)
+{
+    DIR* contentDir = opendir(directoryName.c_str());
+    struct dirent* dp;
+    while ((dp = readdir(contentDir)) != NULL) {
+        if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
+            if (dp->d_type == DT_DIR) LoadPyFiles(directoryName + "/" + dp->d_name);
+            else {
+                // Load py file
+                FILE* fp;
+                std::string filename = directoryName + "/" + dp->d_name;
+                if (filename.size() >= 3 && filename.compare(filename.size() - 3, 3, ".py") == 0) {
+                    fp = _Py_fopen(filename.c_str(), "r");
+                    if (fp != NULL) {
+                        PyRun_SimpleFile(fp, filename.c_str()); 
+                    } else {
+                        fprintf(stderr, "Could not open file \n");
+                    }       
+                }
+            }
+        }
+    }
+    closedir(contentDir);
+}
 
 // Main just for testing
 /*

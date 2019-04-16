@@ -2,6 +2,7 @@
 #define PYENGINE_H
 
 #include <Python.h>
+#include <string>
 
 class PyEngine
 {
@@ -26,6 +27,7 @@ private:
     static PyMethodDef EmbMethods[];
     static PyModuleDef EmbModule;
     static PyObject* PyInit_emb(void); 
+    void LoadPyFiles(std::string directoryName);
     PyEngine();
     ~PyEngine();
 
