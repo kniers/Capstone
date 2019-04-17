@@ -1,0 +1,23 @@
+The text parser expects a lowercase string and a pointer to an empty Command object.
+
+The parser will deposit the action, direct object, and indirect object into the
+appropriate slots of the Command object. Any unused slots will have the string "nope".
+
+The parser will set the status of the Command object to 0 if the syntax is valid, and
+to 1 if the syntax is invalid. Do not use the command if the status is 1.
+
+The parser will print out the appropriate error message for syntax errors.
+
+The parser will not guarantee a Command object that makes sense. The command "eat table"
+will be considered correct by the parser. Non-syntax errors will be handled by the items.
+
+The parser accepts command in the following formats:
+<dirObj>
+<verb> <dirObj>
+<verb> <dirObj> <preposition> <indObj>
+<verb> <indObj> <dirObj>
+
+Note that for a command <verb> <item> <item>, the first item will always be considered as the
+indirect object. If there's a situation where that's incorrect, let me know.
+
+Let me know if there are any other variations of commands I haven't noticed, and I'll get those coded.
