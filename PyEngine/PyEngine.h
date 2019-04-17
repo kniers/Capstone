@@ -3,6 +3,8 @@
 
 #include <Python.h>
 #include <string>
+#include <map>
+#include "Item.h"
 
 class PyEngine
 {
@@ -13,6 +15,7 @@ private:
      *      Engine Data Members
     ****************************************/
     PyObject* score;
+    std::map<std::string, Item*> items;
 
     /****************************************
      *      Python API
@@ -20,6 +23,10 @@ private:
     // Score
     static PyObject* emb_getScore(PyObject *self, PyObject *args);
     static PyObject* emb_setScore(PyObject *self, PyObject *args);
+
+    // Item
+    static PyObject* emb_setupItem(PyObject *self, PyObject *args);
+    static PyObject* emb_getItemByID(PyObject *self, PyObject *args);
 
     /****************************************
      *      Python Module Setup
@@ -43,6 +50,13 @@ public:
     // Score   
     long getScore();
     void setScore(long newScore);
+
+    // Item
+    Item* getItemByID(std::string itemID);
 };
+
+// Python3 string conversion
+char* getStringFromPyObject(PyObject* strObj);
+char* getStringFromPyObject(PyObject* obj, char* propertyName);
 
 #endif

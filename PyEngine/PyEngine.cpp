@@ -1,7 +1,9 @@
 #include <Python.h>
 #include <dirent.h>
 #include <string>
+#include <map>
 #include "PyEngine.h"
+#include "Item.h"
 
 // Singleton instance is null until referenced first time
 PyEngine* PyEngine::instance = 0;
@@ -14,6 +16,7 @@ PyEngine* PyEngine::getInstance()
     if (instance == 0)
     {
         instance = new PyEngine();
+        instance->LoadPyFiles("Content");
     }
     return instance;
 }
@@ -55,12 +58,41 @@ PyObject* PyEngine::emb_setScore(PyObject *self, PyObject *args)
 }
 
 /*
+    Python API - add an item to the engine
+*/
+PyObject* PyEngine::emb_setupItem(PyObject *self, PyObject *args)
+{
+    PyObject* pyitem;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
+    Py_INCREF(pyitem);
+    char* id = getStringFromPyObject(pyitem, (char*)"itemID");
+    Item* item = new Item(pyitem);
+    PyEngine::getInstance()->items.insert(std::pair<std::string, Item*>(id, item));
+    return PyLong_FromLong(0);
+}
+
+/*
+    Python API - get an item by "itemID" property
+*/
+PyObject* PyEngine::emb_getItemByID(PyObject *self, PyObject *args)
+{
+    PyEngine* instance = PyEngine::getInstance();
+    PyObject* itemID;
+    PyArg_UnpackTuple(args, "", 1, 1, &itemID);
+    char* itemIDstr = getStringFromPyObject(itemID);
+    Item* item = instance->getItemByID(itemIDstr);
+    return item->getPyItem();
+}
+
+/*
     Collection of Python APIs
 */
 PyMethodDef PyEngine::EmbMethods[] = 
 {
     {"getScore", emb_getScore, METH_VARARGS, ""},
     {"setScore", emb_setScore, METH_VARARGS, ""},
+    {"setupItem", emb_setupItem, METH_VARARGS, ""},
+    {"getItemByID", emb_getItemByID, METH_VARARGS, ""},
     {NULL, NULL, 0, NULL}
 };
 
@@ -88,7 +120,6 @@ PyEngine::PyEngine()
 {
     PyImport_AppendInittab("eng", &PyInit_emb);
     Py_Initialize();
-    LoadPyFiles("Content");
 }
 
 /*
@@ -128,15 +159,52 @@ void PyEngine::LoadPyFiles(std::string directoryName)
     closedir(contentDir);
 }
 
+/*
+    Get item by "itemID" property
+*/
+Item* PyEngine::getItemByID(std::string itemID)
+{
+    Item* item = NULL;
+    std::map<std::string, Item*>::iterator itr = items.find(itemID);
+    if (itr != items.end()) 
+    {
+        item = itr->second;
+    }
+    return item;
+}
+
+/*
+    Helper to turn Python object into string
+*/
+char* getStringFromPyObject(PyObject* strObj)
+{
+    if (PyUnicode_Check(strObj)) {
+        PyObject* bytes = PyUnicode_AsEncodedString(strObj, "UTF-8", "strict");
+        return strdup(PyBytes_AS_STRING(bytes));
+    } else {
+        return '\0';
+    }
+}
+
+/*
+    Helper to get a string from a Python object
+    Returns empty string if property not found or not a string
+*/
+char* getStringFromPyObject(PyObject* obj, char* propertyName)
+{
+    PyObject* property = PyObject_GetAttrString(obj, propertyName);
+    return getStringFromPyObject(property);
+}
+
+
+
 // Main just for testing
 /*
 int main() {
     PyEngine* p = PyEngine::getInstance();
-    p->setScore(123);
-    p->setScore(p->getScore() + 5);
-    PyRun_SimpleString("import eng");
-    PyRun_SimpleString("eng.setScore(eng.getScore() + 100)");
-    PyRun_SimpleString("print(eng.getScore())");
-    printf("Score: %ld\n", p->getScore());
+    Item* item = p->getItemByID("exampleitem");
+    printf("%s\n", item->getDescription());
+    item->runVerb("cook", p->getItemByID("ex2"));
+    if (item->hasVerb("look")) printf("Has look!\n");
 }
 */
