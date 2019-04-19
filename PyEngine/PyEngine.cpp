@@ -2,8 +2,10 @@
 #include <dirent.h>
 #include <string>
 #include <map>
+#include <algorithm>
 #include "PyEngine.h"
 #include "Item.h"
+#include "Room.h"
 
 // Singleton instance is null until referenced first time
 PyEngine* PyEngine::instance = 0;
@@ -16,9 +18,28 @@ PyEngine* PyEngine::getInstance()
     if (instance == 0)
     {
         instance = new PyEngine();
+        instance->inventory = new std::vector<Item*>();
         instance->LoadPyFiles("Content");
     }
     return instance;
+}
+
+/*
+    Internal access - get a Room object from the Py version
+*/
+Room* PyEngine::getRoom(PyObject* pyRoom)
+{
+    char* roomName = getStringFromPyObject(pyRoom, (char*)"rootID");
+    return getInstance()->getRoomByID(roomName);
+}
+
+/*
+    Internal access - get an Item object from the Py version
+*/
+Item* PyEngine::getItem(PyObject* pyItem)
+{
+    char* itemName = getStringFromPyObject(pyItem, (char*)"itemID");
+    return getInstance()->getItemByID(itemName);
 }
 
 /*
@@ -58,6 +79,28 @@ PyObject* PyEngine::emb_setScore(PyObject *self, PyObject *args)
 }
 
 /*
+    Win the game - Python API only
+    Prints out a message that includes the score
+    Game will accept no more input after victory
+*/
+PyObject* PyEngine::emb_winGame(PyObject *self, PyObject *args)
+{
+    // This function is mostly a placeholder
+    printf((char*)"Congratulations!\nFinal score: %ld\n", getInstance()->getScore());
+    return Py_BuildValue("");
+}
+
+/*
+    Lose the game - Python API only
+    Loss actions yet to be determined. It might give the player another chance
+*/
+PyObject* PyEngine::emb_loseGame(PyObject *self, PyObject *args)
+{
+    printf((char*)"You lose!\n");
+    return Py_BuildValue("");
+}
+
+/*
     Python API - add an item to the engine
 */
 PyObject* PyEngine::emb_setupItem(PyObject *self, PyObject *args)
@@ -66,9 +109,11 @@ PyObject* PyEngine::emb_setupItem(PyObject *self, PyObject *args)
     PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
     Py_INCREF(pyitem);
     char* id = getStringFromPyObject(pyitem, (char*)"itemID");
-    Item* item = new Item(pyitem);
-    PyEngine::getInstance()->items.insert(std::pair<std::string, Item*>(id, item));
-    return PyLong_FromLong(0);
+    if (strlen(id) > 0) {
+        Item* item = new Item(pyitem);
+        PyEngine::getInstance()->items.insert(std::pair<std::string, Item*>(id, item));
+    }
+    return Py_BuildValue("");
 }
 
 /*
@@ -85,6 +130,113 @@ PyObject* PyEngine::emb_getItemByID(PyObject *self, PyObject *args)
 }
 
 /*
+    Python API - add a room to the engine
+*/
+PyObject* PyEngine::emb_setupRoom(PyObject *self, PyObject *args)
+{
+    PyObject* pyroom;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyroom);
+    Py_INCREF(pyroom);
+    char* id = getStringFromPyObject(pyroom, (char*)"roomID");
+    if (strlen(id) > 0) {
+        Room* room = new Room(pyroom);
+        getInstance()->rooms.insert(std::pair<std::string, Room*>(id, room));
+    }
+    return Py_BuildValue("");
+}
+
+/*
+    Python API - get a room by "roomID" property
+*/
+PyObject* PyEngine::emb_getRoomByID(PyObject *self, PyObject *args)
+{
+    PyObject* roomID;
+    PyArg_UnpackTuple(args, "", 1, 1, &roomID);
+    char* roomIDstr = getStringFromPyObject(roomID);
+    Room* room = getInstance()->getRoomByID(roomIDstr);
+    return room->getPyRoom();
+}
+
+/*
+    Python API - get the room the player is currently standing in
+*/
+PyObject* PyEngine::emb_getCurrentRoom(PyObject *self, PyObject *args)
+{
+    return getInstance()->getCurrentRoom()->getPyRoom();
+}
+
+/*
+    Python API - move player to a different room. Always succeeds
+*/
+PyObject* PyEngine::emb_goToRoom(PyObject *self, PyObject *args)
+{
+    PyObject *pyroom;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyroom);
+    Room* room = getInstance()->getRoom(pyroom);
+    if (room != NULL)
+    {
+        getInstance()->currentRoom = room;
+        room->callEnter();
+    }
+    return Py_BuildValue("");
+}
+
+/*
+    Python API - add item to player inventory
+*/
+PyObject* PyEngine::emb_addToInventory(PyObject* self, PyObject *args)
+{
+    PyObject* pyitem;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
+    Item* item = getInstance()->getItem(pyitem);
+    if (item != NULL)
+    {
+        std::vector<Item*>* inventory = getInstance()->inventory;
+        inventory->push_back(item);
+        printf("size: %ld\n", inventory->size());
+    }
+    return Py_BuildValue("");
+}
+
+/*
+    Python API - remove item from player inventory
+*/
+PyObject* PyEngine::emb_removeFromInventory(PyObject *self, PyObject *args)
+{
+    PyObject* pyitem;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
+    Item* item = getInstance()->getItem(pyitem);
+    if (item != NULL && getInstance()->inInventory(item))
+    {
+        std::vector<Item*>* inventory = getInstance()->inventory;
+        std::vector<Item*>::iterator itr = std::find(inventory->begin(), inventory->end(), item);
+        if (itr != inventory->end()) 
+        {
+            inventory->erase(itr);
+        }
+    }
+    return Py_BuildValue("");
+}
+
+/*
+    Python API - return true if item is in inventory
+*/
+PyObject* PyEngine::emb_inInventory(PyObject *self, PyObject *args)
+{
+    PyObject* pyitem;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
+    Item* item = getInstance()->getItem(pyitem);
+    if (item != NULL)
+    {
+        if (getInstance()->inInventory(item))
+        {
+            Py_RETURN_TRUE;
+        }
+    } 
+    Py_RETURN_FALSE;
+}
+
+/*
     Collection of Python APIs
 */
 PyMethodDef PyEngine::EmbMethods[] = 
@@ -93,6 +245,15 @@ PyMethodDef PyEngine::EmbMethods[] =
     {"setScore", emb_setScore, METH_VARARGS, ""},
     {"setupItem", emb_setupItem, METH_VARARGS, ""},
     {"getItemByID", emb_getItemByID, METH_VARARGS, ""},
+    {"winGame", emb_winGame, METH_VARARGS, ""},
+    {"loseGame", emb_loseGame, METH_VARARGS, ""},
+    {"setupRoom", emb_setupRoom, METH_VARARGS, ""},
+    {"getRoomByID", emb_getRoomByID, METH_VARARGS, ""},
+    {"getCurrentRoom", emb_getCurrentRoom, METH_VARARGS, ""},
+    {"goToRoom", emb_goToRoom, METH_VARARGS, ""},
+    {"addToInventory", emb_addToInventory, METH_VARARGS, ""},
+    {"removeFromInventory", emb_removeFromInventory, METH_VARARGS, ""},
+    {"inInventory", emb_inInventory, METH_VARARGS, ""},
     {NULL, NULL, 0, NULL}
 };
 
@@ -174,6 +335,50 @@ Item* PyEngine::getItemByID(std::string itemID)
 }
 
 /*
+    Get room by "roomID" property
+*/
+Room* PyEngine::getRoomByID(std::string roomID)
+{
+    Room* room = NULL;
+    std::map<std::string, Room*>::iterator itr = rooms.find(roomID);
+    if (itr != rooms.end())
+    {
+        room = itr->second;
+    }
+    return room;
+}
+
+/*
+    Get the room the player is currently in
+*/
+Room* PyEngine::getCurrentRoom()
+{
+    return currentRoom;
+}
+
+/*
+    Put player in new room
+*/
+void PyEngine::goToRoom(Room* room)
+{
+    currentRoom = room;
+    room->callEnter();
+}
+
+/*
+    Check if item is in inventory
+*/
+bool PyEngine::inInventory(Item* item)
+{
+    return (std::find(inventory->begin(), inventory->end(), item) != inventory->end());
+}
+
+std::vector<Item*>* PyEngine::getInventory()
+{
+    return inventory;
+}
+
+/*
     Helper to turn Python object into string
 */
 char* getStringFromPyObject(PyObject* strObj)
@@ -192,8 +397,15 @@ char* getStringFromPyObject(PyObject* strObj)
 */
 char* getStringFromPyObject(PyObject* obj, char* propertyName)
 {
-    PyObject* property = PyObject_GetAttrString(obj, propertyName);
-    return getStringFromPyObject(property);
+    if (PyObject_HasAttrString(obj, propertyName))
+    {
+        PyObject* property = PyObject_GetAttrString(obj, propertyName);
+        return getStringFromPyObject(property);
+    } 
+    else
+    {
+        return '\0';
+    }
 }
 
 
@@ -202,9 +414,22 @@ char* getStringFromPyObject(PyObject* obj, char* propertyName)
 /*
 int main() {
     PyEngine* p = PyEngine::getInstance();
-    Item* item = p->getItemByID("exampleitem");
-    printf("%s\n", item->getDescription());
-    item->runVerb("cook", p->getItemByID("ex2"));
-    if (item->hasVerb("look")) printf("Has look!\n");
+    Room* room1 = p->getRoomByID("room1");
+    Room* room2 = p->getRoomByID("room2");
+    Item* item1 = p->getItemByID("item1");
+    if (p->inInventory(item1)) {
+        printf("You have Item 1\n");
+    }
+    p->goToRoom(room1);
+    printf("%s\n", p->getCurrentRoom()->getDescription());
+    printf("%ld\n", p->getInventory()->size());
+    fflush(stdout);
+    p->goToRoom(room2);
+    printf("%s\n", p->getCurrentRoom()->getDescription());
+    if (p->inInventory(item1)) {
+        printf("You have Item 1\n");
+    }
+    fflush(stdout);
 }
 */
+
