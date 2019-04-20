@@ -1,0 +1,133 @@
+PyEngine
+
+PyEngine is a singleton class that holds all the Room and Item objects. When the game starts up, the PyEngine loads all the .py files in the Content directory and subdirectories. It implements a set of C++ and Python APIs to access the game content. Room and Item classes defined after all the engine stuff in the document.
+
+Get the engine instance
+	PyEngine* eng = PyEngine::getInstance()
+
+
+
+C++ ACCESSORS
+
+Score
+	long getScore()
+		Get game score
+
+	void setScore(long newScore)
+		Set the games score. No way to increment score, so get the score, add to it, then set it
+
+
+Item
+	Item* getItemByID(string itemID)
+		Get an item based on the "itemID" property, no matter where the item is in the game
+
+	bool inInventory(Item* itemToCheck)
+		Helper function to check if an item is in the player's inventory
+
+	vector<Item*>* getInventory()
+		Get the player's inventory as a vector of Items. Can add or remove items
+
+	vector<Item*>* getGlobalItems()
+		Get the set of items that can be accessed from anywhere. Can add or remove items
+
+	vector<Item*> getItemsInRoom(Room* room)
+		Get the set of items in a given room. Gives a copy of the vector, not a pointer to it
+
+	Item* getAccessibleItem(char* itemName)
+		Get an item that the player has access to. Only returns an item in the current room, in the inventory, or globally accessible. ItemName can also be an alias for the item. Doesn't have a defined way of handling multiple items with the same alias.
+
+
+Room
+	Room* getRoomByID(string roomID)
+		Get a room based on the "roomID" property, no matter where it is then the game
+
+	Room* getCurrentRoom()
+		Get the room the player is currently in
+
+	void goToRoom(Room* room)
+		Place the player in a new room
+
+
+
+PYTHON ACCESSORS
+Include "import eng" in each file. Every API call is a function on the the eng module
+
+Score
+	Number getScore()
+		Get game score
+
+	None setScore(Number newScore)
+		Set the games score. No way to increment score, so get the score, add to it, then set it
+
+
+Win/Loss
+	None winGame()
+		Win the game. Nothing happens after this - breaks the main loop
+
+	None loseGame()
+		Lose the game. We haven't defined what happens yet
+
+
+Item
+	None setupItem(Item newItem)
+		This is how the engine knows that an item exists. Make an instance of an item then send it to the engine
+
+	Item getItemByID(String itemName)
+		Get an item based on the "itemID" property, no matter where the item is in the game
+
+	None addToInventory(Item itemToAdd)
+		Add an item to the player's inventory
+
+	None removeFromInventory(Item itemToRemove)
+		Remove an item from the player's inventory
+
+	Boolean inInventory(Item itemToCheck)
+		Check if the player has an item in their inventory
+
+
+Room
+	None setupRoom(Room newRoom)
+		This is how the engine knows a room exists. Make an instance of the room then send it to the engine.
+
+	Room getRoomByID(String roomName)
+		Get a room based on the "roomID" property, no matter where it is in the game
+
+	Room getCurrentRoom()
+		Get the room the player is currently in
+
+	None goToRoom(Room room)
+		Place the player in a new room
+
+
+ROOM CLASS
+Room and Item classes are subject to change.
+Rooms are Python objects, so they don't need anything special for Python APIs. C++ accessors are defined here
+
+	char* getDescription()
+		Get the "description" property of a room
+
+	void callEnter()
+		Call the "enter" function of a room
+
+
+ITEM CLASS
+Room and Item classes are subject to change.
+Items are Python objects, so they don't need anything special for Python APIs. C++ accessors are defined here
+
+	char* getDescription()
+		Get the "description" property of an item
+
+	bool hasVerb(char* verb)
+		Check if the item has an action defined for a verb
+
+	void runVerb(char* verb)
+		Run an item's verb function
+
+	void runVerb(char* verb, Item* indirectObject)
+		Run an item's verb function and pass in another object to be acted upon
+
+	bool hasAlias(char* itemName)
+		Returns true if the itemName is an alias for the item
+
+	bool isVisible()
+		Returns true if the item is visible to the player. Visibility not defined yet so it always returns true.

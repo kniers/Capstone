@@ -21,6 +21,7 @@ private:
     std::map<std::string, Room*> rooms;
     Room* currentRoom;
     std::vector<Item*>* inventory;
+    std::vector<Item*>* globalItems;
 
     /****************************************
      *      Internal access
@@ -79,6 +80,9 @@ public:
     Item* getItemByID(std::string itemID);
     bool inInventory(Item* item);
     std::vector<Item*>* getInventory();
+    std::vector<Item*>* getGlobalItems();
+    std::vector<Item*> getItemsInRoom(Room* room);
+    Item* getAccessibleItem(char* itemName);
 
     // Room
     Room* getRoomByID(std::string roomID);

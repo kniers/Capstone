@@ -19,6 +19,7 @@ PyEngine* PyEngine::getInstance()
     {
         instance = new PyEngine();
         instance->inventory = new std::vector<Item*>();
+        instance->globalItems = new std::vector<Item*>();
         instance->LoadPyFiles("Content");
     }
     return instance;
@@ -373,9 +374,71 @@ bool PyEngine::inInventory(Item* item)
     return (std::find(inventory->begin(), inventory->end(), item) != inventory->end());
 }
 
+/*
+    Get the whole inventory as a vector Items. Items can be added or removed
+*/
 std::vector<Item*>* PyEngine::getInventory()
 {
     return inventory;
+}
+
+/*
+    Get the collection of globally accessible items
+*/
+std::vector<Item*>* PyEngine::getGlobalItems()
+{
+    return globalItems;
+}
+
+/*
+    Get a collection of all the items in a room
+*/
+std::vector<Item*> PyEngine::getItemsInRoom(Room* room)
+{
+    // Items in a room haven't been defined yet
+    std::vector<Item*> items;
+    return items;
+}
+
+/*
+    Get an item by name. Only returns items that are in current room, in inventory,
+    or globally accessible. Also gives you an item if the itemName matches an item alias
+*/
+// This will probably have to do something about checking for duplicates
+// For instance there could be multiple items with alias "key"
+// One solution: have a global item called key that just tells you to be more specific
+Item* PyEngine::getAccessibleItem(char* itemName)
+{
+    // item aliases haven't been defined yet, but there's a function for it
+    Item* item = NULL;
+    std::vector<Item*> itemsInRoom = getItemsInRoom(getCurrentRoom());
+    for (uint i = 0; i < itemsInRoom.size(); i++)
+    {
+        Item* testItem = itemsInRoom[i];
+        if (testItem->hasAlias(itemName) && testItem->isVisible())
+        {
+            item = testItem;
+        }
+    }
+    std::vector<Item*> itemsInInventory = *getInventory();
+    for (uint i = 0; i < itemsInInventory.size(); i++)
+    {
+        Item* testItem = itemsInInventory[i];
+        if (testItem->hasAlias(itemName) && testItem->isVisible())
+        {
+            item = testItem;
+        }
+    }
+    std::vector<Item*> globalItems = *getGlobalItems();
+    for (uint i = 0; i < globalItems.size(); i++)
+    {
+        Item* testItem = globalItems[i];
+        if (testItem->hasAlias(itemName) && testItem->isVisible())
+        {
+            item = testItem;
+        }
+    }
+    return item;
 }
 
 /*
@@ -417,17 +480,10 @@ int main() {
     Room* room1 = p->getRoomByID("room1");
     Room* room2 = p->getRoomByID("room2");
     Item* item1 = p->getItemByID("item1");
-    if (p->inInventory(item1)) {
-        printf("You have Item 1\n");
-    }
-    p->goToRoom(room1);
-    printf("%s\n", p->getCurrentRoom()->getDescription());
-    printf("%ld\n", p->getInventory()->size());
-    fflush(stdout);
-    p->goToRoom(room2);
-    printf("%s\n", p->getCurrentRoom()->getDescription());
-    if (p->inInventory(item1)) {
-        printf("You have Item 1\n");
+    
+    Item* it = p->getAccessibleItem("item");
+    if (it != NULL) {
+    printf("found item: %s\n", it->getDescription());
     }
     fflush(stdout);
 }

@@ -47,3 +47,36 @@ void Item::runVerb(char* verb, Item* indirectObject)
 {
     PyObject_CallMethodObjArgs(pyItem, PyUnicode_FromString(verb), indirectObject->getPyItem(), NULL);
 }
+
+/*
+    Returns true if the itemName is an alias for the item
+*/
+bool Item::hasAlias(char* itemName)
+{
+    if (itemName == NULL) return false;
+    // Aliases not defined yet. This subject to change
+    PyObject* aliasList = PyObject_GetAttrString(pyItem, (char*)"aliases");
+    if (PyList_Check(aliasList))
+    {
+        Py_ssize_t listSize = PyList_Size(aliasList);
+        for (Py_ssize_t i = 0; i < listSize; i++)
+        {
+            PyObject* aliasString = PyList_GetItem(aliasList, i);
+            char* alias = getStringFromPyObject(aliasString);
+            if (strcmp(itemName, alias)  == 0)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/*
+    Returns true if item is visible to player
+*/
+bool Item::isVisible()
+{
+    // Visibility not defined yet
+    return true;
+}

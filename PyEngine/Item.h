@@ -20,6 +20,8 @@ public:
     bool hasVerb(char* verb);
     void runVerb(char* verb);
     void runVerb(char* verb, Item* indirectObj);
+    bool hasAlias(char* itemName);
+    bool isVisible();
 };
 
 #endif
