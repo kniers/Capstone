@@ -26,7 +26,7 @@ char* Item::getDescription()
 /*
     Check if an item has a verb defined
 */
-bool Item::hasVerb(char* verb)
+bool Item::hasVerb(const char* verb)
 {
     PyObject* callable = PyObject_GetAttrString(pyItem, verb);
     return PyCallable_Check(callable);
@@ -35,7 +35,7 @@ bool Item::hasVerb(char* verb)
 /*
     Run a function on an Item
 */
-void Item::runVerb(char* verb)
+void Item::runVerb(const char* verb)
 {
     PyObject_CallMethod(pyItem, verb, NULL);
 }
@@ -43,7 +43,7 @@ void Item::runVerb(char* verb)
 /*
     Run a function on an Item while passing in another item
 */
-void Item::runVerb(char* verb, Item* indirectObject)
+void Item::runVerb(const char* verb, Item* indirectObject)
 {
     PyObject_CallMethodObjArgs(pyItem, PyUnicode_FromString(verb), indirectObject->getPyItem(), NULL);
 }
@@ -51,7 +51,7 @@ void Item::runVerb(char* verb, Item* indirectObject)
 /*
     Returns true if the itemName is an alias for the item
 */
-bool Item::hasAlias(char* itemName)
+bool Item::hasAlias(const char* itemName)
 {
     if (itemName == NULL) return false;
     // Aliases not defined yet. This subject to change

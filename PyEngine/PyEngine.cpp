@@ -194,7 +194,6 @@ PyObject* PyEngine::emb_addToInventory(PyObject* self, PyObject *args)
     {
         std::vector<Item*>* inventory = getInstance()->inventory;
         inventory->push_back(item);
-        printf("size: %ld\n", inventory->size());
     }
     return Py_BuildValue("");
 }
@@ -407,7 +406,7 @@ std::vector<Item*> PyEngine::getItemsInRoom(Room* room)
 // This will probably have to do something about checking for duplicates
 // For instance there could be multiple items with alias "key"
 // One solution: have a global item called key that just tells you to be more specific
-Item* PyEngine::getAccessibleItem(char* itemName)
+Item* PyEngine::getAccessibleItem(const char* itemName)
 {
     // item aliases haven't been defined yet, but there's a function for it
     Item* item = NULL;

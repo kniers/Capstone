@@ -17,10 +17,10 @@ public:
         C++ Accessors
     */
     char* getDescription(); // Example. This might change later
-    bool hasVerb(char* verb);
-    void runVerb(char* verb);
-    void runVerb(char* verb, Item* indirectObj);
-    bool hasAlias(char* itemName);
+    bool hasVerb(const char* verb);
+    void runVerb(const char* verb);
+    void runVerb(const char* verb, Item* indirectObj);
+    bool hasAlias(const char* itemName);
     bool isVisible();
 };
 

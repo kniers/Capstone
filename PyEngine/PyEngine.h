@@ -82,7 +82,7 @@ public:
     std::vector<Item*>* getInventory();
     std::vector<Item*>* getGlobalItems();
     std::vector<Item*> getItemsInRoom(Room* room);
-    Item* getAccessibleItem(char* itemName);
+    Item* getAccessibleItem(const char* itemName);
 
     // Room
     Room* getRoomByID(std::string roomID);
