@@ -144,6 +144,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    cout << "Make sure actions have objects\n";
 	    com->status = 1;
 	    return com;
+	}
     }
 
     return com;
