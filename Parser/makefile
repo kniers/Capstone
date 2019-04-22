@@ -1,2 +1,2 @@
 parser: 
-	g++ parser.cpp parserTest.cpp -o parse -Wall
+	g++ parser.cpp parserTest.cpp -o parse -Wall -I/usr/include/python3.6m -I/usr/include/python3.6m -Wno-unused-result -Wsign-compare -O2 -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -D_GNU_SOURCE -fPIC -fwrapv -DDYNAMIC_ANNOTATIONS_ENABLED=1 -DNDEBUG -L/usr/lib64 -lpython3.6m -lpthread -ldl -lutil -lm -Xlinker -export-dynamic

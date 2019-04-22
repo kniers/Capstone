@@ -28,13 +28,88 @@ using std::cout;
  * returns the string or its base synonym.
  * Otherwise, returns "nope"
 *******************************************/
+//FIXME: Maybe consolidate these two functions into isThing()?
+std::string isVerb(std::string convertMe){
+    //this function has been adapted from the Python documentation
+    //https://docs.python.org/3.6/extending/embedding.html
 
-std::string isVerb(std::string checkMe){
-    //this is a placeholder function for now
-    if (checkMe.compare("eat") != 0 && checkMe.compare("give") != 0)
+    //convert c++ string to c string
+    const char* checkMe = convertMe.c_str();
+
+    //set up some Python objects
+    PyObject *pName, *pModule, *pFunc;
+    PyObject *pArgs, *pValue;
+
+    //this does exactly what you think it does
+    Py_Initialize();
+
+    //link the file with our Python function
+    pName = PyUnicode_DecodeFSDefault("./isverb.py");
+    pModule = PyImport_Import(pName);
+    Py_DECREF(pName);
+
+    if (pModule != NULL) {
+	//get the function we'll be using
+	pFunc = PyObject_GetAttrString(pModule, "isverb");
+
+	//if the function can be called
+	if (pFunc && PyCallable_Check(pFunc)) {
+	    //set up the arguments
+	    pArgs = PyTuple_New(1);
+	    pValue = PyUnicode_FromString(checkMe);
+
+	    //if we can't convert the argument
+	    //this shouldn't happen
+	    if (!pValue){
+		Py_DECREF(pArgs);
+		Py_DECREF(pModule);
+		fprintf(stderr, "Cannot convert argument\n");
+		return "nope";
+	    }
+	    //set the converted argument in the args object
+	    PyTuple_SetItem(pArgs, 0, pValue);
+
+	    //now we call the function
+	    pValue = PyObject_CallObject(pFunc, pArgs);
+	    Py_DECREF(pArgs);
+
+	    //if we have a return value (and we always should)
+	    if (pValue != NULL) {
+		//convert return value to string
+		checkMe = PyUnicode_AsUTF8(pValue);
+		Py_DECREF(pValue);
+	    }
+	    //no return value - this shouldn't ever happen
+	    else {
+		Py_DECREF(pFunc);
+		Py_DECREF(pModule);
+		PyErr_Print();
+		fprintf(stderr, "Call failed\n");
+		return "nope";
+	    }
+	}
+	//if we couldn't find the function
+	//shouldn't happen; function is in file
+	else {
+	    if (PyErr_Occurred())
+		PyErr_Print();
+	    fprintf(stderr, "Cannot find isverb function!\n");
+	}
+    }
+    //else we can't find the file
+    //once we're finished, this shouldn't happen
+    else {
+	fprintf(stderr, "Error! Can't find verb files! Make sure they're in the correct folder!\n");
 	return "nope";
+    }
+    //if (Py_FinalizeEx() < 0) {
+    //	return 120;
+    //}
 
-    return checkMe;
+    //convert c string back to c++ string
+    std::string returnMe(checkMe);
+
+    return returnMe;
 }
 
 /*******************************************

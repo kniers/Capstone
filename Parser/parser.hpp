@@ -8,8 +8,10 @@
 #define PARSER_HPP
 
 #include <string>
+#include <cstring>
 #include <iostream>
 #include <bits/stdc++.h>
+#include <Python.h>
 
 #include "Command.hpp"
 
