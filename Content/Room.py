@@ -1,12 +1,5 @@
 # Room parent class. All actual rooms will inherit from this parent.
 class Room:
-	def __init__(self):
-		self.roomID = 0
-		self.visited = 0
-		self.name = "Bedroom"
-		self.doors = {} #Direction:doorName pairs
-		self.items = ["suit"]
-		
 	def __init__(self, doorsToAdd, itemsToAdd):
 		self.visited = 0
 		self.doors = {}
@@ -15,21 +8,27 @@ class Room:
 		for itemToAdd in itemsToAdd:
 			self.items.append(itemToAdd)
 	
-	def setVisited(self):
+	def _setVisited(self):
 		self.visited = 1
-		
-	def _printShortDesc(self):
+	
+	# Can be overridden by child classes so that short description can be dynamic based on state of items
+	def _printShortDesc(self, gameState): 
 		return self.shortDesc
-		
-	def _printLongDesc(self):
+	
+	# Can be overridden by child classes so that long description can be dynamic based on state of items	
+	def _printLongDesc(self, gameState):
 		return self.longDesc
 		
-	def printDescription(self):
+	def enterRoom(self, gameState):
 		if (self.visited == 1):
-			return self._printShortDesc()
+			return self._printShortDesc(gameState)
 		else:
-			self.setVisited()
-			return self._printLongDesc()
+			self._setVisited()
+			return self._printLongDesc(gameState)
+	
+	# Per game requirements, look should reprint long description 
+	def look(self, gameState):
+		return self._printLongDesc(gameState)
 	
 	def addItem(self, item):
 		self.items.append(item)
@@ -54,10 +53,3 @@ class Room:
 			if self.doors[direction] == door:
 				return True
 		return False 
-	
-		
-
-#room1 = Room()
-#print(room1.printDescription())
-#room1.setVisited()
-#print(room1.printDescription())
