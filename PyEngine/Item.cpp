@@ -18,7 +18,7 @@ PyObject* Item::getPyItem()
 /*
     Get the "description" property of the item as a string
 */
-char* Item::getDescription()
+const char* Item::getDescription()
 {
     return getStringFromPyObject(pyItem, (char*)"description");
 }
@@ -62,7 +62,7 @@ bool Item::hasAlias(const char* itemName)
         for (Py_ssize_t i = 0; i < listSize; i++)
         {
             PyObject* aliasString = PyList_GetItem(aliasList, i);
-            char* alias = getStringFromPyObject(aliasString);
+            const char* alias = getStringFromPyObject(aliasString);
             if (strcmp(itemName, alias)  == 0)
             {
                 return true;

@@ -5,6 +5,8 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <unordered_map>
+#include <unordered_set>
 #include "Item.h"
 #include "Room.h"
 
@@ -22,6 +24,7 @@ private:
     Room* currentRoom;
     std::vector<Item*>* inventory;
     std::vector<Item*>* globalItems;
+    std::unordered_map<std::string, std::unordered_set<std::string>*>* verbs;
 
     /****************************************
      *      Internal access
@@ -39,6 +42,9 @@ private:
     // Win/Loss
     static PyObject* emb_winGame(PyObject *self, PyObject *args);
     static PyObject* emb_loseGame(PyObject *self, PyObject *args);
+
+    // Verbs
+    static PyObject* emb_setVerbs(PyObject* self, PyObject *args);
 
     // Item
     static PyObject* emb_setupItem(PyObject *self, PyObject *args);
@@ -76,6 +82,9 @@ public:
     long getScore();
     void setScore(long newScore);
 
+    // Verb
+    const char* getVerb(const char* verb);
+
     // Item
     Item* getItemByID(std::string itemID);
     bool inInventory(Item* item);
@@ -91,7 +100,7 @@ public:
 };
 
 // Python3 string conversion
-char* getStringFromPyObject(PyObject* strObj);
-char* getStringFromPyObject(PyObject* obj, char* propertyName);
+const char* getStringFromPyObject(PyObject* strObj);
+const char* getStringFromPyObject(PyObject* obj, const char* propertyName);
 
 #endif

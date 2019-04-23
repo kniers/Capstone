@@ -18,7 +18,7 @@ PyObject* Room::getPyRoom()
 /*
     Get the "description" property of the room as a string
 */
-char* Room::getDescription()
+const char* Room::getDescription()
 {
     return getStringFromPyObject(pyRoom, (char*)"description");
 }

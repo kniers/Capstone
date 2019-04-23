@@ -16,7 +16,7 @@ public:
     /*
         C++ Accessors
     */
-    char* getDescription(); // Example. This might change later
+    const char* getDescription(); // Example. This might change later
     bool hasVerb(const char* verb);
     void runVerb(const char* verb);
     void runVerb(const char* verb, Item* indirectObj);

@@ -2,6 +2,8 @@
 #include <dirent.h>
 #include <string>
 #include <map>
+#include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 #include "PyEngine.h"
 #include "Item.h"
@@ -20,6 +22,7 @@ PyEngine* PyEngine::getInstance()
         instance = new PyEngine();
         instance->inventory = new std::vector<Item*>();
         instance->globalItems = new std::vector<Item*>();
+        instance->verbs = new std::unordered_map<std::string, std::unordered_set<std::string>*>();
         instance->LoadPyFiles("Content");
     }
     return instance;
@@ -30,7 +33,7 @@ PyEngine* PyEngine::getInstance()
 */
 Room* PyEngine::getRoom(PyObject* pyRoom)
 {
-    char* roomName = getStringFromPyObject(pyRoom, (char*)"rootID");
+    const char* roomName = getStringFromPyObject(pyRoom, (char*)"rootID");
     return getInstance()->getRoomByID(roomName);
 }
 
@@ -39,7 +42,7 @@ Room* PyEngine::getRoom(PyObject* pyRoom)
 */
 Item* PyEngine::getItem(PyObject* pyItem)
 {
-    char* itemName = getStringFromPyObject(pyItem, (char*)"itemID");
+    const char* itemName = getStringFromPyObject(pyItem, (char*)"itemID");
     return getInstance()->getItemByID(itemName);
 }
 
@@ -109,7 +112,7 @@ PyObject* PyEngine::emb_setupItem(PyObject *self, PyObject *args)
     PyObject* pyitem;
     PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
     Py_INCREF(pyitem);
-    char* id = getStringFromPyObject(pyitem, (char*)"itemID");
+    const char* id = getStringFromPyObject(pyitem, (char*)"itemID");
     if (strlen(id) > 0) {
         Item* item = new Item(pyitem);
         PyEngine::getInstance()->items.insert(std::pair<std::string, Item*>(id, item));
@@ -125,7 +128,7 @@ PyObject* PyEngine::emb_getItemByID(PyObject *self, PyObject *args)
     PyEngine* instance = PyEngine::getInstance();
     PyObject* itemID;
     PyArg_UnpackTuple(args, "", 1, 1, &itemID);
-    char* itemIDstr = getStringFromPyObject(itemID);
+    const char* itemIDstr = getStringFromPyObject(itemID);
     Item* item = instance->getItemByID(itemIDstr);
     return item->getPyItem();
 }
@@ -138,7 +141,7 @@ PyObject* PyEngine::emb_setupRoom(PyObject *self, PyObject *args)
     PyObject* pyroom;
     PyArg_UnpackTuple(args, "", 1, 1, &pyroom);
     Py_INCREF(pyroom);
-    char* id = getStringFromPyObject(pyroom, (char*)"roomID");
+    const char* id = getStringFromPyObject(pyroom, (char*)"roomID");
     if (strlen(id) > 0) {
         Room* room = new Room(pyroom);
         getInstance()->rooms.insert(std::pair<std::string, Room*>(id, room));
@@ -153,7 +156,7 @@ PyObject* PyEngine::emb_getRoomByID(PyObject *self, PyObject *args)
 {
     PyObject* roomID;
     PyArg_UnpackTuple(args, "", 1, 1, &roomID);
-    char* roomIDstr = getStringFromPyObject(roomID);
+    const char* roomIDstr = getStringFromPyObject(roomID);
     Room* room = getInstance()->getRoomByID(roomIDstr);
     return room->getPyRoom();
 }
@@ -236,6 +239,43 @@ PyObject* PyEngine::emb_inInventory(PyObject *self, PyObject *args)
     Py_RETURN_FALSE;
 }
 
+PyObject* PyEngine::emb_setVerbs(PyObject *self, PyObject *args)
+{
+    PyEngine* eng = PyEngine::getInstance();
+    PyObject* verbDictionary;
+    PyArg_UnpackTuple(args, "", 1, 1, &verbDictionary);
+    if (PyDict_Check(verbDictionary))
+    {
+        PyObject* keyList = PyDict_Keys(verbDictionary);
+        Py_ssize_t numVerbs = PyList_Size(keyList);
+        for (Py_ssize_t i = 0; i < numVerbs; i++)
+        {
+            PyObject* verb = PyList_GetItem(keyList, i);
+            const char* verbString = getStringFromPyObject(verb);
+            auto verbItr = eng->verbs->find(verbString);
+            if (verbItr == eng->verbs->end())
+            {
+                // Add it to the set
+                std::unordered_set<std::string>* newSet = new std::unordered_set<std::string>();
+                newSet->insert(verbString);
+                eng->verbs->insert({verbString, newSet});
+                verbItr = eng->verbs->find(verbString);
+            }
+            std::unordered_set<std::string>* synonymSet = verbItr->second;
+            PyObject* synonyms = PyDict_GetItem(verbDictionary, verb);
+            Py_ssize_t numSynonyms = PySet_Size(synonyms);
+            for (Py_ssize_t j = 0; j < numSynonyms; j++)
+            {
+                PyObject* synonym =  PySet_Pop(synonyms);
+                const char* synonymString = getStringFromPyObject(synonym);
+                std::string newstr(strdup(synonymString));
+                synonymSet->insert(newstr);
+            }
+        }
+    }
+    return Py_BuildValue("");
+}
+
 /*
     Collection of Python APIs
 */
@@ -254,6 +294,7 @@ PyMethodDef PyEngine::EmbMethods[] =
     {"addToInventory", emb_addToInventory, METH_VARARGS, ""},
     {"removeFromInventory", emb_removeFromInventory, METH_VARARGS, ""},
     {"inInventory", emb_inInventory, METH_VARARGS, ""},
+    {"setVerbs", emb_setVerbs, METH_VARARGS, ""},
     {NULL, NULL, 0, NULL}
 };
 
@@ -440,10 +481,30 @@ Item* PyEngine::getAccessibleItem(const char* itemName)
     return item;
 }
 
+const char* PyEngine::getVerb(const char* verb)
+{
+    auto itr = verbs->begin();
+    while (itr != verbs->end())
+    {
+        std::unordered_set<std::string>* synonyms = itr->second;
+        auto synonymItr = synonyms->begin();
+        while (synonymItr != synonyms->end())
+        {
+            if (strcmp(verb, (*synonymItr).c_str()) == 0)
+            {
+                return itr->first.c_str();
+            }
+            synonymItr++;
+        }
+        itr++;
+    }
+    return NULL;
+}
+
 /*
     Helper to turn Python object into string
 */
-char* getStringFromPyObject(PyObject* strObj)
+const char* getStringFromPyObject(PyObject* strObj)
 {
     if (PyUnicode_Check(strObj)) {
         PyObject* bytes = PyUnicode_AsEncodedString(strObj, "UTF-8", "strict");
@@ -457,7 +518,7 @@ char* getStringFromPyObject(PyObject* strObj)
     Helper to get a string from a Python object
     Returns empty string if property not found or not a string
 */
-char* getStringFromPyObject(PyObject* obj, char* propertyName)
+const char* getStringFromPyObject(PyObject* obj, const char* propertyName)
 {
     if (PyObject_HasAttrString(obj, propertyName))
     {
@@ -480,10 +541,7 @@ int main() {
     Room* room2 = p->getRoomByID("room2");
     Item* item1 = p->getItemByID("item1");
     
-    Item* it = p->getAccessibleItem("item");
-    if (it != NULL) {
-    printf("found item: %s\n", it->getDescription());
-    }
+    printf("%s\n", p->getVerb((char*)"eat"));
     fflush(stdout);
 }
 */
