@@ -21,7 +21,7 @@ class Suit(Item):
 		
 
 # Testing
-
+'''
 description = "What's this? It seems like a nice suit.\nWhat size? 42 long.\nPerfect. Just your size. You'll be out of here in no time."	
 suit = Suit("suit", [], description, [], {})
 print("Suit has been viewed: " + str(suit.hasBeenViewed()) + "\n")
@@ -29,3 +29,4 @@ print(suit.look() + "\n")
 print("Suit has been viewed: " + str(suit.hasBeenViewed()) + "\n")
 print(suit.wear())
 print(suit.wear())
+'''
