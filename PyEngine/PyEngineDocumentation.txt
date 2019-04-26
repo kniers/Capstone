@@ -9,6 +9,10 @@ Get the engine instance
 
 C++ ACCESSORS
 
+Verbs
+	string getVerb(string verb)
+		Get a verb that has been defined by the Python setVerbs() function. Takes in a verb name or synonym and returns the official version of the verb
+
 Score
 	long getScore()
 		Get game score
@@ -18,8 +22,11 @@ Score
 
 
 Item
-	Item* getItemByID(string itemID)
-		Get an item based on the "itemID" property, no matter where the item is in the game
+	Item* getItemByName(string itemName)
+		Get an item based on the "name" property, no matter where the item is in the game
+
+	Item* getItem(string item)
+		Get an item where the input string matches the item name or any alias of the item, no matter where it is in the game. No defined way of handling items that have matching aliases
 
 	bool inInventory(Item* itemToCheck)
 		Helper function to check if an item is in the player's inventory
@@ -34,23 +41,27 @@ Item
 		Get the set of items in a given room. Gives a copy of the vector, not a pointer to it
 
 	Item* getAccessibleItem(char* itemName)
-		Get an item that the player has access to. Only returns an item in the current room, in the inventory, or globally accessible. ItemName can also be an alias for the item. Doesn't have a defined way of handling multiple items with the same alias.
+		Get an item that the player has access to. Only returns an item in the current room, in the inventory, or globally accessible. ItemName can be the item's name or an alias for the item. Doesn't have a defined way of handling multiple items with the same alias.
 
 
 Room
-	Room* getRoomByID(string roomID)
-		Get a room based on the "roomID" property, no matter where it is then the game
+	Room* getRoomByName(string roomName)
+		Get a room based on the "name" property, no matter where it is then the game
 
 	Room* getCurrentRoom()
 		Get the room the player is currently in
 
-	void goToRoom(Room* room)
-		Place the player in a new room
+	string goToRoom(Room* room)
+		Place the player in a new room. Returns the long or short description depending on if the player has been there before
 
 
 
 PYTHON ACCESSORS
 Include "import eng" in each file. Every API call is a function on the the eng module
+
+Verbs
+	None setVerbs(Dictionary verbs)
+		Define a set of verbs and their synonyms for the parser to recognize. This function only adds verbs to the list, and it can be called multiple times to add more verbs
 
 Score
 	Number getScore()
@@ -72,8 +83,8 @@ Item
 	None setupItem(Item newItem)
 		This is how the engine knows that an item exists. Make an instance of an item then send it to the engine
 
-	Item getItemByID(String itemName)
-		Get an item based on the "itemID" property, no matter where the item is in the game
+	Item getItemByName(String itemName)
+		Get an item based on the "name" property, no matter where the item is in the game
 
 	None addToInventory(Item itemToAdd)
 		Add an item to the player's inventory
@@ -89,45 +100,66 @@ Room
 	None setupRoom(Room newRoom)
 		This is how the engine knows a room exists. Make an instance of the room then send it to the engine.
 
-	Room getRoomByID(String roomName)
-		Get a room based on the "roomID" property, no matter where it is in the game
+	Room getRoomByName(String roomName)
+		Get a room based on the "name" property, no matter where it is in the game
 
 	Room getCurrentRoom()
 		Get the room the player is currently in
 
-	None goToRoom(Room room)
-		Place the player in a new room
+	String goToRoom(Room room)
+		Place the player in a new room. Return the long or short description depending on if the player has been there
 
 
 ROOM CLASS
 Room and Item classes are subject to change.
 Rooms are Python objects, so they don't need anything special for Python APIs. C++ accessors are defined here
 
-	char* getDescription()
-		Get the "description" property of a room
+	string getName()
+		Get the "name" property of a room
 
-	void callEnter()
-		Call the "enter" function of a room
+	string getLongDescription()
+		Get the "longDesc" property of a room
+
+	string getShortDescription()
+		Get the "shortDesc" property of a room
+
+	bool visited()
+		Returns true if the player has been to the room
+
+	Room* doorTo(string roomName)
+		Takes a room name, door name, or direction and returns a reference to the next room. Doors haven't been defined yet, but there will need to be a way of checking we can get through the door
+
+	void dropItem(Item* item)
+		Drop the item in the room. Removes it from player's inventory. It can be picked up later with "get" command
+
+	bool hasDroppedItem(Item* item)
+		Returns true if the player dropped the item in the room. It can always be picked up with "get"
+
+	void pickupDroppedItem(Item* item)
+		Pick up the item previously dropped by the player and add it to inventory. Bypass the "get" verb function
 
 
 ITEM CLASS
 Room and Item classes are subject to change.
 Items are Python objects, so they don't need anything special for Python APIs. C++ accessors are defined here
 
-	char* getDescription()
+	string getName()
+		Get the "name" property of an item
+
+	string getDescription()
 		Get the "description" property of an item
 
-	bool hasVerb(char* verb)
+	bool hasVerb(string verb)
 		Check if the item has an action defined for a verb
 
-	void runVerb(char* verb)
-		Run an item's verb function
+	string runVerb(string verb)
+		Run an item's verb function. Return the text that the verb function returned
 
-	void runVerb(char* verb, Item* indirectObject)
-		Run an item's verb function and pass in another object to be acted upon
+	string runVerb(string verb, Item* indirectObject)
+		Run an item's verb function and pass in another object to be acted upon. Return the text that the verb function returned
 
-	bool hasAlias(char* itemName)
-		Returns true if the itemName is an alias for the item
+	bool hasAlias(string itemName)
+		Returns true if itemName is an alias for the item
 
 	bool isVisible()
 		Returns true if the item is visible to the player. Visibility not defined yet so it always returns true.
