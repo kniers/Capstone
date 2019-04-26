@@ -1,13 +1,28 @@
-from Item import *
+class Suit:
+	def __init__(self, name, aliases, description, items, properties):
+		self.name = name
+		self.type = "Item"
+		self.aliases = aliases
+		self.description = description
+		self.viewed = False 
+		self.items = items
+		self.properties = properties 
 
-class Suit(Item):
-	def __init__(self,  name, aliases, description, items, properties):
-		#self.wearing = False 
-		Item.__init__(self, name, aliases, description, items, properties)
+	def setViewed(self):
+		self.viewed = True
+		
+	def getViewed(self):
+		return self.viewed 
+	
+	def isAlias(self, alias):
+		if alias in self.aliases:
+			return True
+		else:
+			return False 
 	
 	# Verb to get description of item  	
 	def look(self):
-		self.setViewed() #Boolean 'viewed' can be used to print different descriptions in some cases
+		self.viewed = True #Boolean 'viewed' can be used to print different descriptions in some cases
 		return self.description
 	
 	# Other verb. Suit isn't too complicated. Most items will have multiple of these functions.
@@ -22,11 +37,16 @@ class Suit(Item):
 
 # Testing
 '''
-description = "What's this? It seems like a nice suit.\nWhat size? 42 long.\nPerfect. Just your size. You'll be out of here in no time."	
-suit = Suit("suit", [], description, [], {})
-print("Suit has been viewed: " + str(suit.hasBeenViewed()) + "\n")
+name = "suit"
+aliases = ["tux", "outfit", "clothes"]
+description = "What's this? It seems like a fancy suit, laid on the bed for someone to wear to the party.\nWhat size? 42 long.\nPerfect. Just your size. You'll be out of here in no time."	
+suit = Suit(name, aliases, description, [], {})
+print("Suit has been viewed: " + str(suit.viewed) + "\n")
 print(suit.look() + "\n")
-print("Suit has been viewed: " + str(suit.hasBeenViewed()) + "\n")
+print("Suit has been viewed: " + str(suit.viewed) + "\n")
 print(suit.wear())
 print(suit.wear())
+print("Suit is aliased by 'tux': " + str(suit.isAlias("tux")))
+print("Suit not aliased by 'notAnAlias': " + str(suit.isAlias("notAnAlias")))
+print(suit.type)
 '''
