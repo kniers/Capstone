@@ -8,7 +8,6 @@
 #define COMMAND_HPP
 
 #include <string>
-#include "Item.h"
 
 class Command {
 public:
@@ -26,10 +25,10 @@ public:
     int status;
 
     Command(){
-	directon = NULL;
-	verb = NULL;
-	dirObj = NULL;
-	indObj = NULL;
+	direction = 0;
+	verb = "NULL";
+	dirObj = "NULL";
+	indObj = "NULL";
     }
 };
 

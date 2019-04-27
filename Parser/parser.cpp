@@ -47,13 +47,13 @@ Command* parseIt(std::string parseMe, Command* com){
     getline(tokenStream, token, ' ');
 
     //is it a valid object/door?
-    addMe = getAccessibleItem(token)->name; //FIXME
-    if (addMe == NULL)
-	addMe = getAccessibleDoor(token)->name; //FIXME
-    if (addMe != NULL){
+    addMe = getAccessibleItem(token)->name; //FIXME: function name
+    if (addMe.compare("NULL") == 0)
+	addMe = getAccessibleDoor(token)->name; //FIXME: function name
+    if (addMe.compare("NULL") != 0){
 	com->verb = "nope"; //no verb = describe item/enter door
 	com->dirObj = addMe;
-	com->indObj = NULL;
+	com->indObj = "NULL";
 	//FIXME: check for two words
     }
     //else is it a valid direction
@@ -64,7 +64,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	com->direction = token.at(0);
     }
     //else is it a valid verb
-    else if (getVerb(token) != NULL){
+    else if (getVerb(token) != NULL){//FIXME: getVerb return value
 	//save token as verb
 	com->verb = getVerb(token);
 	//FIXME: check for two words
@@ -98,7 +98,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	         token.compare("south") == 0 ||
 	         token.compare("east") == 0 ||
 	         token.compare("west") == 0) {
-	    if (com->direction == NULL)
+	    if (com->direction == 0)
 		com->direction = token.at(0);
 	    else {
 		com->status = 1;
@@ -109,20 +109,20 @@ Command* parseIt(std::string parseMe, Command* com){
 	}
 	//is it an item?
 	else if (getAccessibleItem(token) != NULL ||
-			getAccessibleDoor(token != NULL)){//FIXME: change l8r
+			getAccessibleDoor(token) != NULL){//FIXME: change l8r
 	    //if direct object is blank
-	    if (com->dirObj == NULL){
+	    if (com->dirObj.compare("NULL") == 0){
 		com->dirObj = token;
 	    }
-	    else if (com->indObj == NULL){
+	    else if (com->indObj.compare("NULL") == 0){
 		//if <verb> <dirObj> <preposition> <indObj>,
 		//save token as indirect object
 		if (hasPrep == true)
 		    com->indObj = token;
 		//otherwise, swap direct and indirect objects
 		else {
-		    if (com->direction != NULL){
-			status = 1;
+		    if (com->direction != 0){
+			com->status = 1;
 			cout << "Huh?\n";
 			return com;
 		    }
@@ -154,10 +154,11 @@ Command* parseIt(std::string parseMe, Command* com){
 		cout << "There's a word in there I don't recognize\n";
 		com->status = 1;
 		return com;
+	    }
 	}
 
 	//check for other errors
-	if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
+	if (com->verb.compare("nope") != 0 && com->dirObj.compare("NULL") == 0){
 	    cout << "I don't understand that command\n";
 	    cout << "Make sure actions have objects\n";
 	    com->status = 1;

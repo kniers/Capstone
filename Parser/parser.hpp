@@ -13,7 +13,8 @@
 #include <bits/stdc++.h>
 #include <Python.h>
 
-#include "Command.hpp"
+#include "../Command/Command.hpp"
+#include "../PyEngine/PyEngine.h"
 
 Command* parseIt(std::string, Command*);
 
