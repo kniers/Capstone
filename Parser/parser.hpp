@@ -8,14 +8,13 @@
 #define PARSER_HPP
 
 #include <string>
+#include <cstring>
 #include <iostream>
 #include <bits/stdc++.h>
+#include <Python.h>
 
 #include "Command.hpp"
 
 Command* parseIt(std::string, Command*);
-
-std::string isItem(std::string);
-std::string isVerb(std::string);
 
 #endif

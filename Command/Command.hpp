@@ -8,24 +8,28 @@
 #define COMMAND_HPP
 
 #include <string>
+#include "Item.h"
 
 class Command {
 public:
     std::string verb;
     std::string dirObj;
     std::string indObj;
+    char direction; //{n, s, e, w}
 
     /*******************
     * status * meaning *
+    ********************
     * 0      * no error*
     * 1	     * error   *
     *******************/
     int status;
 
     Command(){
-	verb = "null";
-	dirObj = "null";
-	indObj = "nope";
+	directon = NULL;
+	verb = NULL;
+	dirObj = NULL;
+	indObj = NULL;
     }
 };
 
