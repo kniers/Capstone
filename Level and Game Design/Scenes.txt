@@ -1,0 +1,108 @@
+Text-Based Adventure Game
+
+Main task: Steal the plans
+To complete this main task, the player needs to accomplish several sub-tasks:
+-Escape the bedroom
+-Find the safe
+-Find the combination to the safe
+-Escape the building
+
+Major Task: Escape the bedroom without raising the alarm
+Purpose:
+This will teach the player how to (a) look around the room for things to interact with, (b) look inside items for other items, (c) equip items, and (d) traverse the world.
+Obstacles:
+-The door is locked
+-You’re not dressed for the party
+Tasks to complete:
+-Find key in nightstand
+-Find suit/gown in closet
+-Equip suit/gown
+-Leave bedroom
+Notes:
+-Having both a suit and a gown in the closet could be a way for the player to choose the gender of the main character. We could even change various NPC interactions based on the character’s gender.
+
+Major Task: Find the Safe
+Purpose:
+To familiarize the player with the world.
+Obstacles:
+-The safe is hidden in some room
+-Searching will arouse suspicion from other party-goers
+-The butler is blocking the top of the stairs
+Tasks to complete:
+-Get downstairs
+-Find the correct room
+-Clear the room of guests and search the room
+Notes:
+-We could put a possible hiding place in several different rooms, but only the third room fully checked will contain the safe. We could have an int in the game state which tracks how many potential hiding places have been opened, and only reveal the safe (and set the safe’s location) when that number has reached a certain point.
+
+Minor Task: Get downstairs
+Purpose:
+To keep part of the world inaccessible until the player is more comfortable with the game. This keeps the player from getting overwhelmed.
+Obstacles:
+-The shrewd butler is blocking the top of the stairs. If he sees you, he’ll recognize you and raise the alarm.
+Tasks to complete:
+-Find that cute little maid the butler has a crush on?
+Notes:
+-There are all sorts of possibilities for distracting butlers. Who knows, maybe we frame him for murder?
+
+Minor Task: Search Billiard room
+Purpose: To offer puzzles for the player to solve
+Obstacles:
+-Fat man sleeping in a chair (all tasks must be completed quietly)
+-Some guy playing pool
+-Other party goers TBD
+Tasks:
+-Remove the party goers TBD
+-Find the hiding place TBD
+Notes:	
+-This room should contain items needed for other rooms’ puzzles.
+
+Minor Task: Search Dining room
+Purpose: To offer puzzles for the player to solve
+Obstacles:
+-A bunch of men in their 20s and 30s are talking about horse races
+-More party goers TBD
+Tasks:
+-Find “Fun koala facts” to bore the young men into leaving
+-Find the hiding place TBD
+Notes:	
+-This room should contain items needed for other rooms’ puzzles.
+
+Minor Task: Search Study
+Purpose: To offer puzzles for the player to solve
+Obstacles:
+-Two young ladies gossiping in high pitched voices
+-Other party goers TBD
+Tasks:
+-Find a mouse to scare the ladies away
+-Find the hiding place TBD
+Notes:	
+-This room should contain items needed for other rooms’ puzzles.
+
+Minor Task: Search Bar
+Purpose: To offer puzzles for the player to solve
+Obstacles:
+-Party goers TBD
+Tasks:
+-Remove/distract the party goers TBD
+-Find the hiding place TBD
+Notes:	
+-This room should contain items needed for other rooms’ puzzles.
+
+Minor Task: Search Kitchen
+Purpose: To offer puzzles for the player to solve
+Obstacles:
+-Party goers/staff TBD
+Tasks:
+-Remove/distract the party goers TBD
+-Find the hiding place TBD
+Notes:	
+-This room should contain items needed for other rooms’ puzzles.
+
+Major Task: Get combination
+Purpose:
+To test the player’s mastery of the game
+Obstacles:
+-TBD
+Tasks:
+-TBD
