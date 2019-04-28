@@ -23,14 +23,17 @@ private:
     std::map<std::string, Room*> rooms;
     Room* currentRoom;
     std::vector<Item*>* inventory;
-    std::vector<Item*>* globalItems;
     std::unordered_map<std::string, std::unordered_set<std::string>*>* verbs;
+    Item* duplicateItem;
 
     /****************************************
      *      Internal access
     ****************************************/
     Room* getRoom(PyObject* pyRoom);
     Item* getItem(PyObject* pyItem);
+
+    Item* getDoorTo(std::string directionOrRoom);
+    Room* getOppositeRoom(Room* firstRoom, Item* door);
 
     /****************************************
      *      Python API
@@ -48,14 +51,17 @@ private:
 
     // Item
     static PyObject* emb_setupItem(PyObject *self, PyObject *args);
-    static PyObject* emb_getItemByID(PyObject *self, PyObject *args);
+    static PyObject* emb_getItemByName(PyObject *self, PyObject *args);
     static PyObject* emb_addToInventory(PyObject *self, PyObject *args);
     static PyObject* emb_removeFromInventory(PyObject *self, PyObject *args);
     static PyObject* emb_inInventory(PyObject *self, PyObject *args);
 
+    // Door
+    static PyObject* emb_setupDoor(PyObject *self, PyObject *args);
+
     // Room
     static PyObject* emb_setupRoom(PyObject *self, PyObject *args);
-    static PyObject* emb_getRoomByID(PyObject *self, PyObject *args);
+    static PyObject* emb_getRoomByName(PyObject *self, PyObject *args);
     static PyObject* emb_getCurrentRoom(PyObject *self, PyObject *args);
     static PyObject* emb_goToRoom(PyObject *self, PyObject *args);
 
@@ -74,6 +80,7 @@ public:
      *      Engine Access
     ****************************************/
     static PyEngine* getInstance();
+    char* currentFile;
 
     /****************************************
      *      C++ API
@@ -83,18 +90,17 @@ public:
     void setScore(long newScore);
 
     // Verb
-    const char* getVerb(const char* verb);
+    std::string getVerb(std::string verb);
 
     // Item
-    Item* getItemByID(std::string itemID);
+    Item* getItemByName(std::string itemName);
     bool inInventory(Item* item);
     std::vector<Item*>* getInventory();
-    std::vector<Item*>* getGlobalItems();
-    std::vector<Item*> getItemsInRoom(Room* room);
-    Item* getAccessibleItem(const char* itemName);
+    std::vector<Item*> getGlobalItems();
+    Item* getAccessibleItem(std::string itemName);
 
     // Room
-    Room* getRoomByID(std::string roomID);
+    Room* getRoomByName(std::string roomName);
     Room* getCurrentRoom();
     void goToRoom(Room* room);
 };
@@ -102,5 +108,9 @@ public:
 // Python3 string conversion
 const char* getStringFromPyObject(PyObject* strObj);
 const char* getStringFromPyObject(PyObject* obj, const char* propertyName);
+
+std::string lowercase(std::string inputString);
+
+void assertThat(bool assertion, const char* message);
 
 #endif

@@ -2,6 +2,9 @@
 #define ROOM_H
 
 #include <Python.h>
+#include <vector>
+#include "Item.h"
+
 
 class Room
 {
@@ -16,8 +19,14 @@ public:
     /*
         C++ Accessors
     */
-    const char* getDescription(); // Example. This might change later
-    void callEnter(); // Example. This might change later
+    std::string getName();
+    //const char* getDescription();
+    PyObject* callEnter(); // Call enterRoom function
+    bool isVisible();
+    bool hasAlias(std::string roomName);
+    std::vector<Item*> getItems();
+    std::vector<Item*> getDoors();
+    void setVisited();
 };
 
 #endif

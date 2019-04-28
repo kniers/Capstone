@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
+#include <iostream>
 #include "PyEngine.h"
 #include "Item.h"
 #include "Room.h"
@@ -21,8 +22,8 @@ PyEngine* PyEngine::getInstance()
     {
         instance = new PyEngine();
         instance->inventory = new std::vector<Item*>();
-        instance->globalItems = new std::vector<Item*>();
         instance->verbs = new std::unordered_map<std::string, std::unordered_set<std::string>*>();
+        instance->duplicateItem = new Item(NULL, false, true);
         instance->LoadPyFiles("Content");
     }
     return instance;
@@ -33,8 +34,8 @@ PyEngine* PyEngine::getInstance()
 */
 Room* PyEngine::getRoom(PyObject* pyRoom)
 {
-    const char* roomName = getStringFromPyObject(pyRoom, (char*)"rootID");
-    return getInstance()->getRoomByID(roomName);
+    const char* roomName = getStringFromPyObject(pyRoom, (char*)"name");
+    return getInstance()->getRoomByName(roomName);
 }
 
 /*
@@ -42,8 +43,8 @@ Room* PyEngine::getRoom(PyObject* pyRoom)
 */
 Item* PyEngine::getItem(PyObject* pyItem)
 {
-    const char* itemName = getStringFromPyObject(pyItem, (char*)"itemID");
-    return getInstance()->getItemByID(itemName);
+    const char* itemName = getStringFromPyObject(pyItem, (char*)"name");
+    return getInstance()->getItemByName(itemName);
 }
 
 /*
@@ -110,26 +111,67 @@ PyObject* PyEngine::emb_loseGame(PyObject *self, PyObject *args)
 PyObject* PyEngine::emb_setupItem(PyObject *self, PyObject *args)
 {
     PyObject* pyitem;
+    Item* item;
     PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
     Py_INCREF(pyitem);
-    const char* id = getStringFromPyObject(pyitem, (char*)"itemID");
-    if (strlen(id) > 0) {
-        Item* item = new Item(pyitem);
-        PyEngine::getInstance()->items.insert(std::pair<std::string, Item*>(id, item));
+    const char* itemName = getStringFromPyObject(pyitem, (char*)"name");
+    if (strlen(itemName) > 0) {
+        item = new Item(pyitem, false, false);
+        PyEngine::getInstance()->items.insert(std::pair<std::string, Item*>(itemName, item));
+    } else {
+        assertThat(false, "Item must implement \"name\" attribute");
     }
+
+    // Check for "look" function
+    assertThat(item->hasVerb("look", false), "Item must implement \"look\" function!");
+
+    // Check for aliases. Initialize to empty list if not found
+    if (!PyObject_HasAttrString(pyitem, (char*)"aliases")) {
+        PyObject* newAliasesList = PyList_New(0);
+        PyObject_SetAttrString(pyitem, (char*)"aliases", newAliasesList);
+    } else {
+        PyObject* aliasesList = PyObject_GetAttrString(pyitem, (char*)"aliases");
+        assertThat(PyList_Check(aliasesList), "Item attribute \"aliases\" must be a list!");
+    }
+
+    // Check for properties. Initialize to empty dictionary if not found
+    if (!PyObject_HasAttrString(pyitem, (char*)"properties")) {
+        PyObject* newPropertiesDict = PyDict_New();
+        PyObject_SetAttrString(pyitem, (char*)"properties", newPropertiesDict);
+    } else {
+        PyObject* propertiesDict = PyObject_GetAttrString(pyitem, (char*)"properties");
+        assertThat(PyDict_Check(propertiesDict), "Item attribute \"properties\" must be a dictionary!");
+    }
+
+    // Check for visible. Set to True if not found
+    if (!PyObject_HasAttrString(pyitem, (char*)"visible")) {
+        PyObject_SetAttrString(pyitem, (char*)"visible", Py_True);
+    } else {
+        PyObject* visibleFlag = PyObject_GetAttrString(pyitem, (char*)"visible");
+        assertThat(PyBool_Check(visibleFlag), "Item attribute \"visible\" must be a boolean!");
+    }
+
+    // Check for global. Set to False if not found
+    if (!PyObject_HasAttrString(pyitem, (char*)"globalAccess")) {
+        PyObject_SetAttrString(pyitem, (char*)"globalAccess", Py_False);
+    } else {
+        PyObject* globalFlag = PyObject_GetAttrString(pyitem, (char*)"globalAccess");
+        assertThat(PyBool_Check(globalFlag), "Item attribute \"globalAccess\" must be a boolean!");
+    }
+
     return Py_BuildValue("");
 }
 
 /*
-    Python API - get an item by "itemID" property
+    Python API - get an item by "name" property
 */
-PyObject* PyEngine::emb_getItemByID(PyObject *self, PyObject *args)
+PyObject* PyEngine::emb_getItemByName(PyObject *self, PyObject *args)
 {
     PyEngine* instance = PyEngine::getInstance();
-    PyObject* itemID;
-    PyArg_UnpackTuple(args, "", 1, 1, &itemID);
-    const char* itemIDstr = getStringFromPyObject(itemID);
-    Item* item = instance->getItemByID(itemIDstr);
+    PyObject* itemName;
+    PyArg_UnpackTuple(args, "", 1, 1, &itemName);
+    const char* itemNamestr = getStringFromPyObject(itemName);
+    Item* item = instance->getItemByName(itemNamestr);
     return item->getPyItem();
 }
 
@@ -141,23 +183,90 @@ PyObject* PyEngine::emb_setupRoom(PyObject *self, PyObject *args)
     PyObject* pyroom;
     PyArg_UnpackTuple(args, "", 1, 1, &pyroom);
     Py_INCREF(pyroom);
-    const char* id = getStringFromPyObject(pyroom, (char*)"roomID");
-    if (strlen(id) > 0) {
+    const char* name = getStringFromPyObject(pyroom, (char*)"name");
+    if (strlen(name) > 0) {
         Room* room = new Room(pyroom);
-        getInstance()->rooms.insert(std::pair<std::string, Room*>(id, room));
+        getInstance()->rooms.insert(std::pair<std::string, Room*>(name, room));
+    } else {
+        assertThat(false, "Room must implement \"name\" attribute!");
     }
+
+    // Check for "enterRoom" function
+    PyObject* enterRoomFunction = PyObject_GetAttrString(pyroom, (char*)"enterRoom");
+    if (!PyCallable_Check(enterRoomFunction)) {
+        assertThat(PyCallable_Check(enterRoomFunction), "Room must implement \"enterRoom\" function!");
+    }
+
+    // Check for "look" function
+    PyObject* lookFunction = PyObject_GetAttrString(pyroom, (char*)"look");
+    if (!PyCallable_Check(lookFunction)) {
+        assertThat(PyCallable_Check(lookFunction), "Room must implement \"look\" function!");
+    }
+
+    // Check for aliases. Initialize to empty list if not found
+    if (!PyObject_HasAttrString(pyroom, (char*)"aliases")) {
+        PyObject* newAliasesList = PyList_New(0);
+        PyObject_SetAttrString(pyroom, (char*)"aliases", newAliasesList);
+    } else {
+        PyObject* aliasesList = PyObject_GetAttrString(pyroom, (char*)"aliases");
+        assertThat(PyList_Check(aliasesList), "Room attribute \"aliases\" must be a list!");
+    }
+
+    // Check for properties. Initialize to empty dictionary if not found
+    if (!PyObject_HasAttrString(pyroom, (char*)"properties")) {
+        PyObject* newPropertiesDict = PyDict_New();
+        PyObject_SetAttrString(pyroom, (char*)"properties", newPropertiesDict);
+    } else {
+        PyObject* propertiesDict = PyObject_GetAttrString(pyroom, (char*)"properties");
+        assertThat(PyDict_Check(propertiesDict), "Room attribute \"properties\" must be a dictionary!");
+    }
+
+    // Check for items. Initialize to empty list if not found
+    if (!PyObject_HasAttrString(pyroom, (char*)"items")) {
+        PyObject* newItemsList = PyList_New(0);
+        PyObject_SetAttrString(pyroom, (char*)"items", newItemsList);
+    } else {
+        PyObject* itemsList = PyObject_GetAttrString(pyroom, (char*)"items");
+        assertThat(PyList_Check(itemsList), "Room attribute \"items\" must be a list!");
+    }
+
+    // Check for doors. Initialize to empty dictionary if not found
+    if (!PyObject_HasAttrString(pyroom, (char*)"doors")) {
+        PyObject* newDoorsDict = PyDict_New();
+        PyObject_SetAttrString(pyroom, (char*)"doors", newDoorsDict);
+    } else {
+        PyObject* doorsDict = PyObject_GetAttrString(pyroom, (char*)"doors");
+        assertThat(PyDict_Check(doorsDict), "Room attribute \"doors\" must be a dictionary!");
+    }
+
+    // Check for visible. Set to False if not found
+    if (!PyObject_HasAttrString(pyroom, (char*)"visible")) {
+        PyObject_SetAttrString(pyroom, (char*)"visible", Py_False);
+    } else {
+        PyObject* visibleFlag = PyObject_GetAttrString(pyroom, (char*)"visible");
+        assertThat(PyBool_Check(visibleFlag), "Room attribute \"visible\" must be a boolean!");
+    }
+
+    // Check for visited. Set to false if not found
+    if (!PyObject_HasAttrString(pyroom, (char*)"visited")) {
+        PyObject_SetAttrString(pyroom, (char*)"visited", Py_False);
+    } else {
+        PyObject* visitedFlag = PyObject_GetAttrString(pyroom, (char*)"visited");
+        assertThat(PyBool_Check(visitedFlag), "Room attribute \"visited\" must be a boolean!");
+    }
+
     return Py_BuildValue("");
 }
 
 /*
-    Python API - get a room by "roomID" property
+    Python API - get a room by "name" property
 */
-PyObject* PyEngine::emb_getRoomByID(PyObject *self, PyObject *args)
+PyObject* PyEngine::emb_getRoomByName(PyObject *self, PyObject *args)
 {
-    PyObject* roomID;
-    PyArg_UnpackTuple(args, "", 1, 1, &roomID);
-    const char* roomIDstr = getStringFromPyObject(roomID);
-    Room* room = getInstance()->getRoomByID(roomIDstr);
+    PyObject* roomName;
+    PyArg_UnpackTuple(args, "", 1, 1, &roomName);
+    const char* roomNamestr = getStringFromPyObject(roomName);
+    Room* room = getInstance()->getRoomByName(roomNamestr);
     return room->getPyRoom();
 }
 
@@ -180,7 +289,9 @@ PyObject* PyEngine::emb_goToRoom(PyObject *self, PyObject *args)
     if (room != NULL)
     {
         getInstance()->currentRoom = room;
-        room->callEnter();
+        PyObject* returnedString = room->callEnter();
+        room->setVisited();
+        return returnedString;
     }
     return Py_BuildValue("");
 }
@@ -239,6 +350,66 @@ PyObject* PyEngine::emb_inInventory(PyObject *self, PyObject *args)
     Py_RETURN_FALSE;
 }
 
+/*
+    Setup a new instance of a door item
+*/
+PyObject* PyEngine::emb_setupDoor(PyObject *self, PyObject *args)
+{
+    PyObject* pyitem;
+    Item* item;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
+    Py_INCREF(pyitem);
+    const char* doorName = getStringFromPyObject(pyitem, (char*)"name");
+    if (strlen(doorName) > 0) {
+        item = new Item(pyitem, true, false);
+        PyEngine::getInstance()->items.insert(std::pair<std::string, Item*>(doorName, item));
+    } else {
+        assertThat(false, "Door must implement \"name\" attribute");
+    }
+
+    // Check for "look" function
+    assertThat(item->hasVerb("look", false), "Door must implement \"look\" function!");
+    
+    // Check for "go" function
+    assertThat(item->hasVerb("go", false), "Door must implement \"go\" function!");
+
+    // Check for aliases. Initialize to empty list if not found
+    if (!PyObject_HasAttrString(pyitem, (char*)"aliases")) {
+        PyObject* newAliasesList = PyList_New(0);
+        PyObject_SetAttrString(pyitem, (char*)"aliases", newAliasesList);
+    } else {
+        PyObject* aliasesList = PyObject_GetAttrString(pyitem, (char*)"aliases");
+        assertThat(PyList_Check(aliasesList), "Door attribute \"aliases\" must be a list!");
+    }
+
+    // Check for properties. Initialize to empty dictionary if not found
+    if (!PyObject_HasAttrString(pyitem, (char*)"properties")) {
+        PyObject* newPropertiesDict = PyDict_New();
+        PyObject_SetAttrString(pyitem, (char*)"properties", newPropertiesDict);
+    } else {
+        PyObject* propertiesDict = PyObject_GetAttrString(pyitem, (char*)"properties");
+        assertThat(PyDict_Check(propertiesDict), "Door attribute \"properties\" must be a dictionary!");
+    }
+
+    // Check for visible. Set to True if not found
+    if (!PyObject_HasAttrString(pyitem, (char*)"visible")) {
+        PyObject_SetAttrString(pyitem, (char*)"visible", Py_True);
+    } else {
+        PyObject* visibleFlag = PyObject_GetAttrString(pyitem, (char*)"visible");
+        assertThat(PyBool_Check(visibleFlag), "Door attribute \"visible\" must be a boolean!");
+    }
+
+    // Check for roomConnections
+    assertThat(PyObject_HasAttrString(pyitem, (char*)"roomConnections"), "Door must implement \"roomConnections\" dictionary!");
+    PyObject* roomConnectionsDict = PyObject_GetAttrString(pyitem, (char*)"roomConnections");
+    assertThat(PyDict_Check(roomConnectionsDict), "Door attribute \"roomConnections\" must be a dictionary!");
+
+    return Py_BuildValue("");
+}
+
+/*
+    Setup verbs and synonyms
+*/
 PyObject* PyEngine::emb_setVerbs(PyObject *self, PyObject *args)
 {
     PyEngine* eng = PyEngine::getInstance();
@@ -284,17 +455,18 @@ PyMethodDef PyEngine::EmbMethods[] =
     {"getScore", emb_getScore, METH_VARARGS, ""},
     {"setScore", emb_setScore, METH_VARARGS, ""},
     {"setupItem", emb_setupItem, METH_VARARGS, ""},
-    {"getItemByID", emb_getItemByID, METH_VARARGS, ""},
+    {"getItemByName", emb_getItemByName, METH_VARARGS, ""},
     {"winGame", emb_winGame, METH_VARARGS, ""},
     {"loseGame", emb_loseGame, METH_VARARGS, ""},
     {"setupRoom", emb_setupRoom, METH_VARARGS, ""},
-    {"getRoomByID", emb_getRoomByID, METH_VARARGS, ""},
+    {"getRoomByName", emb_getRoomByName, METH_VARARGS, ""},
     {"getCurrentRoom", emb_getCurrentRoom, METH_VARARGS, ""},
     {"goToRoom", emb_goToRoom, METH_VARARGS, ""},
     {"addToInventory", emb_addToInventory, METH_VARARGS, ""},
     {"removeFromInventory", emb_removeFromInventory, METH_VARARGS, ""},
     {"inInventory", emb_inInventory, METH_VARARGS, ""},
     {"setVerbs", emb_setVerbs, METH_VARARGS, ""},
+    {"setupDoor", emb_setupDoor, METH_VARARGS, ""},
     {NULL, NULL, 0, NULL}
 };
 
@@ -350,6 +522,9 @@ void PyEngine::LoadPyFiles(std::string directoryName)
                 if (filename.size() >= 3 && filename.compare(filename.size() - 3, 3, ".py") == 0) {
                     fp = _Py_fopen(filename.c_str(), "r");
                     if (fp != NULL) {
+                        currentFile = strdup(filename.c_str());
+                        //printf("Reading file: %s\n", currentFile);
+                        //fflush(stdout);
                         PyRun_SimpleFile(fp, filename.c_str()); 
                     } else {
                         fprintf(stderr, "Could not open file \n");
@@ -358,33 +533,38 @@ void PyEngine::LoadPyFiles(std::string directoryName)
             }
         }
     }
+    currentFile = (char*)"?";
     closedir(contentDir);
+    //printf("Done reading files\n");
+    //fflush(stdout);
 }
 
 /*
-    Get item by "itemID" property
+    Get item by "name" property
 */
-Item* PyEngine::getItemByID(std::string itemID)
+Item* PyEngine::getItemByName(std::string itemName)
 {
     Item* item = NULL;
-    std::map<std::string, Item*>::iterator itr = items.find(itemID);
+    std::map<std::string, Item*>::iterator itr = items.find(itemName);
     if (itr != items.end()) 
     {
         item = itr->second;
+        Py_INCREF(item->getPyItem());
     }
     return item;
 }
 
 /*
-    Get room by "roomID" property
+    Get room by "name" property
 */
-Room* PyEngine::getRoomByID(std::string roomID)
+Room* PyEngine::getRoomByName(std::string roomName)
 {
     Room* room = NULL;
-    std::map<std::string, Room*>::iterator itr = rooms.find(roomID);
+    std::map<std::string, Room*>::iterator itr = rooms.find(roomName);
     if (itr != rooms.end())
     {
         room = itr->second;
+        Py_INCREF(room->getPyRoom());
     }
     return room;
 }
@@ -425,64 +605,125 @@ std::vector<Item*>* PyEngine::getInventory()
 /*
     Get the collection of globally accessible items
 */
-std::vector<Item*>* PyEngine::getGlobalItems()
+std::vector<Item*> PyEngine::getGlobalItems()
 {
-    return globalItems;
-}
+    std::vector<Item*> globals;
 
-/*
-    Get a collection of all the items in a room
-*/
-std::vector<Item*> PyEngine::getItemsInRoom(Room* room)
-{
-    // Items in a room haven't been defined yet
-    std::vector<Item*> items;
-    return items;
+    auto itr = items.begin();
+    while (itr != items.end()) {
+        Item* item = itr->second;
+        if (!item->isDoor() && item->isGlobal()) {
+            globals.push_back(item);
+        }
+        itr++;
+    }
+
+    return globals;
 }
 
 /*
     Get an item by name. Only returns items that are in current room, in inventory,
-    or globally accessible. Also gives you an item if the itemName matches an item alias
+    or globally accessible. Also gives you an item if the itemName matches an item alias.
+    Items must have their "visible" attribute set to True.
+
+    Gives a door item if the input is a direction and matches one in the Room's "doors" attribute
+    Gives a door item if the input is a room name or alias and a door connects the current room to that room 
+        (only if the room's "visible" attribute is also set to true or the player has been there before)
 */
-// This will probably have to do something about checking for duplicates
-// For instance there could be multiple items with alias "key"
-// One solution: have a global item called key that just tells you to be more specific
-Item* PyEngine::getAccessibleItem(const char* itemName)
+Item* PyEngine::getAccessibleItem(std::string itemName)
 {
-    // item aliases haven't been defined yet, but there's a function for it
     Item* item = NULL;
-    std::vector<Item*> itemsInRoom = getItemsInRoom(getCurrentRoom());
+    itemName = lowercase(itemName);
+
+    // Check items in room
+    std::vector<Item*> itemsInRoom = getCurrentRoom()->getItems();
     for (uint i = 0; i < itemsInRoom.size(); i++)
     {
         Item* testItem = itemsInRoom[i];
-        if (testItem->hasAlias(itemName) && testItem->isVisible())
-        {
-            item = testItem;
+        if (testItem->isVisible()) {
+            if (lowercase(testItem->getName()).compare(itemName) == 0 || testItem->hasAlias(itemName))
+            {
+                if (item == NULL) {
+                    item = testItem;
+                } else if (item != testItem) {
+                    item = duplicateItem;
+                }
+            }
         }
     }
+
+    // Check inventory
     std::vector<Item*> itemsInInventory = *getInventory();
     for (uint i = 0; i < itemsInInventory.size(); i++)
     {
         Item* testItem = itemsInInventory[i];
-        if (testItem->hasAlias(itemName) && testItem->isVisible())
-        {
-            item = testItem;
+        if (testItem->isVisible()) {
+            if (lowercase(testItem->getName()).compare(itemName) == 0 || testItem->hasAlias(itemName))
+            {
+                if (item == NULL) {
+                    item = testItem;
+                } else if (item != testItem) {
+                    item = duplicateItem;
+                }            
+            }
         }
     }
-    std::vector<Item*> globalItems = *getGlobalItems();
+
+    // Check global
+    std::vector<Item*> globalItems = getGlobalItems();
     for (uint i = 0; i < globalItems.size(); i++)
     {
         Item* testItem = globalItems[i];
-        if (testItem->hasAlias(itemName) && testItem->isVisible())
-        {
-            item = testItem;
+        if (testItem->isVisible()) {
+            if (lowercase(testItem->getName()).compare(itemName) == 0 || testItem->hasAlias(itemName))
+            {
+                if (item == NULL) {
+                    item = testItem;
+                } else if (item != testItem) {
+                    item = duplicateItem;
+                }            
+            }
         }
     }
+
+    // Check doors
+    std::vector<Item*> doors = getCurrentRoom()->getDoors();
+    for (uint i = 0; i < doors.size(); i++)
+    {
+        Item* testItem = doors[i];
+        if (testItem->isVisible()) {
+            if (lowercase(testItem->getName()).compare(itemName) == 0 || testItem->hasAlias(itemName))
+            {
+                if (item == NULL) {
+                    item = testItem;
+                } else if (item != testItem) {
+                    item = duplicateItem;
+                }            
+            }
+        }
+    }
+
+    // Check direction or room
+    Item* door = getDoorTo(itemName);
+    if (door != NULL && door->isVisible())
+    {
+        if (item == NULL) {
+            item = door;
+        } else if (item != door) {
+            item = duplicateItem;
+        }
+    }
+
+
     return item;
 }
 
-const char* PyEngine::getVerb(const char* verb)
+/*
+    Get the official version of a verb. Returns empty string if verb not defined
+*/
+std::string PyEngine::getVerb(std::string verb)
 {
+    verb = lowercase(verb);
     auto itr = verbs->begin();
     while (itr != verbs->end())
     {
@@ -490,15 +731,94 @@ const char* PyEngine::getVerb(const char* verb)
         auto synonymItr = synonyms->begin();
         while (synonymItr != synonyms->end())
         {
-            if (strcmp(verb, (*synonymItr).c_str()) == 0)
+            std::string compareVerb(*synonymItr);
+            compareVerb = lowercase(compareVerb);
+            if (verb.compare(compareVerb) == 0)
             {
-                return itr->first.c_str();
+                return itr->first;
             }
             synonymItr++;
         }
         itr++;
     }
-    return NULL;
+    return "";
+}
+
+/*
+    Internal usage - Get a door item based on direction or the next room name
+*/
+Item* PyEngine::getDoorTo(std::string directionOrRoom)
+{
+    directionOrRoom = lowercase(directionOrRoom);
+    PyObject* pyRoom = getCurrentRoom()->getPyRoom();
+    PyObject* doorsDict = PyObject_GetAttrString(pyRoom, (char*)"doors");
+    assertThat(PyDict_Check(doorsDict), "Error! doors must be a dictionary!");
+
+    // Check if it's a valid direction
+    PyObject* directionString = PyUnicode_FromString(directionOrRoom.c_str());
+    if (PyDict_Contains(doorsDict, directionString)) {
+        PyObject* doorName = PyDict_GetItem(doorsDict, directionString);
+        const char* doorNameStr = getStringFromPyObject(doorName);
+        Item* door = PyEngine::getInstance()->getItemByName(doorNameStr);
+        assertThat(door != NULL, "Error! Door not found");
+        return door;
+    }
+
+    Item* returnDoor = NULL;
+
+    // Check if it's a visible connecting room
+    PyObject* doorList = PyDict_Values(doorsDict);
+    Py_ssize_t numDoors = PyList_Size(doorList);
+    for (Py_ssize_t i = 0; i < numDoors; i++) {
+        PyObject* doorName = PyList_GetItem(doorList, i);
+        const char* doorNameStr = getStringFromPyObject(doorName);
+        Item* door = getItemByName(doorNameStr);
+        assertThat(door != NULL, "Error! Door not found");
+
+        // Each door has 2 connections. Find that one that isn't this
+        Room* otherRoom = getOppositeRoom(getCurrentRoom(), door);
+        if (otherRoom->isVisible()) {
+            if (lowercase(otherRoom->getName()).compare(directionOrRoom) == 0 || otherRoom->hasAlias(directionOrRoom)) {
+                if (returnDoor == NULL) {
+                    returnDoor = door;
+                } else if (returnDoor != door) {
+                    returnDoor = duplicateItem;
+                }
+            }
+        }
+    }
+
+    return returnDoor;
+}
+
+/*
+    Internal usage - get the room on the opposite side of a door
+*/
+Room* PyEngine::getOppositeRoom(Room* firstRoom, Item* door)
+{
+    assertThat(door->isDoor(), "Error! This isn't a door");
+
+    PyObject* roomConnections = PyObject_GetAttrString(door->getPyItem(), (char*)"roomConnections");
+    assertThat(PyDict_Check(roomConnections), "Error! roomConnections is not a dictionary");
+
+    PyObject* roomList = PyDict_Values(roomConnections);
+    Py_ssize_t numRooms = PyList_Size(roomList);
+    assertThat(numRooms == 2, "Error! A door must have exactly 2 rooms");
+
+    bool success = false; // the input room must be one of them to be successful
+    Room* otherRoom = NULL;
+    for (Py_ssize_t i = 0; i < numRooms; i++) {
+        PyObject* roomName = PyList_GetItem(roomList, i);
+        const char* roomNameStr = getStringFromPyObject(roomName);
+        Room* room = getRoomByName(roomNameStr);
+        assertThat(room != NULL, "Error! Room not found");
+
+        if (room == firstRoom) success = true;
+        else otherRoom = room;
+    }
+
+    assertThat(success, "Error! Door doesn't connect to this room");
+    return otherRoom;
 }
 
 /*
@@ -506,11 +826,14 @@ const char* PyEngine::getVerb(const char* verb)
 */
 const char* getStringFromPyObject(PyObject* strObj)
 {
+    if (strObj == NULL) {
+        return (char*)"";
+    }
     if (PyUnicode_Check(strObj)) {
         PyObject* bytes = PyUnicode_AsEncodedString(strObj, "UTF-8", "strict");
         return strdup(PyBytes_AS_STRING(bytes));
     } else {
-        return '\0';
+        return "";
     }
 }
 
@@ -527,22 +850,42 @@ const char* getStringFromPyObject(PyObject* obj, const char* propertyName)
     } 
     else
     {
-        return '\0';
+        return "";
     }
 }
 
+/*
+    Returns a new lowercase version of a string. Used to make things case insensitive
+*/
+std::string lowercase(std::string inputString)
+{
+    std::string lowerString(inputString);
+    for (std::string::size_type i = 0; i < inputString.length(); i++) {
+        lowerString[i] = std::tolower(inputString[i]);
+    }
+    return lowerString;
+}
 
+/*
+    Error checking
+*/
+void assertThat(bool assertion, const char* message)
+{
+    if (!assertion) {
+        printf("Assertion in file %s\n", PyEngine::getInstance()->currentFile);
+        printf("%s\n", message);
+        exit(1);
+    }
+}
 
 // Main just for testing
 /*
 int main() {
     PyEngine* p = PyEngine::getInstance();
-    Room* room1 = p->getRoomByID("room1");
-    Room* room2 = p->getRoomByID("room2");
-    Item* item1 = p->getItemByID("item1");
+    //Room* room1 = p->getRoomByName("dungeon");
     
-    printf("%s\n", p->getVerb((char*)"eat"));
-    fflush(stdout);
+    //p->goToRoom(room1);
 }
 */
+
 
