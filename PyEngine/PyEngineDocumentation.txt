@@ -9,9 +9,16 @@ Get the engine instance
 
 C++ ACCESSORS
 
+Save / Load
+	-- void save() -- not implemented yet
+		Saves game to a file
+	
+	-- string load() -- not implemented yet
+		Loads game from a file and runs the "look" command in the current room
+
 Verbs
 	string getVerb(string verb)
-		Get a verb that has been defined by the Python setVerbs() function. Takes in a verb name or synonym and returns the official version of the verb
+		Get a verb that has been defined by the Python setVerbs() function. Takes in a verb name or synonym and returns the official version of the verb. Case insensitive
 
 Score
 	long getScore()
@@ -25,7 +32,7 @@ Item
 	Item* getItemByName(string itemName)
 		Get an item based on the "name" property, no matter where the item is in the game
 
-	Item* getItem(string item)
+	-- Item* getItem(string item) -- not implemented
 		Get an item where the input string matches the item name or any alias of the item, no matter where it is in the game. No defined way of handling items that have matching aliases
 
 	bool inInventory(Item* itemToCheck)
@@ -34,14 +41,14 @@ Item
 	vector<Item*>* getInventory()
 		Get the player's inventory as a vector of Items. Can add or remove items
 
-	vector<Item*>* getGlobalItems()
-		Get the set of items that can be accessed from anywhere. Can add or remove items
+	vector<Item*> getGlobalItems()
+		Get the set of items that can be accessed from anywhere. Items with "globalAccess = True" can be accessed from any room
 
-	vector<Item*> getItemsInRoom(Room* room)
+	-- vector<Item*> getItemsInRoom(Room* room) -- Moved to the room class
 		Get the set of items in a given room. Gives a copy of the vector, not a pointer to it
 
 	Item* getAccessibleItem(char* itemName)
-		Get an item that the player has access to. Only returns an item in the current room, in the inventory, or globally accessible. ItemName can be the item's name or an alias for the item. Doesn't have a defined way of handling multiple items with the same alias.
+		Get an item that the player has access to. Only returns an item in the current room, in the inventory, or globally accessible. ItemName can be the item's name or an alias for the item. If a direction or a room name is put in, this returns a reference to the door item. Can return a duplicate item
 
 
 Room
@@ -51,7 +58,7 @@ Room
 	Room* getCurrentRoom()
 		Get the room the player is currently in
 
-	string goToRoom(Room* room)
+	string goToRoom(Room* room) -- this will probably only be called by Python
 		Place the player in a new room. Returns the long or short description depending on if the player has been there before
 
 
@@ -81,7 +88,7 @@ Win/Loss
 
 Item
 	None setupItem(Item newItem)
-		This is how the engine knows that an item exists. Make an instance of an item then send it to the engine
+		This is how the engine knows that an item exists. Make an instance of an item then send it to the engine. Does some simple error checking
 
 	Item getItemByName(String itemName)
 		Get an item based on the "name" property, no matter where the item is in the game
@@ -107,7 +114,7 @@ Room
 		Get the room the player is currently in
 
 	String goToRoom(Room room)
-		Place the player in a new room. Return the long or short description depending on if the player has been there
+		Place the player in a new room. Runs the "enterRoom" function of the new room
 
 
 ROOM CLASS
@@ -117,26 +124,35 @@ Rooms are Python objects, so they don't need anything special for Python APIs. C
 	string getName()
 		Get the "name" property of a room
 
-	string getLongDescription()
-		Get the "longDesc" property of a room
-
-	string getShortDescription()
-		Get the "shortDesc" property of a room
-
-	bool visited()
+	-- bool visited() -- not implemented
 		Returns true if the player has been to the room
 
-	Room* doorTo(string roomName)
+	-- Room* doorTo(string roomName) -- implemented as a private function in PyEngine
 		Takes a room name, door name, or direction and returns a reference to the next room. Doors haven't been defined yet, but there will need to be a way of checking we can get through the door
 
-	void dropItem(Item* item)
+	-- void dropItem(Item* item) -- not implemented. Maybe it just handled in Python?
 		Drop the item in the room. Removes it from player's inventory. It can be picked up later with "get" command
 
-	bool hasDroppedItem(Item* item)
+	-- bool hasDroppedItem(Item* item) -- not implemented yet
 		Returns true if the player dropped the item in the room. It can always be picked up with "get"
 
-	void pickupDroppedItem(Item* item)
+	-- void pickupDroppedItem(Item* item) -- not implemented yet
 		Pick up the item previously dropped by the player and add it to inventory. Bypass the "get" verb function
+
+	bool isVisible()
+		Returns true if the room is visible to the player. Room visibility is False by default, but gets set to True when the player goes into the room
+
+	bool hasAlias(string roomName)
+		Returns true if the room has an alias equal to roomName
+
+	vector<Items*> getItems()
+		Get a set of all items inside the room
+
+	vector<Item*> getDoors()
+		Get a set of all doors in the room
+
+	void setVisited()
+		Set the "visible" and "visited" attributes to True
 
 
 ITEM CLASS
@@ -146,11 +162,11 @@ Items are Python objects, so they don't need anything special for Python APIs. C
 	string getName()
 		Get the "name" property of an item
 
-	string getDescription()
+	-- string getDescription() -- not implemented
 		Get the "description" property of an item
 
-	bool hasVerb(string verb)
-		Check if the item has an action defined for a verb
+	bool hasVerb(string verb, bool withIndObj)
+		Check if the item has an action defined for a verb. If withIndObj is true, it checks if the verb can handle another item as an argument
 
 	string runVerb(string verb)
 		Run an item's verb function. Return the text that the verb function returned
@@ -162,4 +178,44 @@ Items are Python objects, so they don't need anything special for Python APIs. C
 		Returns true if itemName is an alias for the item
 
 	bool isVisible()
-		Returns true if the item is visible to the player. Visibility not defined yet so it always returns true.
+		Returns true if the item is visible to the player. Visibility is defined by "visible = True" on the item. Visibility is true by default
+
+	bool isGlobal()
+		Returns true if the item is globally accessible. Defined by "globalAccess = True"
+
+	bool isDuplicate()
+		The function getAccessibleItem can return a duplicate. If isDuplicate() returns true, calling other functions will cause an error
+
+
+
+PYTHON CLASS SPECIFICATION
+
+ROOM
+	Manadory attributes:
+		name - unique string
+		enterRoom - function that gets called when player enters room
+		look - function that returns the long or short description depending on the "visited" attribute
+
+	Optional attributes:
+		aliases - list of strings. Defaults to empty list
+		items - list of items by name. Defaults to empty list
+		doors - list of doors by name. Defaults to empty list
+		visible - boolean. Defaults to False. Turns to True when player enters room
+		visited - boolean. Defaults to False. Turns to True when player enters room
+		properties - dictionary and room-specific properties that can be accessed and changed
+
+ITEM
+	Mandatory attributes:
+		name - unique string
+		look - function to return item description
+
+	Optional attributes
+		aliases - list of strings. Defaults to empty list
+		visible - boolean. Defaults to True. Doesn't change automatically
+		properties - dictionary of item-specific properties that can be accessed and changed
+		verbs: Other verbs defined as functions
+
+DOOR
+	Doors are the same as items, but have extra requirements
+	roomConnections - a dictionary of directions and the rooms that are connected. Must connect exactly 2 rooms. directions must be lower Case
+	go - doors must implement the "go" verb
