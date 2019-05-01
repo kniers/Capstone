@@ -11,10 +11,12 @@
 
 class Command {
 public:
-    std::string verb;
-    std::string dirObj;
-    std::string indObj;
-    char direction; //{n, s, e, w}
+    char* verb;
+    void* dirObj;
+    void* indObj;
+    bool dirDoorFlag;
+    bool indDoorFlag;
+    char direction; //n, s, e, w
 
     /*******************
     * status * meaning *
@@ -27,8 +29,8 @@ public:
     Command(){
 	direction = 0;
 	verb = "NULL";
-	dirObj = "NULL";
-	indObj = "NULL";
+	dirObj = NULL;
+	indObj = NULL;
     }
 };
 

@@ -41,19 +41,23 @@ Command* parseIt(std::string parseMe, Command* com){
     bool twoWords = false;
     bool hasPrep = false;
 
-    std::string addMe;
-
     //get first token
     getline(tokenStream, token, ' ');
 
-    //is it a valid object/door?
-    addMe = getAccessibleItem(token)->name; //FIXME: function name
-    if (addMe.compare("NULL") == 0)
-	addMe = getAccessibleDoor(token)->name; //FIXME: function name
-    if (addMe.compare("NULL") != 0){
+    //is it a valid door?
+    if (getDoor(token) != NULL){
+	com->verb = "nope";
+	com->dirObj = getDoor(token);//FIXME: function name
+	com->indObj = NULL;
+	com->dirDoorFlag = true;
+	//FIXME: check for two words
+    }
+    //else is it a valid item?
+    else if (getItem(token) != NULL){
 	com->verb = "nope"; //no verb = describe item/enter door
-	com->dirObj = addMe;
-	com->indObj = "NULL";
+	com->dirObj = getItem(token);//FIXME: function name
+	com->indObj = NULL;
+	com->dirDoorFlag = false;
 	//FIXME: check for two words
     }
     //else is it a valid direction
@@ -98,9 +102,10 @@ Command* parseIt(std::string parseMe, Command* com){
 	         token.compare("south") == 0 ||
 	         token.compare("east") == 0 ||
 	         token.compare("west") == 0) {
-	    if (com->direction == 0)
+	    if (com->direction == 0) //if first direction
 		com->direction = token.at(0);
 	    else {
+		//second direction means error
 		com->status = 1;
 		cout << "I don't understand that command\n";
 		cout << "You listed two directions.\n";
@@ -108,26 +113,61 @@ Command* parseIt(std::string parseMe, Command* com){
 	    }
 	}
 	//is it an item?
-	else if (getAccessibleItem(token) != NULL ||
-			getAccessibleDoor(token) != NULL){//FIXME: change l8r
+	else if (getItem(token) != NULL ||
+			getDoor(token) != NULL){//FIXME: change l8r
+
+	    //door or item?
+	    void* potentialDoor = getDoor(token);//FIXME: change function?
+	    void* potentialItem = getItem(token);//FIXME: change function?
+
 	    //if direct object is blank
-	    if (com->dirObj.compare("NULL") == 0){
-		com->dirObj = token;
+	    if (com->dirObj == NULL){
+		//if door
+		if (potentialDoor != NULL){
+		    com->dirObj = potentialDoor;
+		    com->dirDoorFlag = true;
+		}
+		//if item
+		else {
+		    com->dirObj = potentialItem;
+		    com->dirDoorFlag = false;
+		}
 	    }
-	    else if (com->indObj.compare("NULL") == 0){
+	    else if (com->indObj == NULL){
 		//if <verb> <dirObj> <preposition> <indObj>,
 		//save token as indirect object
-		if (hasPrep == true)
-		    com->indObj = token;
+		if (hasPrep == true){
+		    //if door
+		    if (potentialDoor != NULL){
+			com->indObj = potentialDoor;
+			com->indDoorFlag = true;
+		    }
+		    //if item
+		    else {
+			com->indObj = potentialItem;
+			com->indDoorFlag = false;
+		    }
+		}
 		//otherwise, swap direct and indirect objects
 		else {
+		    //error because there's no valid command with
+		    //two objects, a direction, and no preposition
 		    if (com->direction != 0){
 			com->status = 1;
 			cout << "Huh?\n";
 			return com;
 		    }
 		    com->indObj = com->dirObj;
-		    com->dirObj = token;
+		    //if door
+		    if (potentialDoor != NULL){
+			com->dirObj = potentialDoor;
+			com->dirDoorFlag = true;
+		    }
+		    //if item
+		    else {
+			com->dirObj = potentialItem;
+			com->dirDoorFlag = false;
+		    }
 		}
 	    }
 	    //if this is the third object, we have a problem
@@ -150,6 +190,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    	hasPrep = true;
 	    else if (token.compare("to") == 0)
 		hasPrep = true;
+	    //FIXME: more prepositions
 	    else {
 		cout << "There's a word in there I don't recognize\n";
 		com->status = 1;
@@ -157,8 +198,8 @@ Command* parseIt(std::string parseMe, Command* com){
 	    }
 	}
 
-	//check for other errors
-	if (com->verb.compare("nope") != 0 && com->dirObj.compare("NULL") == 0){
+	//check for action with no object
+	if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
 	    cout << "I don't understand that command\n";
 	    cout << "Make sure actions have objects\n";
 	    com->status = 1;
