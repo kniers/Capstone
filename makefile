@@ -3,8 +3,8 @@ PYLDFLAGS=-L/usr/lib64 -lpython3.6m -lpthread -ldl -lutil -lm -Xlinker -export-d
 CPPFLAGS=-Wall
 IDIRS=-I Command -I Parser -I PyEngine
 
-game: game.cpp PyEngine.o Room.o Item.o parser.o
-	g++ $(PYCFLAGS) $(PYLDFLAGS) $(IDIRS) PyEngine.o Room.o Item.o parser.o game.cpp -o game
+game: game.cpp PyEngine.o Room.o Item.o
+	g++ $(PYCFLAGS) $(PYLDFLAGS) $(IDIRS) PyEngine.o Room.o Item.o game.cpp -o game
 
 PyEngine.o: PyEngine/PyEngine.cpp PyEngine/PyEngine.h
 	g++ $(PYCFLAGS) $(PYLDFLAGS) $(IDIRS) -c PyEngine/PyEngine.cpp
