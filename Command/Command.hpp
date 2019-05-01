@@ -9,11 +9,13 @@
 
 #include <string>
 
+#include "../PyEngine/Item.h"
+
 class Command {
 public:
-    char* verb;
-    void* dirObj;
-    void* indObj;
+    std::string verb;
+    Item* dirObj;
+    Item* indObj;
     bool dirDoorFlag;
     bool indDoorFlag;
     char direction; //n, s, e, w

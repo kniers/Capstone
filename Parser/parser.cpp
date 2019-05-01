@@ -44,20 +44,12 @@ Command* parseIt(std::string parseMe, Command* com){
     //get first token
     getline(tokenStream, token, ' ');
 
-    //is it a valid door?
-    if (getDoor(token) != NULL){
-	com->verb = "nope";
-	com->dirObj = getDoor(token);//FIXME: function name
-	com->indObj = NULL;
-	com->dirDoorFlag = true;
-	//FIXME: check for two words
-    }
-    //else is it a valid item?
-    else if (getItem(token) != NULL){
+    //is it a valid door/item?
+    if (getItemByName(token) != NULL){
 	com->verb = "nope"; //no verb = describe item/enter door
-	com->dirObj = getItem(token);//FIXME: function name
+	com->dirObj = getItemByName(token);
 	com->indObj = NULL;
-	com->dirDoorFlag = false;
+	com->dirDoorFlag = com->dirObj->isDoor();
 	//FIXME: check for two words
     }
     //else is it a valid direction
@@ -68,7 +60,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	com->direction = token.at(0);
     }
     //else is it a valid verb
-    else if (getVerb(token) != NULL){//FIXME: getVerb return value
+    else if (getVerb(token).compare("") != 0){
 	//save token as verb
 	com->verb = getVerb(token);
 	//FIXME: check for two words
@@ -113,40 +105,18 @@ Command* parseIt(std::string parseMe, Command* com){
 	    }
 	}
 	//is it an item?
-	else if (getItem(token) != NULL ||
-			getDoor(token) != NULL){//FIXME: change l8r
-
-	    //door or item?
-	    void* potentialDoor = getDoor(token);//FIXME: change function?
-	    void* potentialItem = getItem(token);//FIXME: change function?
-
+	else if (getItemByName(token) != NULL){
 	    //if direct object is blank
 	    if (com->dirObj == NULL){
-		//if door
-		if (potentialDoor != NULL){
-		    com->dirObj = potentialDoor;
-		    com->dirDoorFlag = true;
-		}
-		//if item
-		else {
-		    com->dirObj = potentialItem;
-		    com->dirDoorFlag = false;
-		}
+		com->dirObj = getItemByName(token);
+		com->dirDoorFlag = com->dirObj->isDoor();
 	    }
 	    else if (com->indObj == NULL){
 		//if <verb> <dirObj> <preposition> <indObj>,
 		//save token as indirect object
 		if (hasPrep == true){
-		    //if door
-		    if (potentialDoor != NULL){
-			com->indObj = potentialDoor;
-			com->indDoorFlag = true;
-		    }
-		    //if item
-		    else {
-			com->indObj = potentialItem;
-			com->indDoorFlag = false;
-		    }
+		    com->indObj = getItemByName(token);
+		    com->indDoorFlag = com->indObj->isDoor();
 		}
 		//otherwise, swap direct and indirect objects
 		else {
@@ -158,16 +128,9 @@ Command* parseIt(std::string parseMe, Command* com){
 			return com;
 		    }
 		    com->indObj = com->dirObj;
-		    //if door
-		    if (potentialDoor != NULL){
-			com->dirObj = potentialDoor;
-			com->dirDoorFlag = true;
-		    }
-		    //if item
-		    else {
-			com->dirObj = potentialItem;
-			com->dirDoorFlag = false;
-		    }
+		    com->indDoorFlag = com->dirDoorFlag;
+		    com->dirObj = getItemByName(token);
+		    com->dirDoorFlag = com->dirObj->isDoor();
 		}
 	    }
 	    //if this is the third object, we have a problem

@@ -11,7 +11,6 @@
 #include <cstring>
 #include <iostream>
 #include <bits/stdc++.h>
-#include <Python.h>
 
 #include "../Command/Command.hpp"
 #include "../PyEngine/PyEngine.h"

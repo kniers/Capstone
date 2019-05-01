@@ -15,8 +15,8 @@ Room.o: PyEngine/Room.cpp PyEngine/Room.h
 Item.o: PyEngine/Item.cpp PyEngine/Room.h
 	g++ $(PYCFLAGS) $(PYLDFLAGS) $(IDIRS) -c PyEngine/Item.cpp
 
-parser.o: Parser/parser.cpp Parser/parser.hpp
-	g++ $(CPPFLAGS) $(IDIRS) -c Parser/parser.cpp
+parser.o: Parser/parser.cpp Parser/parser.hpp PyEngine.o Item.o
+	g++ $(PYCFLAGS) $(PYLDFLAGS) $(CPPFLAGS) $(IDIRS) -c Parser/parser.cpp PyEngine.o Item.o
 
 clean:
 	rm -f *.o *~ game
