@@ -33,6 +33,8 @@ using std::cout;
 
 Command* parseIt(std::string parseMe, Command* com){
 
+    PyEngine* aahhhh = PyEngine::getInstance();
+
     //FIXME: make all lowercase
     std::stringstream tokenStream;
     std::string token;
@@ -45,9 +47,9 @@ Command* parseIt(std::string parseMe, Command* com){
     getline(tokenStream, token, ' ');
 
     //is it a valid door/item?
-    if (getItemByName(token) != NULL){
+    if (aahhhh->getItemByName(token) != NULL){
 	com->verb = "nope"; //no verb = describe item/enter door
-	com->dirObj = getItemByName(token);
+	com->dirObj = aahhhh->getItemByName(token);
 	com->indObj = NULL;
 	com->dirDoorFlag = com->dirObj->isDoor();
 	//FIXME: check for two words
@@ -60,9 +62,9 @@ Command* parseIt(std::string parseMe, Command* com){
 	com->direction = token.at(0);
     }
     //else is it a valid verb
-    else if (getVerb(token).compare("") != 0){
+    else if (aahhhh->getVerb(token).compare("") != 0){
 	//save token as verb
-	com->verb = getVerb(token);
+	com->verb = aahhhh->getVerb(token);
 	//FIXME: check for two words
     }
     else {
@@ -105,17 +107,17 @@ Command* parseIt(std::string parseMe, Command* com){
 	    }
 	}
 	//is it an item?
-	else if (getItemByName(token) != NULL){
+	else if (aahhhh->getItemByName(token) != NULL){
 	    //if direct object is blank
 	    if (com->dirObj == NULL){
-		com->dirObj = getItemByName(token);
+		com->dirObj = aahhhh->getItemByName(token);
 		com->dirDoorFlag = com->dirObj->isDoor();
 	    }
 	    else if (com->indObj == NULL){
 		//if <verb> <dirObj> <preposition> <indObj>,
 		//save token as indirect object
 		if (hasPrep == true){
-		    com->indObj = getItemByName(token);
+		    com->indObj = aahhhh->getItemByName(token);
 		    com->indDoorFlag = com->indObj->isDoor();
 		}
 		//otherwise, swap direct and indirect objects
@@ -129,7 +131,7 @@ Command* parseIt(std::string parseMe, Command* com){
 		    }
 		    com->indObj = com->dirObj;
 		    com->indDoorFlag = com->dirDoorFlag;
-		    com->dirObj = getItemByName(token);
+		    com->dirObj = aahhhh->getItemByName(token);
 		    com->dirDoorFlag = com->dirObj->isDoor();
 		}
 	    }

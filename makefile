@@ -16,7 +16,10 @@ Item.o: PyEngine/Item.cpp PyEngine/Room.h
 	g++ $(PYCFLAGS) $(PYLDFLAGS) $(IDIRS) -c PyEngine/Item.cpp
 
 parser.o: Parser/parser.cpp Parser/parser.hpp PyEngine.o Item.o
-	g++ $(PYCFLAGS) $(PYLDFLAGS) $(CPPFLAGS) $(IDIRS) -c Parser/parser.cpp PyEngine.o Item.o
+	g++ $(PYCFLAGS) $(PYLDFLAGS) $(CPPFLAGS) $(IDIRS) -c Parser/parser.cpp
+
+parserTest: parser.o
+	g++ $(PYCFLAGS) $(PYLDFLAGS) $(CPPFLAGS) $(IDIRS) parser.o PyEngine.o Room.o Item.o Parser/parserTest.cpp -o parserTest
 
 clean:
 	rm -f *.o *~ game
