@@ -1,6 +1,9 @@
+import eng 
+
 class MasterBedroom:
+	name = "Master Bedroom"
+	
 	def __init__(self, name, aliases, shortDesc, longDesc, doorsToAdd, itemsToAdd):
-		self.name = name 
 		self.visited = False 
 		self.aliases = aliases 
 		self.shortDesc = shortDesc 
@@ -21,23 +24,32 @@ class MasterBedroom:
 			return False 
 	
 	# Can be overridden by child classes so that short description can be dynamic based on state of items
-	def _printShortDesc(self, gameState): 
+	def _printShortDesc(self): 
 		return self.shortDesc
 	
 	# Can be overridden by child classes so that long description can be dynamic based on state of items	
-	def _printLongDesc(self, gameState):
-		return self.longDesc
+	def _printLongDesc(self):
+		wearingSuitDesc = "You're dressed in a suit, so you're safe to go into the party - just don't act weird."
+		noClothing = "You're dressed as a burglar, so that's not going to work.\n" \
+					"There's got to be a way to change your appearance."
+		desc = self.longDesc
+		if eng.inInventory('suit'):
+			desc += wearingSuitDesc
+		else:
+			desc += noClothing
 		
-	def enterRoom(self, gameState):
+		return desc
+		
+	def enterRoom(self):
 		if (self.visited == True):
-			return self._printShortDesc(gameState)
+			return self._printShortDesc()
 		else:
 			self._setVisited()
-			return self._printLongDesc(gameState)
+			return self._printLongDesc()
 	
 	# Per game requirements, look should reprint long description 
-	def look(self, gameState):
-		return self._printLongDesc(gameState)
+	def look(self):
+		return self._printLongDesc()
 	
 	def addItem(self, item):
 		self.items.append(item)
@@ -50,6 +62,7 @@ class MasterBedroom:
 		except ValueError: #throws ValueError if item doesn't exist in list
 			return False 
 	
+	'''
 	def itemInRoom(self, item):
 		try:
 			idx = self.items.index(item)
@@ -62,14 +75,35 @@ class MasterBedroom:
 			if self.doors[direction] == door:
 				return True
 		return False
+	'''
+
+
 		
-	# These are better handled by the engine imo 
-	#def getItemByName():
-	#def getItemByAlias():
-	#def getDoorByName():
-	#def getDoorByAlias():
+name = "Master Bedroom"
+aliases = ['master bed', 'bedroom', 'starting bedroom']
+shortDesc = "You're back in the bedroom that you started in.\n" \
+			"It doesn't look like anyone has been in here since you left,\n" \
+			"although it's hard to be sure.\n"
+longDesc = "You find yourself in what appears to be the master bedroom.\n" \
+			"Behind you is the window you entered in,\n" \
+			"although it probably won't be too useful without your ladder!\n" \
+			"There is a closet in front of you and a door to the left.\n" \
+			"There's a nightstand next to the closet as well.\n" \
+			"An open door to the right reveals the master bathroom. Pretty nice if you ask me!\n" \
+			"You're kinda stuck here right now. The window isn't really an option\n" \
+			"to leave through, so your only option is to somehow be a part of the party.\n"
+#doors = {'North': 'Master Bathroom Door', 'South': 'Master Bedroom Door', 'West': 'Bedroom Window'}
+doors = {}
+#items = ['closet', 'nightstand', 'suit']
+items = ['closet', 'suit']
 
+		
 
+MasterBedroom = MasterBedroom("", aliases, shortDesc, longDesc, doors, items)
+eng.setupRoom(MasterBedroom)
+print(eng.goToRoom(MasterBedroom)) # This line only because the master bedroom is the first room 
+	
+	
 # TESTING
 '''
 name = "Master Bedroom"
