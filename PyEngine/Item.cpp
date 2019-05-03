@@ -69,16 +69,24 @@ bool Item::hasVerb(std::string verb, bool withIndObj)
 */
 std::string Item::runVerb(std::string verb)
 {
+    PyRun_SimpleString((char*)"import sys\nsys.stderr = open('err.txt', 'a')");
+
+    std::string ret("");
     if (hasVerb(verb, true)) {
         PyObject* returnString = PyObject_CallMethodObjArgs(pyItem, PyUnicode_FromString(verb.c_str()), Py_None, NULL);
-        std::string ret(getStringFromPyObject(returnString));
-        return ret;
+        ret = getStringFromPyObject(returnString);
     } else if (hasVerb(verb, false)) {
         PyObject* returnString = PyObject_CallMethod(pyItem, verb.c_str(), NULL);
-        std::string ret(getStringFromPyObject(returnString));
-        return ret;
+        ret = getStringFromPyObject(returnString);
     }
-    return "";
+    
+    if (PyErr_Occurred()) {
+        PyErr_Print();
+        ret = "An error has occurred. See err.txt for details.";
+    }
+    PyRun_SimpleString((char*)"import sys\nsys.stderr.close()");
+
+    return ret;
 }
 
 /*
@@ -86,12 +94,21 @@ std::string Item::runVerb(std::string verb)
 */
 std::string Item::runVerb(std::string verb, Item* indirectObject)
 {
+    PyRun_SimpleString((char*)"import sys\nsys.stderr = open('err.txt', 'a')");
+
+    std::string ret("");
     if (hasVerb(verb, true)) {
         PyObject* returnString = PyObject_CallMethodObjArgs(pyItem, PyUnicode_FromString(verb.c_str()), indirectObject->getPyItem(), NULL);
-        std::string ret(getStringFromPyObject(returnString));
-        return ret;
+        ret = getStringFromPyObject(returnString);
     }
-    return "";
+
+    if (PyErr_Occurred()) {
+        PyErr_Print();
+        ret = "An error has occurred. See err.txt for details.";
+    }
+    PyRun_SimpleString((char*)"import sys\nsys.stderr.close()");
+
+    return ret;
 }
 
 /*

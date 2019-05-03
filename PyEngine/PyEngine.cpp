@@ -25,6 +25,7 @@ PyEngine* PyEngine::getInstance()
         instance->verbs = new std::unordered_map<std::string, std::unordered_set<std::string>*>();
         instance->duplicateItem = new Item(NULL, false, true);
         instance->LoadPyFiles("Content");
+        std::remove("err.txt");
     }
     return instance;
 }
