@@ -1,12 +1,17 @@
 /* filename: interface.cpp
  * description: ncurses user interface for TBA3 Capstone project
- * version: 2019-04-27.1
+ * version: 2019-05-03.1
  * compile: g++ interface.cpp -o uiinit -lncurses: test run with uiinit
  * author: Adam Deaton
  */
 
 #include <ncurses.h>
 #include <unistd.h>
+#include <cstring>
+#include <string>
+#include <iostream>
+
+#define MAXITEM 12
 
 /* createNewWin function takes four parameters and produces a box on screen
  * parameters: height of box, width of box, starting top right corner y-coordinates, starting top right x-coordinates
@@ -35,36 +40,77 @@ WINDOW *createNewOutput(int h, int w, int y, int x){
 //Opening TBA3 Game Intro Window
 void introWindow(){
 	WINDOW *intro;
+	initscr();
+        	
 	intro = createNewOutput(LINES/2,COLS/2,LINES/4,COLS/4);
-	mvwprintw(intro,2,2,"COCKTAIL HEIST\nYou are a mobster on a mission to sneak into the CEO of Old  Money Corporation's mansion steal the wealth within and get  out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n");
+	mvwprintw(intro,2,2,"COCKTAIL HEIST\nYou are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion steal the wealth within and get out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n");
 	wrefresh(intro);
 	wgetch(intro);
 
 	sleep(1);
 	
 	clear();
+	endwin();
 }
 
-//Window for graphics
+//Graphic bordered window
 void graphicWin(){
 	WINDOW *graphic;
 	int xCoord = 0, yCoord = 2, height = LINES - 2, width = COLS / 2;
-	graphic = createNewWin(height, width, yCoord, xCoord);
+	createNewWin(height, width, yCoord, xCoord);
 
 }
 
-//Description of room window
-WINDOW *descriptionWin(){
+
+//Graphics output window
+WINDOW *graphicOutput(){
+	WINDOW *graphicOut;
+	int xCoord = 1, yCoord = 3, height = LINES - 4, width = (COLS / 2) - 2;
+	return graphicOut = createNewOutput(height, width, yCoord, xCoord);
+
+}
+
+//Description bordered window
+void *descriptionWin(){
 	WINDOW * desWin;
 	int xCoord = (COLS / 2) - 1, yCoord = 2, height = LINES - 10, width = (COLS / 2) + 1;
-	return desWin = createNewWin(height,width,yCoord,xCoord);
+	createNewWin(height,width,yCoord,xCoord);
 }
 
-//Description of room window
+//Description output window
 WINDOW *descriptionOutput(){
 	WINDOW * desOutput;
 	int xCoord = (COLS / 2), yCoord = 3, height = LINES - 9, width = (COLS / 2) - 1;
 	return desOutput = createNewOutput(height,width,yCoord,xCoord);
+}
+
+//Room Items bordered window
+void *itemsWin(){
+	WINDOW * itemWin;
+	int xCoord = (COLS / 2) - 1, yCoord = LINES - 16, height = 5, width = (COLS / 2) + 1;
+	createNewWin(height,width,yCoord,xCoord);
+}
+
+//Room items output window
+WINDOW *itemsOutput(){
+	WINDOW * itemOutput;
+	int xCoord = (COLS / 2), yCoord = LINES - 15, height = 3, width = (COLS / 2) - 1;
+	return itemOutput = createNewOutput(height,width,yCoord,xCoord);
+}
+
+
+//Room Doors bordered window
+void *doorsWin(){
+	WINDOW * doorsWin;
+	int xCoord = (COLS / 2) - 1, yCoord = LINES - 12, height = 4, width = (COLS / 2) + 1;
+	createNewWin(height,width,yCoord,xCoord);
+}
+
+//Room doors output window
+WINDOW *doorsOutput(){
+	WINDOW * doorsOutput;
+	int xCoord = (COLS / 2), yCoord = LINES - 11, height = 2, width = (COLS / 2) - 1;
+	return doorsOutput = createNewOutput(height,width,yCoord,xCoord);
 }
 
 //Game State Windows showing user items and current score
@@ -84,10 +130,10 @@ WINDOW *scoreOutput(){
 
 
 //Input window
-WINDOW *inputWin(){
+void *inputWin(){
 	WINDOW *inWin;
 	int xCoord = (COLS / 2) - 1, yCoord = LINES - 9, height = 9, width = (COLS / 2) + 1;
-	return inWin = createNewWin(height,width,yCoord,xCoord); 
+	createNewWin(height,width,yCoord,xCoord); 
 }
 
 //Input screen for commands
@@ -105,45 +151,95 @@ void itemsWin(){
 
 
 /*Display Current Room or Item Description, game state, input window, graphic of room or item
-* Parameters: check game engine to termine and then update
+* Parameters: cppString cppDescription
 */
-void gameUI(){
+std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::string userItems[MAXITEM], int numItems, int score){
+	std::string cppString;
+	char cDes[cppDes.size() + 1]; //c string to hold cppDes cpp string
+	strcpy(cDes, cppDes.c_str()); //copy cppDes into cDes for output with ncurses;
+	char cRoomName[roomName.size() + 1];
+	strcpy(cRoomName, roomName.c_str());
+	char cUserItems[numItems][32];
+	for(int i = 0; i < numItems; i++){
+		strcpy(cUserItems[i], userItems[i].c_str());
+	}
+	int strlength = 0;  //to track string lengths
 	//Initialize ncurses
 	initscr();
-	//cbreak();
-	noecho(); // suppress echo
-	WINDOW *desWin;
 	WINDOW *desOutput;
+	WINDOW *roomItemsWin;
+	WINDOW *doorsOut;
 	WINDOW *stateWin;
 	WINDOW *scoreOut;
-	WINDOW *inWin;
+	WINDOW *graphicOut;
 	WINDOW *input;
+	char inputStr[256]; //C-string for input
+	memset(inputStr,'\0',256);
 	//Load game windows
-	introWindow();
 	stateWin = gameStateWin(); // show user held items and current score
 	scoreOut = scoreOutput();
 	graphicWin(); // show room graphics
-	desWin = descriptionWin(); // room description window
+	graphicOut = graphicOutput(); // graphic output window
+	descriptionWin(); // room description window bordered
 	desOutput = descriptionOutput(); //output room description
-	inWin = inputWin(); //input window
+	itemsWin();
+	roomItemsWin = itemsOutput();
+	doorsWin();
+	doorsOut = doorsOutput();
+	inputWin(); //input window bordered
 	input = inputScr(); //game waits for input
-	mvwprintw(desOutput, 0, 0,"BEDROOM:\nThis bedroom has blue walls and a oak wood floor. There are two windows to the south letting in natural light. In the center of the room on the west wall there is a queen sized bed with a gray spread. On the east wall there is a dresser and mirror.\n Items in the room:");
+	mvwprintw(desOutput, 0, 0, "%s\n%s", cRoomName, cDes);
 	wrefresh(desOutput);
 	//Will need to loop items from array
-	mvwprintw(stateWin, 1, 1,"Items:%s ", "Hammer");	
-	wrefresh(stateWin);
-	mvwprintw(scoreOut, 0,0,"Score: %d",5500);
+	mvwprintw(stateWin, 1, 1,"Items: ");
+	//Print all user held items
+	strlength = 8; //1 + Items: 
+	for(int i = 0; i < numItems; i++){
+		mvwprintw(stateWin, 1, strlength,"%s ", cUserItems[i]);
+		strlength = strlength + strlen(cUserItems[i]) + 1;
+	}	
+	wrefresh(stateWin); // Refresh stateWin to display items
+	mvwprintw(scoreOut, 0,0,"Score: %d",score);
 	wrefresh(scoreOut);	
+	mvwprintw(roomItemsWin, 0, 0, "Items in room: ");
+	wrefresh(roomItemsWin);
+	//Output doors available in room
+	mvwprintw(doorsOut, 0, 0, "Doors in room: ");
+	wrefresh(doorsOut);
 	mvwprintw(input, 0,0,"What would you like to do? ");
 	wrefresh(input);
-	wgetch(input);
+	wgetstr(input, inputStr); //Get string from user
+	cppString = inputStr;
+	//Remove this is to test input
+	mvwprintw(graphicOut,0,0,"%s",inputStr);
+	wrefresh(graphicOut);
+	//This is to test input remove above
+	//wgetch(input); //Any key to exit
 	sleep(1);
 	endwin(); //end curses mode
+	return cppString;
 
 }
 
 //Main for testing interface
 int main(){
-	gameUI();
-
+	std::string input;
+	std::string description; // room or item description
+	int  score;
+	std::string userItems[MAXITEM];
+	std::string roomName;
+	int roomID;
+	description = "This upstairs bedroom has blue walls and oak wood floor. There are two windows to the south letting in natural light. In the center of the room on the west wall there is a queen sized bed with a gray spread. On the east wall there is a dresser and mirror.\n"; 
+	roomID = 1;
+	roomName = "Bedroom";
+	score = 5500;
+	userItems[0] = "Hammer";
+	userItems[1] = "Key";
+	userItems[2] = "Ring"; 
+	introWindow();
+	while(1){
+	input = gameUI(roomID, roomName, description, userItems,3, score);
+	std::cout << input << std::endl;
+	}
+	return 0;
 }
