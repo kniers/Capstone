@@ -5,13 +5,7 @@
  * author: Adam Deaton
  */
 
-#include <ncurses.h>
-#include <unistd.h>
-#include <cstring>
-#include <string>
-#include <iostream>
-
-#define MAXITEM 12
+#include "interface.hpp"
 
 /* createNewWin function takes four parameters and produces a box on screen
  * parameters: height of box, width of box, starting top right corner y-coordinates, starting top right x-coordinates
@@ -43,7 +37,10 @@ void introWindow(){
 	initscr();
         	
 	intro = createNewOutput(LINES/2,COLS/2,LINES/4,COLS/4);
-	mvwprintw(intro,2,2,"COCKTAIL HEIST\nYou are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion steal the wealth within and get out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n");
+	mvwprintw(intro,2,2,"COCKTAIL HEIST\n");
+	wrefresh(intro);
+	sleep(1);
+	mvwprintw(intro,8,2,"You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion steal the wealth within and get out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n");
 	wrefresh(intro);
 	wgetch(intro);
 
@@ -153,17 +150,23 @@ void itemsWin(){
 /*Display Current Room or Item Description, game state, input window, graphic of room or item
 * Parameters: cppString cppDescription
 */
-std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::string userItems[MAXITEM], int numItems, int score){
+std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::string userItems[MAXITEM], int numItems, std::string itemsInRoom[MAXITEM], int numItemsInRoom, int score){
 	std::string cppString;
 	char cDes[cppDes.size() + 1]; //c string to hold cppDes cpp string
 	strcpy(cDes, cppDes.c_str()); //copy cppDes into cDes for output with ncurses;
-	char cRoomName[roomName.size() + 1];
-	strcpy(cRoomName, roomName.c_str());
-	char cUserItems[numItems][32];
-	for(int i = 0; i < numItems; i++){
-		strcpy(cUserItems[i], userItems[i].c_str());
+	char cRoomName[roomName.size() + 1]; 
+	strcpy(cRoomName, roomName.c_str()); //copy cppString contents int c string
+	//Move cpp user items strings into c string char array
+	char cUserItems[numItems][32]; //char array of user held items
+	for(int i = 0; i < numItems; i++){ 
+		strcpy(cUserItems[i], userItems[i].c_str()); //Copy each item name into char array
 	}
-	int strlength = 0;  //to track string lengths
+	//Move cpp items strings into c string char array
+	char cItemsInRoom[numItemsInRoom][32];
+	for(int i = 0; i < numItemsInRoom; i++){
+		strcpy(cItemsInRoom[i], itemsInRoom[i].c_str());
+	}
+	int strlength = 0;  //to track string lengths in output windows
 	//Initialize ncurses
 	initscr();
 	WINDOW *desOutput;
@@ -203,6 +206,13 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	wrefresh(scoreOut);	
 	mvwprintw(roomItemsWin, 0, 0, "Items in room: ");
 	wrefresh(roomItemsWin);
+	//Print all items in room
+	strlength = 16; //1 + Items in room:
+	for(int i = 0; i < numItemsInRoom; i++){
+		mvwprintw(roomItemsWin, 0, strlength,"%s, ", cItemsInRoom[i]);
+		strlength = strlength + strlen(cItemsInRoom[i]) + 2; //strlength is equal to previous strings and ,+space
+	}	
+	wrefresh(roomItemsWin);
 	//Output doors available in room
 	mvwprintw(doorsOut, 0, 0, "Doors in room: ");
 	wrefresh(doorsOut);
@@ -220,13 +230,14 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	return cppString;
 
 }
-
+/*
 //Main for testing interface
 int main(){
 	std::string input;
 	std::string description; // room or item description
 	int  score;
 	std::string userItems[MAXITEM];
+	std::string roomItems[MAXITEM];
 	std::string roomName;
 	int roomID;
 	description = "This upstairs bedroom has blue walls and oak wood floor. There are two windows to the south letting in natural light. In the center of the room on the west wall there is a queen sized bed with a gray spread. On the east wall there is a dresser and mirror.\n"; 
@@ -236,10 +247,14 @@ int main(){
 	userItems[0] = "Hammer";
 	userItems[1] = "Key";
 	userItems[2] = "Ring"; 
+
+	roomItems[0] = "Bottle of Red Wine";
+	roomItems[1] = "Backpack";
+	roomItems[2] = "Sword"; 
 	introWindow();
 	while(1){
-	input = gameUI(roomID, roomName, description, userItems,3, score);
-	std::cout << input << std::endl;
+		input = gameUI(roomID, roomName, description, userItems,3, roomItems, 3, score);
+		std::cout << input << std::endl;
 	}
 	return 0;
-}
+}*/
