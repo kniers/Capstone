@@ -27,6 +27,7 @@ public:
     * 1	     * error   *
     *******************/
     int status;
+    std::string errMessage;
 
     Command(){
 	direction = 0;

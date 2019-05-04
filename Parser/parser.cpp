@@ -92,8 +92,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	//tokens, and therefore shouldn't have entered this loop.
 	if (com->verb.compare("nope") == 0){
 	    //print error
-	    cout << "I don't understand that command\n";
-	    cout << "If you're not examining an object, make sure you have an action in your command.\n";
+	    com->errMessage = "I don't understand that command\nIf you're not examining an object or going through a door, make sure you have an action in your command.\n";
 	    com->status = 1;
 	    return com;
 	}
@@ -107,8 +106,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    else {
 		//second direction means error
 		com->status = 1;
-		cout << "I don't understand that command\n";
-		cout << "You listed two directions.\n";
+		com->errMessage = "I don't understand that command.\nYou listed two directions.\n";";
 		return com;
 	    }
 	}
@@ -134,7 +132,7 @@ Command* parseIt(std::string parseMe, Command* com){
 		    //two objects, a direction, and no preposition
 		    if (com->direction != 0){
 			com->status = 1;
-			cout << "Huh?\n";
+			com->errMessage = "Huh?\n";
 			return com;
 		    }
 		    com->indObj = com->dirObj;
@@ -146,8 +144,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    //if this is the third object, we have a problem
 	    else {
 		//print error
-		cout << "I don't understand that command\n";
-		cout << "Make sure you have at most two items in commands\n";
+		com->errMessage = "I don't understand that command.\nMake sure you have at most two items in comands.\n";
 		com->status = 1;
 		return com;
 	    }
@@ -173,7 +170,7 @@ Command* parseIt(std::string parseMe, Command* com){
 		twoWords = true;
 	    }
 	    else {
-		cout << "There's a word in there I don't recognize\n";
+		com->errMessage = "There's a word in there I don't recognize.\n";
 		com->status = 1;
 		return com;
 	    }
@@ -181,8 +178,7 @@ Command* parseIt(std::string parseMe, Command* com){
 
 	//check for action with no object
 	if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
-	    cout << "I don't understand that command\n";
-	    cout << "Make sure actions have objects\n";
+	    cout << "I don't understand that command.\nMake sure actions have objects\n";
 	    com->status = 1;
 	    return com;
 	}
