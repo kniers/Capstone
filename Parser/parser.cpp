@@ -58,12 +58,12 @@ Command* parseIt(std::string parseMe, Command* com){
 	//FIXME: check for two words
     }
     //else is it a valid direction
-    else if (token.compare("north") == 0 ||
+    /*else if (token.compare("north") == 0 ||
 	     token.compare("south") == 0 ||
 	     token.compare("east") == 0 ||
 	     token.compare("west") == 0) {
 	com->direction = token.at(0);
-    }
+    }*/
     //else is it a valid verb
     else if (aahhhh->getVerb(token).compare("") != 0){
 	//save token as verb
@@ -85,7 +85,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	//skip the next token for two-word things
 	if (twoWords == true){
 	    //twoWords = false;
-	    token = firstWord + token;
+	    token = firstWord + " " + token;
 	}
 	//If the verb is not filled in, then we have a command of format
 	//<dirObj>. If this is the case, then we shouldn't have any more
@@ -165,7 +165,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    else if (token.compare("on") == 0)
 		hasPrep = true;
 	    //FIXME: more prepositions
-	    else if (twoWords = false){
+	    else if (twoWords == false){
 		firstWord = token;
 		twoWords = true;
 	    }
@@ -176,13 +176,14 @@ Command* parseIt(std::string parseMe, Command* com){
 	    }
 	}
 
+    }
+
 	//check for action with no object
 	if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
 	    cout << "I don't understand that command.\nMake sure actions have objects\n";
 	    com->status = 1;
 	    return com;
 	}
-    }
 
     return com;
 }
