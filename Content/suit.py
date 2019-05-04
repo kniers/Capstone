@@ -7,15 +7,9 @@ class Suit:
 		self.type = "Item"
 		self.aliases = aliases
 		self.description = description
-		self.visible = True 
+		self.visible = False
 		self.items = items
 		self.properties = properties 
-
-	def setViewed(self):
-		self.visible = True
-		
-	def getViewed(self):
-		return self.visible 
 	
 	def isAlias(self, alias):
 		if alias in self.aliases:
@@ -29,14 +23,27 @@ class Suit:
 		return self.description
 	
 	# Other verb. Suit isn't too complicated. Most items will have multiple of these functions.
-	def equip(self):
+	def wear(self):
 		if 'wearing' not in self.properties:
 			self.properties['wearing'] = True 
+			eng.addToInventory(self)
+			currRoom = eng.getCurrentRoom()
+			currRoom.removeItem('suit')
 			return "The suit fits perfectly. Now you're ready for the cocktail party!\n" \
-				"Remember that you're here to steal stuff, not have a good time.\n"
+				"Remember that you're here to steal stuff, not have a good time."
 		else:
-			return "You're already wearing the suit!\n"
-		
+			return "You're already wearing the suit!"
+	
+	# Take off the suit, if player is wearing it 
+	def remove(self):
+		if 'wearing' not in self.properties or self.properties['wearing'] == False:
+			return "How can you remove something that you're not even wearing?"
+		else:
+			self.properties['wearing'] = False
+			currRoom = eng.getCurrentRoom()
+			currRoom.addItem('suit')
+			eng.removeFromInventory(self)
+			return "You've removed the suit"
 
 
 aliases = ["tux", "outfit", "clothes"]

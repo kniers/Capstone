@@ -10,12 +10,6 @@ class Closet:
 		self.visible = True 
 		self.items = items
 		self.properties = properties 
-
-	def setViewed(self):
-		self.visible = True
-		
-	def getViewed(self):
-		return self.visible 
 	
 	def isAlias(self, alias):
 		if alias in self.aliases:
@@ -44,20 +38,24 @@ class Closet:
 			return self.properties['alreadyOpenDesc']
 		else:
 			self.properties['opened'] = True
+			# get current room and add suit and gown to items list
+			currRoom = eng.getCurrentRoom() 
 			# get suit and gown and set 'visible' to True
 			suit = eng.getItemByName('suit')
 			if suit is not None:
 				suit.visible = True
-			#gown = eng.getItemByName('gown') #gown not implemented yet
-			#if gown is not None:
-				#gown.visible = True 
+				currRoom.addItem('suit')
+			gown = eng.getItemByName('gown') #gown not implemented yet
+			if gown is not None:
+				gown.visible = True
+				currRoom.addItem('gown')				
 			return self.look()
 		
 
 
 aliases = ["wardrobe"]
 description = "It's a closet... Not much more to say about it. Open it if you'd like."
-items = ['suit']
+items = ['suit', 'gown']
 properties = {'opened': False, 
 			'closedDesc': "It's a closet... Not much more to say about it. Open it if you'd like.",
 			'openDesc': "Pretty standard closet.\n",

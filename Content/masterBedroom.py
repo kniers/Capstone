@@ -95,7 +95,7 @@ longDesc = "You find yourself in what appears to be the master bedroom.\n" \
 #doors = {'North': 'Master Bathroom Door', 'South': 'Master Bedroom Door', 'West': 'Bedroom Window'}
 doors = {}
 #items = ['closet', 'nightstand', 'suit']
-items = ['closet', 'suit']
+items = ['closet']
 
 		
 
