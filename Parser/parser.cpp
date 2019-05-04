@@ -34,10 +34,13 @@ using std::cout;
 Command* parseIt(std::string parseMe, Command* com){
 
     PyEngine* aahhhh = PyEngine::getInstance();
+    std::locale loc;
+    for (std::string::size_type i=0; i<parseMe.length(); i++)
+	std::cout << std::tolower(parseMe[i],loc);
 
-    //FIXME: make all lowercase
     std::stringstream tokenStream;
     std::string token;
+    std::string firstWord;
     tokenStream << parseMe;
 
     bool twoWords = false;
@@ -68,23 +71,26 @@ Command* parseIt(std::string parseMe, Command* com){
 	//FIXME: check for two words
     }
     else {
+	twoWords = true;
+	firstWord = token;
 	//print error
-	cout << "I don't understand that command\n";
-	cout << "Make sure your commands reference a valid item or action\n";
-	com->status = 1;
-	return com;
+	//cout << "I don't understand that command\n";
+	//cout << "Make sure your commands reference a valid item or action\n";
+	//com->status = 1;
+	//return com;
     }
 
     //get rest of tokens
     while (getline(tokenStream, token, ' ')){
 	//skip the next token for two-word things
 	if (twoWords == true){
-	    twoWords = false;
+	    //twoWords = false;
+	    token = firstWord + token;
 	}
 	//If the verb is not filled in, then we have a command of format
 	//<dirObj>. If this is the case, then we shouldn't have any more
 	//tokens, and therefore shouldn't have entered this loop.
-	else if (com->verb.compare("nope") == 0){
+	if (com->verb.compare("nope") == 0){
 	    //print error
 	    cout << "I don't understand that command\n";
 	    cout << "If you're not examining an object, make sure you have an action in your command.\n";
@@ -108,6 +114,8 @@ Command* parseIt(std::string parseMe, Command* com){
 	}
 	//is it an item?
 	else if (aahhhh->getItemByName(token) != NULL){
+	    if (twoWords == true)
+		twoWords = false;
 	    //if direct object is blank
 	    if (com->dirObj == NULL){
 		com->dirObj = aahhhh->getItemByName(token);
@@ -155,7 +163,15 @@ Command* parseIt(std::string parseMe, Command* com){
 	    	hasPrep = true;
 	    else if (token.compare("to") == 0)
 		hasPrep = true;
+	    else if (token.compare("at") == 0)
+		hasPrep = true;
+	    else if (token.compare("on") == 0)
+		hasPrep = true;
 	    //FIXME: more prepositions
+	    else if (twoWords = false){
+		firstWord = token;
+		twoWords = true;
+	    }
 	    else {
 		cout << "There's a word in there I don't recognize\n";
 		com->status = 1;

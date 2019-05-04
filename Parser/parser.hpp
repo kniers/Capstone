@@ -10,6 +10,7 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <locale>
 #include <bits/stdc++.h>
 
 #include "../Command/Command.hpp"

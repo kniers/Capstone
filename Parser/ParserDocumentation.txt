@@ -1,8 +1,7 @@
-The text parser expects a standard string and a pointer to an empty Command object.
+The text parser expects a lowercase string and a pointer to an empty Command object.
 
-The parser will deposit the action, direct object, and indirect object, and direction into the
-appropriate slots of the Command object. Any unused object slots will be NULL. If there's no
-verb, the verb will say "nope".
+The parser will deposit the action, direct object, and indirect object into the
+appropriate slots of the Command object. Any unused slots will have the string "nope".
 
 The parser will set the status of the Command object to 0 if the syntax is valid, and
 to 1 if the syntax is invalid. Do not use the command if the status is 1.
@@ -13,27 +12,11 @@ The parser will not guarantee a Command object that makes sense. The command "ea
 will be considered correct by the parser. Non-syntax errors will be handled by the items.
 
 The parser accepts command in the following formats:
-/****************************************
- * Valid command formats *
- * (1) <verb> <dirObj>
- * Example: "eat taco"
- * (2) <dirObj>
- * Example: "taco" (describes taco)
- * (3) <verb> <dirObj> (preposition) <indObj>
- * Example: "show taco to Alice"
- * (4) <verb> <indObj> <dirObj>
- * Example: "give Alice taco"
- * (5) <direction>
- * Example: "north"
- * (6) <verb> <direction>
- * Example: "go north"
- * (7) <direction> <dirObj>
- * Example: "north door"
- * (8) <verb> <direction> <dirObj>
- * Example: "open north door"
- * (9) <verb> <direction> <dirObj> (prep) <indObj>
- * Example: "open north door with key"
-****************************************/
+<dirObj>
+<verb> <dirObj>
+<verb> <dirObj> <preposition> <indObj>
+<verb> <indObj> <dirObj>
+
 Note that for a command <verb> <item> <item>, the first item will always be considered as the
 indirect object. If there's a situation where that's incorrect, let me know.
 
