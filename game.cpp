@@ -3,13 +3,98 @@
 */
 #include <iostream>
 #include "PyEngine.h"
-//#include "parser.hpp"
-//#include "Command.hpp"
+#include "interface.hpp"
+#include "parser.hpp"
+#include "Command.hpp"
 
 using namespace std;
 
 int main()
 {
+    PyEngine* eng = PyEngine::getInstance();
+    introWindow();
+
+    string roomName = eng->getCurrentRoom()->getName();
+    string description = eng->getItemByName("room")->runVerb("look");
+    Command* command = NULL;
+    string inventoryItems[MAXITEM];
+    string droppedItems[MAXITEM];
+    string doorsInRoom[MAXDOORS];
+    int inventorySize = 0;
+    int droppedItemsSize = 0;
+    int doorsInRoomSize = 0;
+
+    vector<Item*>* inventory = eng->getInventory();
+
+    // Main loop
+    while (true) {
+        long score = eng->getScore();
+        inventorySize = inventory->size();
+        auto inventoryItr = inventory->begin();
+        int inventoryIndex = 0;
+        while (inventoryItr != inventory->end()) {
+            inventoryItems[inventoryIndex] = (*inventoryItr)->getName();
+            inventoryItr++;
+        }
+
+        string input = gameUI(0, roomName, description, inventoryItems, inventorySize, droppedItems, droppedItemsSize, doorsInRoom, doorsInRoomSize, score);
+        if (input.compare("quit") == 0) exit(1);
+
+        delete command; // Parser doesn't reset comman between calls
+        Command* command = new Command();
+        command->status = 0; // uninitialized unless this is here
+        parseIt(input, command);
+
+        // Success
+        if (command->status == 0) {
+            // Check if we can call the verb function
+            if (command->dirObj == NULL) {
+                // If no object, assume current room
+                command->dirObj = eng->getItemByName("room");
+            }
+
+            // If duplicate item, return error message
+            if (command->dirObj->isDuplicate()) {
+                description = "Which one?";
+                continue;
+            }
+            if (command->indObj != NULL && command->indObj->isDuplicate()) {
+                description = "Which one?";
+                continue;
+            }
+
+            // If verb invalid, assume "go" for doors and "look" for other items
+            if (eng->getVerb(command->verb).compare("") == 0) {
+                if (command->dirObj->isDoor()) {
+                    command->verb = "go";
+                } else {
+                    command->verb = "look";
+                }
+            }
+
+            // If there is an indirect object
+            if (command->indObj != NULL) {
+                // If dirObj can handle verb with an argument
+                if (command->dirObj->hasVerb(command->verb, true)) {
+                    description = command->dirObj->runVerb(command->verb, command->indObj);
+                } else {
+                    description = "That won't work";
+                }
+            } else { // No indirect object
+                if (command->dirObj->hasVerb(command->verb, false)) {
+                    description = command->dirObj->runVerb(command->verb);
+                } else {
+                    description = "That won't work";
+                }
+            }
+        } else { // Failure from parser
+            // Print error message from parser. Right now it goes to cout
+            description = "-parser error-";
+        }
+        
+    }
+
+    /* The first version, no UI or parser
     PyEngine* eng = PyEngine::getInstance();
 
     std::string verb;
@@ -84,4 +169,5 @@ int main()
 
         std::cout << std::endl;
     }
+    */
 }

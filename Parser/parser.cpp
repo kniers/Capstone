@@ -50,9 +50,9 @@ Command* parseIt(std::string parseMe, Command* com){
     getline(tokenStream, token, ' ');
 
     //is it a valid door/item?
-    if (aahhhh->getItemByName(token) != NULL){
+    if (aahhhh->getAccessibleItem(token) != NULL){
 	com->verb = "nope"; //no verb = describe item/enter door
-	com->dirObj = aahhhh->getItemByName(token);
+	com->dirObj = aahhhh->getAccessibleItem(token);
 	com->indObj = NULL;
 	com->dirDoorFlag = com->dirObj->isDoor();
 	//FIXME: check for two words
@@ -97,7 +97,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    return com;
 	}
 	//else is it a valid direction
-	else if (token.compare("north") == 0 ||
+	/*else if (token.compare("north") == 0 ||
 	         token.compare("south") == 0 ||
 	         token.compare("east") == 0 ||
 	         token.compare("west") == 0) {
@@ -109,21 +109,21 @@ Command* parseIt(std::string parseMe, Command* com){
 		com->errMessage = "I don't understand that command.\nYou listed two directions.\n";";
 		return com;
 	    }
-	}
+	}*/
 	//is it an item?
-	else if (aahhhh->getItemByName(token) != NULL){
+	else if (aahhhh->getAccessibleItem(token) != NULL){
 	    if (twoWords == true)
 		twoWords = false;
 	    //if direct object is blank
 	    if (com->dirObj == NULL){
-		com->dirObj = aahhhh->getItemByName(token);
+		com->dirObj = aahhhh->getAccessibleItem(token);
 		com->dirDoorFlag = com->dirObj->isDoor();
 	    }
 	    else if (com->indObj == NULL){
 		//if <verb> <dirObj> <preposition> <indObj>,
 		//save token as indirect object
 		if (hasPrep == true){
-		    com->indObj = aahhhh->getItemByName(token);
+		    com->indObj = aahhhh->getAccessibleItem(token);
 		    com->indDoorFlag = com->indObj->isDoor();
 		}
 		//otherwise, swap direct and indirect objects
@@ -137,7 +137,7 @@ Command* parseIt(std::string parseMe, Command* com){
 		    }
 		    com->indObj = com->dirObj;
 		    com->indDoorFlag = com->dirDoorFlag;
-		    com->dirObj = aahhhh->getItemByName(token);
+		    com->dirObj = aahhhh->getAccessibleItem(token);
 		    com->dirDoorFlag = com->dirObj->isDoor();
 		}
 	    }

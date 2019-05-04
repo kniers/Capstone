@@ -261,7 +261,7 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	return cppString;
 
 }
-
+/*
 //Main for testing interface
 int main(){
 	std::string input;
@@ -294,3 +294,4 @@ int main(){
 	}
 	return 0;
 }
+*/

@@ -46,6 +46,6 @@ void *inputWin();
 
 WINDOW *inputScr();
 
-std::string gameUI(int, std::string, std::string, std::string, int, std::string, int, std::string, int, int);
+std::string gameUI(int, std::string, std::string, std::string*, int, std::string*, int, std::string*, int, int);
 
 #endif
