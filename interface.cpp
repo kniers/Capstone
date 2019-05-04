@@ -34,13 +34,42 @@ WINDOW *createNewOutput(int h, int w, int y, int x){
 //Opening TBA3 Game Intro Window
 void introWindow(){
 	WINDOW *intro;
+	int row = 4;
+	int col = 0;
+	int prevWord;
+	int k = 1;
+	int reset = k;
+	char buf[256] = "You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion steal the wealth within and get out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n";
 	initscr();
         	
 	intro = createNewOutput(LINES/2,COLS/2,LINES/4,COLS/4);
-	mvwprintw(intro,2,2,"COCKTAIL HEIST\n");
+	mvwprintw(intro,0,0,"COCKTAIL HEIST\n");
 	wrefresh(intro);
 	sleep(1);
-	mvwprintw(intro,8,2,"You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion steal the wealth within and get out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n");
+	for(int i = 0; i < strlen(buf); i++){
+		if(buf[i] == ' '){
+			prevWord = i + 1; //track next word
+			reset = k + 1; //track col position
+		}
+		if(k % ((COLS/2)) == 0){
+			if(buf[i] != ' '){
+				i = prevWord;
+				while(buf[prevWord] != ' '){
+					mvwprintw(intro,row,reset," ");
+					prevWord++;
+					reset++;
+				}
+				k = 0;
+				reset = k;
+		}
+			//Reset col and increase rows
+			row++;
+			col = 0;
+		}
+		mvwprintw(intro,row,col,"%c",buf[i]);
+		col = col + 1;
+		k++;
+	}
 	wrefresh(intro);
 	wgetch(intro);
 
@@ -139,18 +168,11 @@ WINDOW *inputScr(){
 	int xCoord = (COLS / 2), yCoord = LINES - 8, height = 7, width = (COLS / 2) - 1;
 	return input = createNewOutput(height,width,yCoord,xCoord); 
 }
-//TBD function may not need
-/*
-void itemsWin(){
-	
-}
-*/
-
 
 /*Display Current Room or Item Description, game state, input window, graphic of room or item
-* Parameters: cppString cppDescription
+* Parameters: int roomID, string roomName, string Description, string inventory (userItems), int numItems, string items dropped in room, int number of items in room, string doors in room, int number of doors in the room, int user score 
 */
-std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::string userItems[MAXITEM], int numItems, std::string itemsInRoom[MAXITEM], int numItemsInRoom, int score){
+std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::string userItems[MAXITEM], int numItems, std::string itemsInRoom[MAXITEM], int numItemsInRoom, std::string doorsInRoom[MAXDOORS], int numDoors, int score){
 	std::string cppString;
 	char cDes[cppDes.size() + 1]; //c string to hold cppDes cpp string
 	strcpy(cDes, cppDes.c_str()); //copy cppDes into cDes for output with ncurses;
@@ -165,6 +187,11 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	char cItemsInRoom[numItemsInRoom][32];
 	for(int i = 0; i < numItemsInRoom; i++){
 		strcpy(cItemsInRoom[i], itemsInRoom[i].c_str());
+	}
+	//Move cpp doors strings into c string char array
+	char cDoorsInRoom[numDoors][32]; //char array of doors in room
+	for(int i = 0; i < numDoors; i++){ 
+		strcpy(cDoorsInRoom[i], doorsInRoom[i].c_str()); //Copy each door name into char array
 	}
 	int strlength = 0;  //to track string lengths in output windows
 	//Initialize ncurses
@@ -204,10 +231,9 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	wrefresh(stateWin); // Refresh stateWin to display items
 	mvwprintw(scoreOut, 0,0,"Score: %d",score);
 	wrefresh(scoreOut);	
-	mvwprintw(roomItemsWin, 0, 0, "Items in room: ");
-	wrefresh(roomItemsWin);
-	//Print all items in room
-	strlength = 16; //1 + Items in room:
+	mvwprintw(roomItemsWin, 0, 0, "Items dropped in room: ");
+	//Print all items dropped in room
+	strlength = 23; //1 + Items in room:
 	for(int i = 0; i < numItemsInRoom; i++){
 		mvwprintw(roomItemsWin, 0, strlength,"%s, ", cItemsInRoom[i]);
 		strlength = strlength + strlen(cItemsInRoom[i]) + 2; //strlength is equal to previous strings and ,+space
@@ -215,6 +241,11 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	wrefresh(roomItemsWin);
 	//Output doors available in room
 	mvwprintw(doorsOut, 0, 0, "Doors in room: ");
+	strlength = 15; //1 + Doors in room: 
+	for(int i = 0; i < numDoors; i++){
+		mvwprintw(doorsOut, 0, strlength,"%s, ", cDoorsInRoom[i]);
+		strlength = strlength + strlen(cDoorsInRoom[i]) + 2; //strlength is equal to previous strings and ,+space
+	}	
 	wrefresh(doorsOut);
 	mvwprintw(input, 0,0,"What would you like to do? ");
 	wrefresh(input);
@@ -230,7 +261,7 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	return cppString;
 
 }
-/*
+
 //Main for testing interface
 int main(){
 	std::string input;
@@ -238,6 +269,7 @@ int main(){
 	int  score;
 	std::string userItems[MAXITEM];
 	std::string roomItems[MAXITEM];
+	std::string doors[MAXDOORS];
 	std::string roomName;
 	int roomID;
 	description = "This upstairs bedroom has blue walls and oak wood floor. There are two windows to the south letting in natural light. In the center of the room on the west wall there is a queen sized bed with a gray spread. On the east wall there is a dresser and mirror.\n"; 
@@ -250,11 +282,15 @@ int main(){
 
 	roomItems[0] = "Bottle of Red Wine";
 	roomItems[1] = "Backpack";
-	roomItems[2] = "Sword"; 
+	roomItems[2] = "Sword";
+
+	doors[0] = "North door";
+	doors[1] = "East door";
+	doors[2] = "ladder up"; 
 	introWindow();
 	while(1){
-		input = gameUI(roomID, roomName, description, userItems,3, roomItems, 3, score);
+		input = gameUI(roomID, roomName, description, userItems,3 , roomItems, 3, doors, 3, score);
 		std::cout << input << std::endl;
 	}
 	return 0;
-}*/
+}
