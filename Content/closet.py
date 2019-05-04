@@ -45,7 +45,7 @@ class Closet:
 			if suit is not None:
 				suit.visible = True
 				currRoom.addItem('suit')
-			gown = eng.getItemByName('gown') #gown not implemented yet
+			gown = eng.getItemByName('gown')
 			if gown is not None:
 				gown.visible = True
 				currRoom.addItem('gown')				
@@ -57,12 +57,12 @@ aliases = ["wardrobe"]
 description = "It's a closet... Not much more to say about it. Open it if you'd like."
 items = ['suit', 'gown']
 properties = {'opened': False, 
-			'closedDesc': "It's a closet... Not much more to say about it. Open it if you'd like.",
-			'openDesc': "Pretty standard closet.\n",
-			'suitDesc': "Theres a suit hanging in there.",
-			'gownDesc': "There's a gown hanging in there. That's about it.",
-			'bothDesc': "There's a snazzy suit in there, or a gown if that's more your style.",
-			'neitherDesc': "There's nothing in the closet. BORING.",
-			'alreadyOpenDesc': "The closet is already open. You're really trying to open it twice? What does that even mean?"}
+			'closedDesc': "It's a closet... Not much more to say about it. Open it if you'd like. ",
+			'openDesc': "Pretty standard closet. ",
+			'suitDesc': "Theres a suit hanging in there. ",
+			'gownDesc': "There's a gown hanging in there. That's about it. ",
+			'bothDesc': "There's a snazzy suit in there, or a gown if that's more your style. ",
+			'neitherDesc': "There's nothing in the closet. BORING. ",
+			'alreadyOpenDesc': "The closet is already open. You're really trying to open it twice? What does that even mean? "}
 closet = Closet(aliases, description, items, properties)
 eng.setupItem(closet)

@@ -30,7 +30,7 @@ class MasterBedroom:
 	# Can be overridden by child classes so that long description can be dynamic based on state of items	
 	def _printLongDesc(self):
 		wearingSuitDesc = "You're dressed in a suit, so you're safe to go into the party - just don't act weird."
-		noClothing = "You're dressed as a burglar, so that's not going to work.\n" \
+		noClothing = "You're dressed as a burglar, so that's not going to work. " \
 					"There's got to be a way to change your appearance."
 		desc = self.longDesc
 		if eng.inInventory('suit'):
@@ -81,21 +81,20 @@ class MasterBedroom:
 		
 name = "Master Bedroom"
 aliases = ['master bed', 'bedroom', 'starting bedroom']
-shortDesc = "You're back in the bedroom that you started in.\n" \
-			"It doesn't look like anyone has been in here since you left,\n" \
-			"although it's hard to be sure.\n"
-longDesc = "You find yourself in what appears to be the master bedroom.\n" \
-			"Behind you is the window you entered in,\n" \
-			"although it probably won't be too useful without your ladder!\n" \
-			"There is a closet in front of you and a door to the left.\n" \
-			"There's a nightstand next to the closet as well.\n" \
-			"An open door to the right reveals the master bathroom. Pretty nice if you ask me!\n" \
-			"You're kinda stuck here right now. The window isn't really an option\n" \
-			"to leave through, so your only option is to somehow be a part of the party.\n"
+shortDesc = "You're back in the bedroom that you started in. " \
+			"It doesn't look like anyone has been in here since you left," \
+			"although it's hard to be sure. "
+longDesc = "You find yourself in what appears to be the master bedroom. " \
+			"Behind you is the window you entered in, " \
+			"although it probably won't be too useful without your ladder! " \
+			"There is a closet in front of you and a door to the left. " \
+			"There's a nightstand next to the closet as well. " \
+			"An open door to the right reveals the master bathroom. Pretty nice if you ask me! " \
+			"You're kinda stuck here right now. The window isn't really an option " \
+			"to leave through, so your only option is to somehow be a part of the party. "
 #doors = {'North': 'Master Bathroom Door', 'South': 'Master Bedroom Door', 'West': 'Bedroom Window'}
 doors = {}
-#items = ['closet', 'nightstand', 'suit']
-items = ['closet']
+items = ['closet', 'nightstand']
 
 		
 
@@ -108,18 +107,18 @@ print(eng.goToRoom(MasterBedroom)) # This line only because the master bedroom i
 '''
 name = "Master Bedroom"
 aliases = ["master bed", "bedroom"]
-shortDesc = "You're back in the bedroom that you started in.\n" \
-			"It doesn't look like anyone has been in here since you left,\n" \
-			"although it's hard to be sure.\n"
-longDesc = "You find yourself in what appears to be the master bedroom.\n" \
-			"Behind you is the window you entered in,\n" \
-			"although it probably won't be too useful without your ladder!\n" \
-			"There is a closet in front of you and a door to the left.\n" \
-			"An open door to the right reveals the master bathroom. Pretty nice if you ask me!\n" \
-			"You're kinda stuck here right now. The window isn't really an option\n" \
-			"to leave through, so your only option is to somehow be a part of the party.\n" \
-			"You're dressed like a burglar, so that's not going to work either.\n" \
-			"There's got to be a way to sneak out or a way to change your appearance!\n"
+shortDesc = "You're back in the bedroom that you started in." \
+			"It doesn't look like anyone has been in here since you left," \
+			"although it's hard to be sure."
+longDesc = "You find yourself in what appears to be the master bedroom." \
+			"Behind you is the window you entered in," \
+			"although it probably won't be too useful without your ladder!" \
+			"There is a closet in front of you and a door to the left." \
+			"An open door to the right reveals the master bathroom. Pretty nice if you ask me!" \
+			"You're kinda stuck here right now. The window isn't really an option" \
+			"to leave through, so your only option is to somehow be a part of the party." \
+			"You're dressed like a burglar, so that's not going to work either." \
+			"There's got to be a way to sneak out or a way to change your appearance!"
 doors = {'North': 'Master Bathroom Door', 'South': 'Master Bedroom Door'}
 items = ['suit']			
 firstRoom = MasterBedroom(name, aliases, shortDesc, longDesc, doors, items)
