@@ -42,9 +42,18 @@ std::string Room::getName()
 */
 PyObject* Room::callEnter()
 {
+    PyRun_SimpleString((char*)"import sys\nsys.stderr = open('err.txt', 'a')");
+
     PyObject* callable = PyObject_GetAttrString(pyRoom, (char*)"enterRoom");
     assertThat(PyCallable_Check(callable), "Room attribute \"enterRoom\" must be a function!");
-    return PyObject_CallFunction(callable, NULL);
+    //PyObject* retVal = PyObject_CallFunction(callable, NULL);
+    PyObject* retVal = PyObject_CallMethod(pyRoom, (char*)"enterRoom", NULL);
+    if (PyErr_Occurred()) {
+        PyErr_Print();
+        retVal = PyUnicode_FromString((char*)"An error has occurred. See err.txt for details.");
+    }
+    PyRun_SimpleString((char*)"import sys\nsys.stderr.close()");
+    return retVal;
 }
 
 /*

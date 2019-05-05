@@ -25,6 +25,8 @@ private:
     std::vector<Item*>* inventory;
     std::unordered_map<std::string, std::unordered_set<std::string>*>* verbs;
     Item* duplicateItem;
+    PyObject* locals;
+    PyObject* globals;
 
     /****************************************
      *      Internal access
@@ -83,6 +85,17 @@ public:
     char* currentFile;
 
     /****************************************
+     *      Debug API
+    ****************************************/
+    void debugConsole(std::string command);
+    std::string debugRooms();
+    std::string debugItems();
+    std::string debugDoors();
+    std::string debugRoomDetails(std::string roomName);
+    std::string debugItemDetails(std::string itemName);
+
+
+    /****************************************
      *      C++ API
     ****************************************/
     // Score   
@@ -108,6 +121,7 @@ public:
 // Python3 string conversion
 const char* getStringFromPyObject(PyObject* strObj);
 const char* getStringFromPyObject(PyObject* obj, const char* propertyName);
+std::string printPyObject(PyObject* obj);
 
 std::string lowercase(std::string inputString);
 

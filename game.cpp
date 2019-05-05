@@ -23,6 +23,8 @@ int main()
     int inventorySize = 0;
     int droppedItemsSize = 0;
     int doorsInRoomSize = 0;
+    bool debugMode = false;
+    bool debugConsole = false;
 
     vector<Item*>* inventory = eng->getInventory();
 
@@ -36,62 +38,110 @@ int main()
             inventoryItems[inventoryIndex] = (*inventoryItr)->getName();
             inventoryItr++;
         }
+        if (debugMode) {
+            roomName = "debug";
+        } else {
+            roomName = eng->getCurrentRoom()->getName();
+        }
 
         string input = gameUI(0, roomName, description, inventoryItems, inventorySize, droppedItems, droppedItemsSize, doorsInRoom, doorsInRoomSize, score);
         if (input.compare("quit") == 0) exit(1);
-
-        delete command; // Parser doesn't reset comman between calls
-        Command* command = new Command();
-        command->status = 0; // uninitialized unless this is here
-        parseIt(input, command);
-
-        // Success
-        if (command->status == 0) {
-            // Check if we can call the verb function
-            if (command->dirObj == NULL) {
-                // If no object, assume current room
-                command->dirObj = eng->getItemByName("room");
-            }
-
-            // If duplicate item, return error message
-            if (command->dirObj->isDuplicate()) {
-                description = "Which one?";
-                continue;
-            }
-            if (command->indObj != NULL && command->indObj->isDuplicate()) {
-                description = "Which one?";
-                continue;
-            }
-
-            // If verb invalid, assume "go" for doors and "look" for other items
-            if (eng->getVerb(command->verb).compare("") == 0) {
-                if (command->dirObj->isDoor()) {
-                    command->verb = "go";
-                } else {
-                    command->verb = "look";
-                }
-            }
-
-            // If there is an indirect object
-            if (command->indObj != NULL) {
-                // If dirObj can handle verb with an argument
-                if (command->dirObj->hasVerb(command->verb, true)) {
-                    description = command->dirObj->runVerb(command->verb, command->indObj);
-                } else {
-                    description = "That won't work";
-                }
-            } else { // No indirect object
-                if (command->dirObj->hasVerb(command->verb, false)) {
-                    description = command->dirObj->runVerb(command->verb);
-                } else {
-                    description = "That won't work";
-                }
-            }
-        } else { // Failure from parser
-            // Print error message from parser. Right now it goes to cout
-            description = "-parser error-";
+        if (input.compare("debug") == 0 && !debugMode) {
+            debugMode = true;
         }
-        
+        if (debugMode && input.compare("python") == 0) {
+            debugConsole = true;
+        }
+
+        if (!debugMode) {
+            delete command; // Parser doesn't reset comman between calls
+            Command* command = new Command();
+            command->status = 0; // uninitialized unless this is here
+            parseIt(input, command);
+
+            // Success
+            if (command->status == 0) {
+                // Check if we can call the verb function
+                if (command->dirObj == NULL) {
+                    // If no object, assume current room
+                    command->dirObj = eng->getItemByName("room");
+                }
+
+                // If duplicate item, return error message
+                if (command->dirObj->isDuplicate()) {
+                    description = "Which one?";
+                    continue;
+                }
+                if (command->indObj != NULL && command->indObj->isDuplicate()) {
+                    description = "Which one?";
+                    continue;
+                }
+
+                // If verb invalid, assume "go" for doors and "look" for other items
+                if (eng->getVerb(command->verb).compare("") == 0) {
+                    if (command->dirObj->isDoor()) {
+                        command->verb = "go";
+                    } else {
+                        command->verb = "look";
+                    }
+                }
+
+                // If there is an indirect object
+                if (command->indObj != NULL) {
+                    // If dirObj can handle verb with an argument
+                    if (command->dirObj->hasVerb(command->verb, true)) {
+                        description = command->dirObj->runVerb(command->verb, command->indObj);
+                    } else {
+                        description = "That won't work";
+                    }
+                } else { // No indirect object
+                    if (command->dirObj->hasVerb(command->verb, false)) {
+                        description = command->dirObj->runVerb(command->verb);
+                    } else {
+                        description = "That won't work";
+                    }
+                }
+            } else { // Failure from parser
+                // Print error message from parser. Right now it goes to cout
+                description = "-parser error-";
+            }
+        } else {
+            // Debug mode
+            if (debugConsole) {
+                if (input.compare("python") == 0) {
+                    description = "ENTERING PYTHON CONSOLE\nAll input will be interpreted as Python code. To go back to debug mode, type \".exit\"";
+                } else if (input.compare(".exit") == 0) {
+                    debugConsole = false;
+                    description = "ENTERING DEBUG MODE\nend - end debug mode\nhelp - print help menu\nrooms - print out room names\nitems - print out item names\ndoors - print out door names\n<room name> - details on a room\n<item or door name> - details on an item\npython - run python code";
+                } else {
+                    eng->debugConsole(input);
+                    description = "ENTERING PYTHON CONSOLE\nAll input will be interpreted as Python code. To go back to debug mode, type \".exit\"";
+                }
+            } else {
+                if (input.compare("debug") == 0 || input.compare("help") == 0) {
+                    description = "ENTERING DEBUG MODE\nend - end debug mode\nhelp - print help menu\nrooms - print out room names\nitems - print out item names\ndoors - print out door names\n<room name> - details on a room\n<item or door name> - details on an item\npython - run python code";
+                } else if (input.compare("end") == 0) {
+                    description = eng->getItemByName("room")->runVerb("look");
+                    debugMode = false;
+                }else if (input.compare("rooms") == 0) {
+                    description = eng->debugRooms();
+                } else if (input.compare("items") == 0) {
+                    description = eng->debugItems();
+                } else if (input.compare("doors") == 0) {
+                    description = eng->debugDoors();
+                } else {
+                    Item* debugItem = eng->getItemByName(input);
+                    Room* debugRoom = eng->getRoomByName(input);
+                    if (debugItem != NULL) {
+                        description = eng->debugItemDetails(input);
+                    } else if (debugRoom != NULL) {
+                        description = eng->debugRoomDetails(input);
+                    } else {
+                        description = "Did not recognize a command, room, or item";
+                    }
+                }
+            }
+        }
     }
 
     /* The first version, no UI or parser

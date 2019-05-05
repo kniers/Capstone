@@ -25,9 +25,183 @@ PyEngine* PyEngine::getInstance()
         instance->verbs = new std::unordered_map<std::string, std::unordered_set<std::string>*>();
         instance->duplicateItem = new Item(NULL, false, true);
         instance->LoadPyFiles("Content");
+        instance->locals = PyDict_New();
+        instance->globals = PyDict_New();
         std::remove("err.txt");
     }
     return instance;
+}
+
+/*
+    Run 1 line of Python code
+*/
+void PyEngine::debugConsole(std::string command)
+{
+    PyRun_SimpleString(command.c_str());
+}
+
+/*
+    Returns the list of all room names in the game
+*/
+std::string PyEngine::debugRooms()
+{
+    std::string ret = "";
+    auto itr = rooms.begin();
+    while (itr != rooms.end()) {
+        Room* room = itr->second;
+        itr++;
+        ret = ret + room->getName();
+        ret = ret + ", ";
+    }
+    ret = ret.substr(0, ret.size() - 2);
+    return ret;
+}
+
+/*
+    Returns the list of all non-door item names in the game
+*/
+std::string PyEngine::debugItems()
+{
+    std::string ret = "";
+    auto itr = items.begin();
+    while (itr != items.end()) {
+        Item* item = itr->second;
+        itr++;
+        if (!item->isDoor()) {
+            ret = ret + item->getName();
+            ret = ret + ", ";
+        }
+    }
+    ret = ret.substr(0, ret.size() - 2);
+    return ret;
+}
+
+/*
+    Returns the list of all door names in the game
+*/
+std::string PyEngine::debugDoors()
+{
+    std::string ret = "";
+    auto itr = items.begin();
+    while (itr != items.end()) {
+        Item* item = itr->second;
+        itr++;
+        if (item->isDoor()) {
+            ret = ret + item->getName();
+            ret = ret + ", ";
+        }
+    }
+    ret = ret.substr(0, ret.size() - 2);
+    return ret;
+}
+
+/*
+    Print out the details for a room
+*/
+std::string PyEngine::debugRoomDetails(std::string roomName)
+{
+    Room* room = getRoomByName(roomName);
+    if (room == NULL) {
+        return "Room not found";
+    }
+    std::string ret = "name = " + roomName + "\n";
+    PyObject* roomPyObj = room->getPyRoom();
+    if (PyObject_HasAttrString(roomPyObj, (char*)"aliases")) {
+        PyObject* aliases = PyObject_GetAttrString(roomPyObj, (char*)"aliases");
+        ret = ret + "aliases = " + printPyObject(aliases) + "\n";
+    }
+    if (PyObject_HasAttrString(roomPyObj, (char*)"items")) {
+        PyObject* items = PyObject_GetAttrString(roomPyObj, (char*)"items");
+        ret = ret + "items = " + printPyObject(items) + "\n";
+    }
+    if (PyObject_HasAttrString(roomPyObj, (char*)"doors")) {
+        PyObject* doors = PyObject_GetAttrString(roomPyObj, (char*)"doors");
+        ret = ret + "doors = " + printPyObject(doors) + "\n";
+    }
+    if (PyObject_HasAttrString(roomPyObj, (char*)"properties")) {
+        PyObject* properties = PyObject_GetAttrString(roomPyObj, (char*)"properties");
+        ret = ret + "properties = " + printPyObject(properties) + "\n";
+    }
+    if (PyObject_HasAttrString(roomPyObj, (char*)"visited")) {
+        PyObject* visited = PyObject_GetAttrString(roomPyObj, (char*)"visited");
+        ret = ret + "visited = " + printPyObject(visited) + "\n";
+    }
+    if (PyObject_HasAttrString(roomPyObj, (char*)"visible")) {
+        PyObject* visible = PyObject_GetAttrString(roomPyObj, (char*)"visible");
+        ret = ret + "visible = " + printPyObject(visible) + "\n";
+    }
+    return ret;
+}
+
+/*
+    Print out the details for an item or door
+*/
+std::string PyEngine::debugItemDetails(std::string itemName)
+{
+    Item* item = getItemByName(itemName);
+    if (item == NULL) {
+        return "Item not found";
+    }
+    std::string ret = "name = " + itemName + "\n";
+    PyObject* itemPyObj = item->getPyItem();
+    if (PyObject_HasAttrString(itemPyObj, (char*)"aliases")) {
+        PyObject* aliases = PyObject_GetAttrString(itemPyObj, (char*)"aliases");
+        ret = ret + "aliases = " + printPyObject(aliases) + "\n";
+    }
+    if (PyObject_HasAttrString(itemPyObj, (char*)"properties")) {
+        PyObject* properties = PyObject_GetAttrString(itemPyObj, (char*)"properties");
+        ret = ret + "properties = " + printPyObject(properties) + "\n";
+    }
+    if (PyObject_HasAttrString(itemPyObj, (char*)"visible")) {
+        PyObject* visible = PyObject_GetAttrString(itemPyObj, (char*)"visible");
+        ret = ret + "visible = " + printPyObject(visible) + "\n";
+    }
+    if (item->isDoor() && PyObject_HasAttrString(itemPyObj, (char*)"roomConnections")) {
+        PyObject* roomConnections = PyObject_GetAttrString(itemPyObj, (char*)"roomConnections");
+        ret = ret + "roomConnections = " + printPyObject(roomConnections) + "\n"; 
+    }
+    if (PyObject_HasAttrString(itemPyObj, (char*)"globalAccess")) {
+        PyObject* globalAccess = PyObject_GetAttrString(itemPyObj, (char*)"globalAccess");
+        ret = ret + "globalAccess = " + printPyObject(globalAccess) + "\n";
+    }
+
+    return ret;
+}
+
+/*
+    Turn a PyObject* to the string representation
+*/
+std::string printPyObject(PyObject* obj)
+{
+    if (obj == NULL) {
+        return "";
+    }
+    PyObject* reprObject = PyObject_Repr(obj);
+    std::string ret(getStringFromPyObject(reprObject));
+    return ret;
+    /*if (PyUnicode_Check(returnVal)) {
+        ret = getStringFromPyObject(returnVal);
+    } else if (PyBool_Check(returnVal) {
+        if (PyObject_IsTrue(returnVal)) {
+            ret = "True";
+        } else {
+            ret = "False";
+        }
+    } else if (PyList_Check(returnVal)) {
+        ret = "[";
+        Py_ssize_t num = PyList_Size(returnVal);
+        for (Py_ssize_t i = 0; i < num; i++) {
+            PyObject* element = PyList_GetItem(returnVal, i);
+            const char* elementStr = getStringFromPyObject(element);
+            ret = ret + elementStr;
+            if (i < num - 1) {
+                ret = ret + ", ";
+            }
+        }
+        ret = ret + "]";
+    } else if (PyDict_Check(returnVal)) {
+
+    }*/
 }
 
 /*
@@ -524,8 +698,8 @@ void PyEngine::LoadPyFiles(std::string directoryName)
                     fp = _Py_fopen(filename.c_str(), "r");
                     if (fp != NULL) {
                         currentFile = strdup(filename.c_str());
-                        //printf("Reading file: %s\n", currentFile);
-                        //fflush(stdout);
+                        printf("Reading file: %s\n", currentFile);
+                        fflush(stdout);
                         PyRun_SimpleFile(fp, filename.c_str()); 
                     } else {
                         fprintf(stderr, "Could not open file \n");
