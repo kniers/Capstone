@@ -1,19 +1,17 @@
+import eng
+
 class masterBathDoor:
-	def __init__(self, name, aliases, description, properties, roomConnections):
-		self.name = name 
+	name = "masterBathDoor"
+	
+	def __init__(self, aliases, description, properties, roomConnections):
 		self.type = "Door"
+		self.visible = True 
 		self.roomConnections = roomConnections
 		self.description = description	
 		self.aliases = aliases 
 		self.properties = properties
 		if "locked" not in self.properties:
-			self.properties["locked"] = False
-
-	def setViewed(self):
-		self.viewed = True
-	
-	def getViewed(self): # Can be used to check if room description should be changed
-		return self.viewed 	
+			self.properties["locked"] = False	
 
 	def isAlias(self, alias):
 		if alias in self.aliases:
@@ -21,11 +19,15 @@ class masterBathDoor:
 		else:
 			return False 
 	
-	def playerCanPassThrough(self):
-		if self.properties["locked"] == False:
-			return True
+	def go(self):
+		masterBed = eng.getRoomByName("masterBedroom")
+		masterBath = eng.getRoomByName("masterBathroom")
+		currRoom = eng.getCurrentRoom()
+		if currRoom == masterBed:
+			return eng.goToRoom(masterBath)
 		else:
-			return False
+			return eng.goToRoom(masterBed)
+
 
 	def look(self):
 		return self.description
@@ -39,16 +41,13 @@ class masterBathDoor:
 
 
 
-#TESTING
-'''
-name = "Master Bathroom Door"
-roomConnections = {"north": "Master Bathroom", "South": "Master Bedroom"}
+
+roomConnections = {"north": "masterBathroom", "South": "masterBedroom"}
 description = "The door from the master bedroom to the master bathroom"
-properties = {"locked": True}
+properties = {"locked": False}
 
-door = masterBathDoor(name, [], description, properties, roomConnections)
+masterBathDoor = masterBathDoor([], description, properties, roomConnections)
 
-print(door.look())
-print(door.playerCanPassThrough())
-'''
+eng.setupDoor(masterBathDoor)
+
 

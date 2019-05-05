@@ -1,7 +1,7 @@
 import eng 
 
 class MasterBedroom:
-	name = "Master Bedroom"
+	name = "masterBedroom"
 	
 	def __init__(self, aliases, properties, doorsToAdd, itemsToAdd):
 		self.visited = False 
@@ -71,7 +71,7 @@ class MasterBedroom:
 aliases = ['master bed', 'bedroom', 'starting bedroom']
 
 properties = {'shortDesc': "You're back in the bedroom that you started in. " \
-						   "It doesn't look like anyone has been in here since you left," \
+						   "It doesn't look like anyone has been in here since you left, " \
 						   "although it's hard to be sure. ", 
 			  'longDesc': "You find yourself in what appears to be the master bedroom. " \
 						  "Behind you is the window you entered in, " \
@@ -85,7 +85,7 @@ properties = {'shortDesc': "You're back in the bedroom that you started in. " \
 									  "There's got to be a way to change your appearance."}
 
 #doors = {'North': 'Master Bathroom Door', 'South': 'Master Bedroom Door', 'West': 'Bedroom Window'}
-doors = {}
+doors = {'North': 'masterBathDoor'}
 
 items = ['closet', 'nightstand']
 
