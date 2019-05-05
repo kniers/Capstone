@@ -11,59 +11,48 @@ class Suit:
 		self.items = items
 		self.properties = properties 
 	
+	
 	def isAlias(self, alias):
 		if alias in self.aliases:
 			return True
 		else:
 			return False 
 	
-	# Verb to get description of item  	
+
 	def look(self):
-		self.visible = True #Boolean 'visible' can be used to print different descriptions in some cases
+		self.visible = True
 		return self.description
 	
-	# Other verb. Suit isn't too complicated. Most items will have multiple of these functions.
+
 	def wear(self):
 		if 'wearing' not in self.properties:
 			self.properties['wearing'] = True 
 			eng.addToInventory(self)
 			currRoom = eng.getCurrentRoom()
 			currRoom.removeItem('suit')
-			return "The suit fits perfectly. Now you're ready for the cocktail party!\n" \
-				"Remember that you're here to steal stuff, not have a good time."
+			return self.properties['putOnSuit']
 		else:
-			return "You're already wearing the suit!"
+			return self.properties['alreadyWearing']
 	
 	# Take off the suit, if player is wearing it 
 	def remove(self):
 		if 'wearing' not in self.properties or self.properties['wearing'] == False:
-			return "How can you remove something that you're not even wearing?"
+			return self.properties['removeNotWeariing']
 		else:
 			self.properties['wearing'] = False
 			currRoom = eng.getCurrentRoom()
 			currRoom.addItem('suit')
 			eng.removeFromInventory(self)
-			return "You've removed the suit"
+			return self.properties['removeSuit']
 
 
 aliases = ["tux", "outfit", "clothes"]
-description = "What's this? It seems like a fancy suit, laid on the bed for someone to wear to the party.\nWhat size? 42 long.\nPerfect. Just your size. You'll be out of here in no time."
-suit = Suit(aliases, description, [], {})
+description = "Let's check out this suit. It's Italian, and likely expensive! What size? 42 long. Perfect. You'll be out of here in no time."
+properties = {'wearingDesc': "You're dressed in a suit, so you're safe to move around the party - just don't act weird.",
+			  'removeSuit': "You've removed the suit",
+			  'removeNotWearing': "How can you remove something that you're not even wearing?",
+			  'alreadyWearing': "You're already wearing the suit!",
+			  'putOnSuit': "The suit fits perfectly. Now you're ready for the cocktail party! " \
+						   "Remember that you're here to steal stuff, not have a good time."}
+suit = Suit(aliases, description, [], properties)
 eng.setupItem(suit)
-
-		
-# Testing
-'''
-name = "suit"
-aliases = ["tux", "outfit", "clothes"]
-description = "What's this? It seems like a fancy suit, laid on the bed for someone to wear to the party.\nWhat size? 42 long.\nPerfect. Just your size. You'll be out of here in no time."	
-suit = Suit(name, aliases, description, [], {})
-print("Suit has been viewed: " + str(suit.viewed) + "\n")
-print(suit.look() + "\n")
-print("Suit has been viewed: " + str(suit.viewed) + "\n")
-print(suit.wear())
-print(suit.wear())
-print("Suit is aliased by 'tux': " + str(suit.isAlias("tux")))
-print("Suit not aliased by 'notAnAlias': " + str(suit.isAlias("notAnAlias")))
-print(suit.type)
-'''
