@@ -27,6 +27,12 @@ class MasterBedroom:
 		
 	# Dynamic based on what player is wearing 	
 	def _printLongDesc(self):
+		if self.properties['initialized'] == False:
+			self.properties['initialized'] = True
+			desc = self.properties['longDesc']
+			desc += self.properties['noClothingDescAppend']
+			return desc
+
 		desc = self.properties['longDesc']
 		suit = eng.getItemByName('suit')
 		gown = eng.getItemByName('gown')
@@ -82,15 +88,16 @@ properties = {'shortDesc': "You're back in the bedroom that you started in. " \
 						  "You're kinda stuck here right now. The window isn't really an option " \
 						  "to leave through, so your only option is to somehow be a part of the party. ", 
 			  'noClothingDescAppend': "You're dressed as a burglar, so that's obviously not going to work. " \
-									  "There's got to be a way to change your appearance."}
+									  "There's got to be a way to change your appearance.",
+				'initialized': False}
 
 #doors = {'North': 'Master Bathroom Door', 'South': 'Master Bedroom Door', 'West': 'Bedroom Window'}
-doors = {'North': 'masterBathDoor'}
+doors = {'north': 'masterBathDoor'}
 
 items = ['closet', 'nightstand']
 
 		
 
-MasterBedroom = MasterBedroom(aliases, properties, doors, items)
-eng.setupRoom(MasterBedroom)
-print(eng.goToRoom(MasterBedroom)) # This line only because the master bedroom is the first room 
+masterBedroom = MasterBedroom(aliases, properties, doors, items)
+eng.setupRoom(masterBedroom)
+eng.goToRoom(masterBedroom) # This line only because the master bedroom is the first room 

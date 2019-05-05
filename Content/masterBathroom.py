@@ -66,7 +66,7 @@ properties = {'shortDesc': "You're in that master bathroom. Nothing in particula
 						  "Outside of possibly some jewelry, what would you really expect to find in a bathroom?"}
 
 
-doors = {'South': 'masterBathDoor'}
+doors = {'south': 'masterBathDoor'}
 
 items = []
 

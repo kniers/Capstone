@@ -42,7 +42,7 @@ class masterBathDoor:
 
 
 
-roomConnections = {"north": "masterBathroom", "South": "masterBedroom"}
+roomConnections = {"north": "masterBathroom", "south": "masterBedroom"}
 description = "The door from the master bedroom to the master bathroom"
 properties = {"locked": False}
 
