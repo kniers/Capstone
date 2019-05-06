@@ -99,7 +99,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	}
 	else {
 	    //print error
-	    com->error = "I don't understand that command. Make sure your command references a valid item or action.";
+	    com->errMessage = "I don't understand that command. Make sure your command references a valid item or action.";
 	    com->status = 1;
 	    return com;
 	}
@@ -154,7 +154,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	        }
 	    }
 	    //check for duplicate item
-	    Item* addMe = getAccessibleItem(token);
+	    Item* addMe = aahhhh->getAccessibleItem(token);
 	    if (addMe->isDuplicate() == true){//FIXME
 	        if (addMe->isDoor() == false || com->direction == 0){
 		    com->errMessage = "Which one?";
