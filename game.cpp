@@ -30,7 +30,8 @@ int main()
 
     // Main loop
     while (true) {
-        long score = eng->getScore();
+        //long score = eng->getScore(); // Getting the score causes a problem with error reporting. I'll fix it later
+        long score = -1;
         inventorySize = inventory->size();
         auto inventoryItr = inventory->begin();
         int inventoryIndex = 0;
