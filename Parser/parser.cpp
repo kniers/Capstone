@@ -51,24 +51,29 @@ Command* parseIt(std::string parseMe, Command* com){
 
     //is it a valid door/item?
     if (aahhhh->getAccessibleItem(token) != NULL){
+	//duplicates are bad
+	if (aahhhh->getAccessibleItem(token)->isDuplicate() == true){
+	    com->errMessage = "Which one?";
+	    com->status = 1;
+	    return com;
+	}
+	//if direction item, save direction
+	if (token.compare("north") == 0 ||
+	     token.compare("south") == 0 ||
+	     token.compare("east") == 0 ||
+	     token.compare("west") == 0) {
+	    com->direction = token.at(0);
+	}
+
 	com->verb = "nope"; //no verb = describe item/enter door
 	com->dirObj = aahhhh->getAccessibleItem(token);
 	com->indObj = NULL;
 	com->dirDoorFlag = com->dirObj->isDoor();
-	//FIXME: check for two words
     }
-    //else is it a valid direction
-    /*else if (token.compare("north") == 0 ||
-	     token.compare("south") == 0 ||
-	     token.compare("east") == 0 ||
-	     token.compare("west") == 0) {
-	com->direction = token.at(0);
-    }*/
     //else is it a valid verb
     else if (aahhhh->getVerb(token).compare("") != 0){
 	//save token as verb
 	com->verb = aahhhh->getVerb(token);
-	//FIXME: check for two words
     }
     else {
 	twoWords = true;
@@ -78,6 +83,26 @@ Command* parseIt(std::string parseMe, Command* com){
 	//cout << "Make sure your commands reference a valid item or action\n";
 	//com->status = 1;
 	//return com;
+    }
+
+    //FIXME: what if not this block?
+    //if two words, repeat this logic
+    if (twoWords == true && getline(tokenStream, token, ' ')) {
+	token = firstWord + " " + token;
+
+	//is it a valid door/item?
+	if (aahhhh->getAccessibleItem(token) != NULL){
+	    com->verb = "nope"; //no verb = describe item/enter door
+	    com->dirObj = aahhhh->getAccessibleItem(token);
+	    com->indObj = NULL;
+	    com->dirDoorFlag = com->dirObj->isDoor();
+	}
+	else {
+	    //print error
+	    com->error = "I don't understand that command. Make sure your command references a valid item or action.";
+	    com->status = 1;
+	    return com;
+	}
     }
 
     //get rest of tokens
@@ -92,7 +117,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	//tokens, and therefore shouldn't have entered this loop.
 	if (com->verb.compare("nope") == 0){
 	    //print error
-	    com->errMessage = "I don't understand that command\nIf you're not examining an object or going through a door, make sure you have an action in your command.\n";
+	    com->errMessage = "I don't understand that command. If you're not examining an object or going through a door, make sure you have an action in your command.";
 	    com->status = 1;
 	    return com;
 	}
@@ -106,7 +131,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    else {
 		//second direction means error
 		com->status = 1;
-		com->errMessage = "I don't understand that command.\nYou listed two directions.\n";";
+		com->errMessage = "I don't understand that command. You listed two directions.";
 		return com;
 	    }
 	}*/
@@ -114,16 +139,44 @@ Command* parseIt(std::string parseMe, Command* com){
 	else if (aahhhh->getAccessibleItem(token) != NULL){
 	    if (twoWords == true)
 		twoWords = false;
+	    //update direction if necessary
+	    if (token.compare("north") == 0 ||
+	        token.compare("south") == 0 ||
+	        token.compare("east") == 0 ||
+	        token.compare("west") == 0) {
+	        if (com->direction == 0) //if first direction
+	            com->direction = token.at(0);
+	        else {
+	            //second direction means error
+	            com->status = 1;
+	            com->errMessage = "I don't understand that command. You listed two directions.";
+	            return com;
+	        }
+	    }
+	    //check for duplicate item
+	    Item* addMe = getAccessibleItem(token);
+	    if (addMe->isDuplicate() == true){//FIXME
+	        if (addMe->isDoor() == false || com->direction == 0){
+		    com->errMessage = "Which one?";
+		    com->status = 1;
+		    return com;
+		}
+		else {
+		    //we've already got this item
+		    continue;
+		}
+	    }
+
 	    //if direct object is blank
 	    if (com->dirObj == NULL){
-		com->dirObj = aahhhh->getAccessibleItem(token);
+		com->dirObj = addMe;
 		com->dirDoorFlag = com->dirObj->isDoor();
 	    }
 	    else if (com->indObj == NULL){
 		//if <verb> <dirObj> <preposition> <indObj>,
 		//save token as indirect object
 		if (hasPrep == true){
-		    com->indObj = aahhhh->getAccessibleItem(token);
+		    com->indObj = addMe;
 		    com->indDoorFlag = com->indObj->isDoor();
 		}
 		//otherwise, swap direct and indirect objects
@@ -132,19 +185,19 @@ Command* parseIt(std::string parseMe, Command* com){
 		    //two objects, a direction, and no preposition
 		    if (com->direction != 0){
 			com->status = 1;
-			com->errMessage = "Huh?\n";
+			com->errMessage = "Huh?";
 			return com;
 		    }
 		    com->indObj = com->dirObj;
 		    com->indDoorFlag = com->dirDoorFlag;
-		    com->dirObj = aahhhh->getAccessibleItem(token);
+		    com->dirObj = addMe;
 		    com->dirDoorFlag = com->dirObj->isDoor();
 		}
 	    }
 	    //if this is the third object, we have a problem
 	    else {
 		//print error
-		com->errMessage = "I don't understand that command.\nMake sure you have at most two items in comands.\n";
+		com->errMessage = "I don't understand that command. Make sure you have at most two items in comands.";
 		com->status = 1;
 		return com;
 	    }
@@ -170,7 +223,7 @@ Command* parseIt(std::string parseMe, Command* com){
 		twoWords = true;
 	    }
 	    else {
-		com->errMessage = "There's a word in there I don't recognize.\n";
+		com->errMessage = "There's a word in there I don't recognize.";
 		com->status = 1;
 		return com;
 	    }
@@ -178,12 +231,18 @@ Command* parseIt(std::string parseMe, Command* com){
 
     }
 
-	//check for action with no object
-	if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
-	    cout << "I don't understand that command.\nMake sure actions have objects\n";
-	    com->status = 1;
-	    return com;
-	}
+    //check for action with no object
+    if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
+	com->errMessage = "I don't understand that command. Make sure actions have objects.";
+	com->status = 1;
+	return com;
+    }
+    //uncaught first word
+    if (twoWords == true){
+	com->errMessage = "There's a word in there I don't understand.";
+	com->status = 1;
+	return com;
+    }
 
     return com;
 }
