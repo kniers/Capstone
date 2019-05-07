@@ -30,35 +30,51 @@ int main()
 
     // Main loop
     while (true) {
-        //long score = eng->getScore(); // Getting the score causes a problem with error reporting. I'll fix it later
-        long score = -1;
+        // Refresh info to display on UI
+        Room* currentRoom = eng->getCurrentRoom();
+        long score = eng->getScore();
         inventorySize = inventory->size();
         auto inventoryItr = inventory->begin();
         int inventoryIndex = 0;
         while (inventoryItr != inventory->end()) {
             inventoryItems[inventoryIndex] = (*inventoryItr)->getName();
             inventoryItr++;
+            inventoryIndex++;
         }
+        vector<Item*> doors = currentRoom->getDoors();
+        doorsInRoomSize = doors.size();
+        auto doorsItr = doors.begin();
+        int doorIndex = 0;
+        // Note: using door names for now, but might change it to directions out of the room
+        while (doorsItr != doors.end()) {
+            doorsInRoom[doorIndex] = (*doorsItr)->getName();
+            doorsItr++;
+            doorIndex++;
+        }
+
+        // Show different room name if in debug mode
         if (debugMode) {
             roomName = "debug";
         } else {
-            roomName = eng->getCurrentRoom()->getName();
+            roomName = currentRoom->getName();
         }
 
+        // Update UI
         string input = gameUI(0, roomName, description, inventoryItems, inventorySize, droppedItems, droppedItemsSize, doorsInRoom, doorsInRoomSize, score);
-        if (input.compare("quit") == 0) exit(1);
-        if (input.compare("debug") == 0 && !debugMode) {
+        if (input.compare("quit") == 0) exit(1); // exit game
+        if (input.compare("debug") == 0 && !debugMode) { // Enter debug mode
             debugMode = true;
         }
-        if (debugMode && input.compare("python") == 0) {
+        if (debugMode && input.compare("python") == 0) { // Enter python console from debug mode
             debugConsole = true;
         }
 
+        // Normal route
         if (!debugMode) {
             delete command; // Parser doesn't reset comman between calls
             Command* command = new Command();
             command->status = 0; // uninitialized unless this is here
-            parseIt(input, command);
+            parseIt(input, command); // Call text parser
 
             // Success
             if (command->status == 0) {
@@ -110,17 +126,22 @@ int main()
             // Debug mode
             if (debugConsole) {
                 if (input.compare("python") == 0) {
-                    description = "ENTERING PYTHON CONSOLE\nAll input will be interpreted as Python code. To go back to debug mode, type \".exit\"";
+                    description = "PYTHON CONSOLE\nAll input will be interpreted as Python code. To go back to debug mode, type \".exit\"";
                 } else if (input.compare(".exit") == 0) {
                     debugConsole = false;
-                    description = "ENTERING DEBUG MODE\nend - end debug mode\nhelp - print help menu\nrooms - print out room names\nitems - print out item names\ndoors - print out door names\n<room name> - details on a room\n<item or door name> - details on an item\npython - run python code";
+                    description = "DEBUG MODE\nend - end debug mode\nhelp - print help menu\nrooms - print out room names\nitems - print out item names\ndoors - print out door names\n<room name> - details on a room\n<item or door name> - details on an item\npython - run python code";
                 } else {
-                    eng->debugConsole(input);
-                    description = "ENTERING PYTHON CONSOLE\nAll input will be interpreted as Python code. To go back to debug mode, type \".exit\"";
+                    bool success = eng->debugConsole(input);
+                    if (success) {
+                        description = "PYTHON CONSOLE\nAll input will be interpreted as Python code. To go back to debug mode, type \".exit\"";
+                    }
+                    else {
+                        description = "An error occurred. See err.txt for details. Type \".exit\" to exit python console";
+                    }
                 }
             } else {
                 if (input.compare("debug") == 0 || input.compare("help") == 0) {
-                    description = "ENTERING DEBUG MODE\nend - end debug mode\nhelp - print help menu\nrooms - print out room names\nitems - print out item names\ndoors - print out door names\n<room name> - details on a room\n<item or door name> - details on an item\npython - run python code";
+                    description = "DEBUG MODE\nend - end debug mode\nhelp - print help menu\nrooms - print out room names\nitems - print out item names\ndoors - print out door names\n<room name> - details on a room\n<item or door name> - details on an item\npython - run python code";
                 } else if (input.compare("end") == 0) {
                     description = eng->getItemByName("room")->runVerb("look");
                     debugMode = false;
@@ -144,81 +165,4 @@ int main()
             }
         }
     }
-
-    /* The first version, no UI or parser
-    PyEngine* eng = PyEngine::getInstance();
-
-    std::string verb;
-    std::string object;
-    std::string indirectObject;
-
-    while (true) {
-        std::cout << std::endl;
-
-        std::cout << "verb: ";
-        std::getline(std::cin, verb);
-
-        if (verb.compare("quit") == 0) exit(0);
-
-        std::cout << "object: ";
-        std::getline(std::cin, object);
-
-        if (object.compare("quit") == 0) exit(0);
-
-        std::cout << "indirect object: ";
-        std::getline(std::cin, indirectObject); 
-
-        std::cout << std::endl;
-
-        Item* item = eng->getAccessibleItem(object);
-
-        Item* indItem = NULL;
-        if (indirectObject.length() > 0) {
-            indItem = eng->getAccessibleItem(indirectObject);
-        }
-
-        if (indirectObject.length() > 0) {
-            if (indItem == NULL) {
-                std::cout << "Indirect object not recognized" << std::endl;
-                continue;
-            } else if (indItem->isDuplicate()) {
-                std::cout << "Which " << indirectObject << "?" << std::endl;
-                continue;
-            }
-        }
-        
-        if (item == NULL) {
-            std::cout << "Object not recognized" << std::endl;
-            continue;
-        } else if (item->isDuplicate()) {
-            std::cout << "Which " << object << "?" << std::endl;
-            continue;
-        } else {
-            if (verb.length() > 0) {
-                std::string officialVerb = eng->getVerb(verb);
-                if (officialVerb.length() > 0) {
-                    if (indItem == NULL && item->hasVerb(officialVerb, false)) {
-                        std::cout << item->runVerb(officialVerb);
-                    } else if (indItem != NULL && item->hasVerb(officialVerb, true)) {
-                        std::cout << item->runVerb(officialVerb, indItem);
-                    } else {
-                        std::cout << "Doesn't have verb" << std::endl;
-                        continue;
-                    }
-                } else {
-                    std::cout << "Verb not recognized" << std::endl;
-                    continue;
-                }
-            } else {
-                if (item->isDoor()) {
-                    std::cout << item->runVerb("go") << std::endl;
-                } else {
-                    std::cout << item->runVerb("look") << std::endl;
-                }
-            }
-        }
-
-        std::cout << std::endl;
-    }
-    */
 }

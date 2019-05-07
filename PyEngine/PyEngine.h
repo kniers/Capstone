@@ -18,7 +18,7 @@ private:
     /****************************************
      *      Engine Data Members
     ****************************************/
-    PyObject* score;
+    long score;
     std::map<std::string, Item*> items;
     std::map<std::string, Room*> rooms;
     Room* currentRoom;
@@ -87,7 +87,7 @@ public:
     /****************************************
      *      Debug API
     ****************************************/
-    void debugConsole(std::string command);
+    bool debugConsole(std::string command);
     std::string debugRooms();
     std::string debugItems();
     std::string debugDoors();

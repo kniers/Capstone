@@ -34,10 +34,16 @@ PyEngine* PyEngine::getInstance()
 
 /*
     Run 1 line of Python code
+    Return false if an error occurred
 */
-void PyEngine::debugConsole(std::string command)
+bool PyEngine::debugConsole(std::string command)
 {
-    PyRun_SimpleString(command.c_str());
+    PyRun_SimpleString((char*)"import sys\nsys.stderr = open('err.txt', 'a')");
+
+    int success = PyRun_SimpleString(command.c_str());
+    
+    PyRun_SimpleString((char*)"import sys\nsys.stderr.close()");
+    return (success == 0);
 }
 
 /*
@@ -227,7 +233,7 @@ Item* PyEngine::getItem(PyObject* pyItem)
 */
 long PyEngine::getScore()
 {
-    return PyLong_AsLong(score);
+    return score;
 }
 
 /*
@@ -235,8 +241,7 @@ long PyEngine::getScore()
 */
 void PyEngine::setScore(long newScore)
 {
-    score = PyLong_FromLong(newScore);
-    Py_INCREF(score);
+    score = newScore;
 }
 
 /*
@@ -244,8 +249,7 @@ void PyEngine::setScore(long newScore)
 */
 PyObject* PyEngine::emb_getScore(PyObject *self, PyObject *args)
 {
-    Py_INCREF(PyEngine::getInstance()->score);
-    return PyEngine::getInstance()->score;
+    return PyLong_FromLong(getInstance()->score);
 }
 
 /*
@@ -253,9 +257,10 @@ PyObject* PyEngine::emb_getScore(PyObject *self, PyObject *args)
 */
 PyObject* PyEngine::emb_setScore(PyObject *self, PyObject *args)
 {
-    PyArg_UnpackTuple(args, "", 1, 1, &(PyEngine::getInstance()->score));
-    Py_INCREF(PyEngine::getInstance()->score);
-    return PyEngine::getInstance()->score;
+    PyObject* newScore;
+    PyArg_UnpackTuple(args, "", 1, 1, &newScore);
+    getInstance()->score = PyLong_AsLong(newScore);
+    return Py_BuildValue("");
 }
 
 /*
