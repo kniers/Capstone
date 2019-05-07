@@ -1,5 +1,23 @@
 Text-Based Adventure Game
 
+Room List (need minimum 15):
+Master Bedroom
+Master Bathroom
+Hallway
+Bedroom 2 (Kid's room)
+Upstairs Office
+Staircase (Calling it a room since there will be interaction with the butler? Could just be a door otherwise)
+Billiard Room
+Dining Room
+Study
+Bar
+Kitchen
+Veranda/Porch
+Wine Cellar
+Foyer
+Backyard
+
+
 Main task: Steal the plans
 To complete this main task, the player needs to accomplish several sub-tasks:
 -Escape the bedroom
@@ -21,6 +39,15 @@ Tasks to complete:
 Notes:
 -Having both a suit and a gown in the closet could be a way for the player to choose the gender of the main character. We could even change various NPC interactions based on the character’s gender.
 
+Major Task: Search the upstairs office for anything valuable
+Purpose:
+Another simpler challenge for the burglar without any guests to deal with
+Obstacles:
+- There's a password protected computer
+- The password is hidden somewhere in the room (there will be a piece of artwork that has a big word written within it)
+- Once you are in the computer, there will be some banking passwords that you can steal
+- There's also a USB plugged into the computer that you can take  
+
 Major Task: Find the Safe
 Purpose:
 To familiarize the player with the world.
@@ -34,6 +61,21 @@ Tasks to complete:
 -Clear the room of guests and search the room
 Notes:
 -We could put a possible hiding place in several different rooms, but only the third room fully checked will contain the safe. We could have an int in the game state which tracks how many potential hiding places have been opened, and only reveal the safe (and set the safe’s location) when that number has reached a certain point.
+
+Major Task: Escape the party (through the foyer)
+Purpose:
+Head to safety, end the game, tally score
+Obstacles:
+- You have to talk to the host as you leave
+- You have to take the party favor he gives you on the way out, but be careful not to reveal all the stolen items in your pockets as you take the gift.
+Tasks:
+- Accept the party favor. Put it in a pocket that isn't carrying any other stolen items.
+- Distract the host momentarily and make a quick move towards the door.
+
+Minor Task: Take the book signed by Dr. Suess from Bedroom 2
+Purpose: One more thing to steal
+Obstacles:
+- None. Still very early in game, so pretty easy.
 
 Minor Task: Get downstairs
 Purpose:
@@ -98,6 +140,28 @@ Tasks:
 -Find the hiding place TBD
 Notes:	
 -This room should contain items needed for other rooms’ puzzles.
+
+Minor Task: Talk to the hired staff taking a break in the backyard
+Obstacles:
+- None, really
+Tasks:
+- Get as much information about the house out of them as possible 
+(the staff will have knowledge of the entire floor plan of the house and valuables they have seen laying around)
+
+Minor Task: Befriend the men smoking cigars on the veranda. Get them to offer you one (or two if you're extra ambitious)
+Purpose: One more small but valuable item. They're fancy Cuban cigars!
+Obstacles:
+- The men won't give up their expensive cigars easily, especially to someone they don't know
+- They would be more likely to give you one if you can get them some food from the kitchen or some wine from the cellar 
+
+Minor Task: Head to basement/wine cellar
+Purpose: An extra quest to find a few more valuable items
+Obstacles:
+- No partygoers are downstairs, so you have to be careful to slip down there unnoticed
+Tasks:
+- Find and steal the wine opener, engraved with it's original owner's name, George Washington
+- Take two glasses of wine to be delivered to the men on the veranda in exchange for cigars 
+
 
 Major Task: Get combination
 Purpose:
