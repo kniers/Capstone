@@ -54,5 +54,12 @@ int main(){
     cout << "go north\n";
     cout << c9.verb << ", " << c9.dirObj << ", " << c9.indObj << ", " << c9.direction << ", " << c9.status << "\n" << c9.errMessage << "\n";
 
+    Command c10;
+    parseIt("go masterBathDoor", &c10);
+    cout << "go masterBathDoor\n";
+    cout << c10.verb << ", " << c10.dirObj << ", " << c10.indObj << ", " << c10.direction << ", " << c10.status << "\n" << c10.errMessage << "\n";
+
+
+
     return 0;
 }

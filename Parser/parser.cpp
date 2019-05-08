@@ -34,9 +34,6 @@ using std::cout;
 Command* parseIt(std::string parseMe, Command* com){
 
     PyEngine* aahhhh = PyEngine::getInstance();
-    std::locale loc;
-    for (std::string::size_type i=0; i<parseMe.length(); i++)
-	std::cout << std::tolower(parseMe[i],loc);
 
     std::stringstream tokenStream;
     std::string token;
@@ -48,6 +45,15 @@ Command* parseIt(std::string parseMe, Command* com){
 
     //get first token
     getline(tokenStream, token, ' ');
+
+    //ignore "the"
+    if (token.compare("the") == 0){
+	if (!getline(tokenStream, token, ' ')){
+	    com->status = 1;
+	    com->errMessage = "You've said nothing of value.";
+	    return com;
+	}
+    }
 
     //is it a valid door/item?
     if (aahhhh->getAccessibleItem(token) != NULL){
@@ -78,45 +84,27 @@ Command* parseIt(std::string parseMe, Command* com){
     else {
 	twoWords = true;
 	firstWord = token;
-	//print error
-	//cout << "I don't understand that command\n";
-	//cout << "Make sure your commands reference a valid item or action\n";
-	//com->status = 1;
-	//return com;
-    }
-
-    //if two words, repeat this logic
-    if (twoWords == true && getline(tokenStream, token, ' ')) {
-	token = firstWord + " " + token;
-
-	//is it a valid door/item?
-	if (aahhhh->getAccessibleItem(token) != NULL){
-	    com->verb = "nope"; //no verb = describe item/enter door
-	    com->dirObj = aahhhh->getAccessibleItem(token);
-	    com->indObj = NULL;
-	    com->dirDoorFlag = com->dirObj->isDoor();
-	}
-	else {
-	    //print error
-	    com->errMessage = "I don't understand that command. Make sure your command references a valid item or action.";
-	    com->status = 1;
-	    return com;
-	}
     }
 
     //get rest of tokens
     while (getline(tokenStream, token, ' ')){
-	//skip the next token for two-word things
+	//ignore "the"
+	if (token.compare("the") == 0){
+	    getline(tokenStream, token, ' ');
+	    continue;
+	}
+
+	//combine two-word things into one token
 	if (twoWords == true){
 	    //twoWords = false;
 	    token = firstWord + " " + token;
 	}
 	//If the verb is not filled in, then we have a command of format
 	//<dirObj>. If this is the case, then we shouldn't have any more
-	//tokens, and therefore shouldn't have entered this loop.
-	if (com->verb.compare("nope") == 0){
+	//verbs
+	if (aahhhh->getVerb(token).compare("") != 0){
 	    //print error
-	    com->errMessage = "I don't understand that command. If you're not examining an object or going through a door, make sure you have an action in your command.";
+	    com->errMessage = "I don't understand that command. Make sure any action begins your command.";
 	    com->status = 1;
 	    return com;
 	}
@@ -124,6 +112,34 @@ Command* parseIt(std::string parseMe, Command* com){
 	else if (aahhhh->getAccessibleItem(token) != NULL){
 	    if (twoWords == true)
 		twoWords = false;
+
+	    //check for duplicate item
+	    Item* addMe = aahhhh->getAccessibleItem(token);
+	    if (addMe->isDuplicate() == true){
+	        if (addMe->isDoor() == false || com->direction == 0){
+		    com->errMessage = "Which one?";
+		    com->status = 1;
+		    return com;
+		}
+	    }
+	    //make sure we have only one door
+	    if (addMe->isDoor() == true){
+		if (com->direction == 0){
+		    //if we already have a door
+		    if (com->indDoorFlag == true || com->dirDoorFlag == true){
+			com->status = 1;
+			com->errMessage = "You can only have one door in a command!";
+			return com;
+		    }
+		    //otherwise we are good
+		}
+		//if there is a direction, first door has already been recorded
+		else {
+		    continue;
+		    //FIXME: what about second door?
+		}
+	    }
+
 	    //update direction if necessary
 	    if (token.compare("north") == 0 ||
 	        token.compare("south") == 0 ||
@@ -138,20 +154,8 @@ Command* parseIt(std::string parseMe, Command* com){
 	            return com;
 	        }
 	    }
-	    //check for duplicate item
-	    Item* addMe = aahhhh->getAccessibleItem(token);
-	    if (addMe->isDuplicate() == true){//FIXME
-	        if (addMe->isDoor() == false || com->direction == 0){
-		    com->errMessage = "Which one?";
-		    com->status = 1;
-		    return com;
-		}
-		else {
-		    //we've already got this item
-		    continue;
-		}
-	    }
 
+	    //now we place the verb we've checked
 	    //if direct object is blank
 	    if (com->dirObj == NULL){
 		com->dirObj = addMe;
@@ -166,7 +170,7 @@ Command* parseIt(std::string parseMe, Command* com){
 		}
 		//otherwise, swap direct and indirect objects
 		else {
-		    //error because there's no valid command with
+		    //error because we don't like commands with
 		    //two objects, a direction, and no preposition
 		    if (com->direction != 0){
 			com->status = 1;
@@ -187,7 +191,7 @@ Command* parseIt(std::string parseMe, Command* com){
 		return com;
 	    }
 	}
-        //else check for preposition
+        //else check for preposition or two word things
         else {
 	    //FIXME: deal with too many prepositions
 

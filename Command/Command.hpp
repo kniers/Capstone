@@ -34,6 +34,9 @@ public:
 	verb = "NULL";
 	dirObj = NULL;
 	indObj = NULL;
+	dirDoorFlag = false;
+	indDoorFlag = false;
+	status = 0;
     }
 };
 
