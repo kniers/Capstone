@@ -30,14 +30,14 @@ Purpose:
 This will teach the player how to (a) look around the room for things to interact with, (b) look inside items for other items, (c) equip items, and (d) traverse the world.
 Obstacles:
 -The door is locked
--Youíre not dressed for the party
+-You‚Äôre not dressed for the party
 Tasks to complete:
 -Find key in nightstand
 -Find suit/gown in closet
 -Equip suit/gown
 -Leave bedroom
 Notes:
--Having both a suit and a gown in the closet could be a way for the player to choose the gender of the main character. We could even change various NPC interactions based on the characterís gender.
+-Having both a suit and a gown in the closet could be a way for the player to choose the gender of the main character. We could even change various NPC interactions based on the character‚Äôs gender.
 
 Major Task: Search the upstairs office for anything valuable
 Purpose:
@@ -60,7 +60,7 @@ Tasks to complete:
 -Find the correct room
 -Clear the room of guests and search the room
 Notes:
--We could put a possible hiding place in several different rooms, but only the third room fully checked will contain the safe. We could have an int in the game state which tracks how many potential hiding places have been opened, and only reveal the safe (and set the safeís location) when that number has reached a certain point.
+-We could put a possible hiding place in several different rooms, but only the third room fully checked will contain the safe. We could have an int in the game state which tracks how many potential hiding places have been opened, and only reveal the safe (and set the safe‚Äôs location) when that number has reached a certain point.
 
 Major Task: Escape the party (through the foyer)
 Purpose:
@@ -81,7 +81,7 @@ Minor Task: Get downstairs
 Purpose:
 To keep part of the world inaccessible until the player is more comfortable with the game. This keeps the player from getting overwhelmed.
 Obstacles:
--The shrewd butler is blocking the top of the stairs. If he sees you, heíll recognize you and raise the alarm.
+-The shrewd butler is blocking the top of the stairs. If he sees you, he‚Äôll recognize you and raise the alarm.
 Tasks to complete:
 -Find that cute little maid the butler has a crush on?
 Notes:
@@ -97,7 +97,7 @@ Tasks:
 -Remove the party goers TBD
 -Find the hiding place TBD
 Notes:	
--This room should contain items needed for other roomsí puzzles.
+-This room should contain items needed for other rooms‚Äô puzzles.
 
 Minor Task: Search Dining room
 Purpose: To offer puzzles for the player to solve
@@ -105,10 +105,10 @@ Obstacles:
 -A bunch of men in their 20s and 30s are talking about horse races
 -More party goers TBD
 Tasks:
--Find ìFun koala factsî to bore the young men into leaving
+-Find ‚ÄúFun koala facts‚Äù to bore the young men into leaving
 -Find the hiding place TBD
 Notes:	
--This room should contain items needed for other roomsí puzzles.
+-This room should contain items needed for other rooms‚Äô puzzles.
 
 Minor Task: Search Study
 Purpose: To offer puzzles for the player to solve
@@ -119,7 +119,7 @@ Tasks:
 -Find a mouse to scare the ladies away
 -Find the hiding place TBD
 Notes:	
--This room should contain items needed for other roomsí puzzles.
+-This room should contain items needed for other rooms‚Äô puzzles.
 
 Minor Task: Search Bar
 Purpose: To offer puzzles for the player to solve
@@ -129,7 +129,7 @@ Tasks:
 -Remove/distract the party goers TBD
 -Find the hiding place TBD
 Notes:	
--This room should contain items needed for other roomsí puzzles.
+-This room should contain items needed for other rooms‚Äô puzzles.
 
 Minor Task: Search Kitchen
 Purpose: To offer puzzles for the player to solve
@@ -139,7 +139,7 @@ Tasks:
 -Remove/distract the party goers TBD
 -Find the hiding place TBD
 Notes:	
--This room should contain items needed for other roomsí puzzles.
+-This room should contain items needed for other rooms‚Äô puzzles.
 
 Minor Task: Talk to the hired staff taking a break in the backyard
 Obstacles:
@@ -165,8 +165,18 @@ Tasks:
 
 Major Task: Get combination
 Purpose:
-To test the playerís mastery of the game
+To test the player‚Äôs mastery of the game
 Obstacles:
 -TBD
 Tasks:
 -TBD
+
+Major Task: Steal original King James Bible from 1611
+Purpose: Increase score
+Obstacles:
+-Get father a shot of Whiskey after getting this information
+-Read from the bible prior to taking or others in the study may get suspicious if you just grab and run out.
+Tasks:
+-Got to the bar and talk with Father McVicker.He will share with you that there is an original King James Bible in the study. Get him a drink after this information or he may get suspicious. 
+-In study look in desk drawer. Get the bible.
+Value: $5000
