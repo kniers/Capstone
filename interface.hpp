@@ -15,6 +15,9 @@
 
 #define MAXITEM 12
 #define MAXDOORS 6
+#define MAXSTR 1024
+
+void printInWin(WINDOW , char, int,int);	
 
 WINDOW *createNewWin(int, int, int, int);
 
@@ -26,23 +29,25 @@ void graphicWin();
 
 WINDOW *graphicOutput();
 
-void *descriptionWin();
+void descriptionWin();
 
 WINDOW *descriptionOutput();
 
-void *itemsWin();
+void itemsWin();
 
 WINDOW *itemsOutput();
 
-void *doorsWin();
+void doorsWin();
 
 WINDOW *doorsOutput();
 
-WINDOW *gameStateWin();
+void *gameStateWin();
+
+WINDOW *inventoryOutput();
 
 WINDOW *scoreOutput();
 
-void *inputWin();
+void inputWin();
 
 WINDOW *inputScr();
 

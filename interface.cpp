@@ -1,11 +1,44 @@
 /* filename: interface.cpp
  * description: ncurses user interface for TBA3 Capstone project
- * version: 2019-05-03.1
+ * version: 2019-05-07.1
  * compile: g++ interface.cpp -o uiinit -lncurses: test run with uiinit
  * author: Adam Deaton
  */
 
 #include "interface.hpp"
+
+void printInWin(WINDOW *win, char buf[MAXSTR], int width, int row){
+	int col = 0;
+	int prevWord;
+	int k = 0;
+	int reset = k;
+	for(int i = 0; i < strlen(buf); i++){
+		if(buf[i] == ' '){
+			prevWord = i + 1; //track next word
+			reset = k + 1; //track col position
+		}
+		if(k % ((width)) == 0 && k != 0){
+			if(buf[i] != ' '){
+				i = prevWord;
+				while(buf[prevWord] != ' '){
+					mvwprintw(win,row,reset," ");
+					prevWord++;
+					reset++;
+				}
+				k = 0;
+				reset = k;
+			}
+			//Reset col and increase rows
+			row++;
+			col = 0;
+		}
+		mvwprintw(win,row,col,"%c",buf[i]);
+		col = col + 1;
+		k++;
+	}
+	wrefresh(win);
+}
+
 
 /* createNewWin function takes four parameters and produces a box on screen
  * parameters: height of box, width of box, starting top right corner y-coordinates, starting top right x-coordinates
@@ -37,7 +70,7 @@ void introWindow(){
 	int row = 4;
 	int col = 0;
 	int prevWord;
-	int k = 1;
+	int k = 0;
 	int reset = k;
 	char buf[256] = "You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion steal the wealth within and get out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n";
 	initscr();
@@ -51,7 +84,7 @@ void introWindow(){
 			prevWord = i + 1; //track next word
 			reset = k + 1; //track col position
 		}
-		if(k % ((COLS/2)) == 0){
+		if(k % ((COLS/2)) == 0 && k != 0){
 			if(buf[i] != ' '){
 				i = prevWord;
 				while(buf[prevWord] != ' '){
@@ -81,8 +114,8 @@ void introWindow(){
 
 //Graphic bordered window
 void graphicWin(){
-	WINDOW *graphic;
-	int xCoord = 0, yCoord = 2, height = LINES - 2, width = COLS / 2;
+	//Set coordinates and size of window
+	int xCoord = 0, yCoord = 3, height = LINES - 3, width = (COLS / 5) * 2;
 	createNewWin(height, width, yCoord, xCoord);
 
 }
@@ -91,60 +124,63 @@ void graphicWin(){
 //Graphics output window
 WINDOW *graphicOutput(){
 	WINDOW *graphicOut;
-	int xCoord = 1, yCoord = 3, height = LINES - 4, width = (COLS / 2) - 2;
+	int xCoord = 1, yCoord = 4, height = LINES - 5, width = ((COLS/5) * 2) - 2;
 	return graphicOut = createNewOutput(height, width, yCoord, xCoord);
 
 }
 
 //Description bordered window
-void *descriptionWin(){
-	WINDOW * desWin;
-	int xCoord = (COLS / 2) - 1, yCoord = 2, height = LINES - 10, width = (COLS / 2) + 1;
+void descriptionWin(){
+	int xCoord = ((COLS / 5)*2) - 1, yCoord = 3, height = LINES - 14, width = ((COLS / 5) * 3) + 3;
 	createNewWin(height,width,yCoord,xCoord);
 }
 
 //Description output window
 WINDOW *descriptionOutput(){
 	WINDOW * desOutput;
-	int xCoord = (COLS / 2), yCoord = 3, height = LINES - 9, width = (COLS / 2) - 1;
+	int xCoord = ((COLS / 5)*2), yCoord = 4, height = LINES - 12, width = ((COLS / 5) * 3) + 1;
 	return desOutput = createNewOutput(height,width,yCoord,xCoord);
 }
 
 //Room Items bordered window
-void *itemsWin(){
-	WINDOW * itemWin;
-	int xCoord = (COLS / 2) - 1, yCoord = LINES - 16, height = 5, width = (COLS / 2) + 1;
+void itemsWin(){
+	int xCoord = ((COLS / 5) * 2) - 1, yCoord = LINES - 13, height = 5, width = ((COLS / 5) * 3) + 3;
 	createNewWin(height,width,yCoord,xCoord);
 }
 
 //Room items output window
 WINDOW *itemsOutput(){
 	WINDOW * itemOutput;
-	int xCoord = (COLS / 2), yCoord = LINES - 15, height = 3, width = (COLS / 2) - 1;
+	int xCoord = (COLS / 5) * 2, yCoord = LINES - 12, height = 3, width = ((COLS / 5) * 3) + 1;
 	return itemOutput = createNewOutput(height,width,yCoord,xCoord);
 }
 
 
 //Room Doors bordered window
-void *doorsWin(){
-	WINDOW * doorsWin;
-	int xCoord = (COLS / 2) - 1, yCoord = LINES - 12, height = 4, width = (COLS / 2) + 1;
+void doorsWin(){
+	//Get coordinates and size
+	int xCoord = ((COLS / 5) * 2) - 1, yCoord = LINES - 9, height = 5, width = ((COLS / 5) * 3) + 3;
 	createNewWin(height,width,yCoord,xCoord);
 }
 
 //Room doors output window
 WINDOW *doorsOutput(){
 	WINDOW * doorsOutput;
-	int xCoord = (COLS / 2), yCoord = LINES - 11, height = 2, width = (COLS / 2) - 1;
+	int xCoord = (COLS / 5) * 2, yCoord = LINES - 8, height = 3, width = ((COLS / 5) * 3) + 1;
 	return doorsOutput = createNewOutput(height,width,yCoord,xCoord);
 }
 
 //Game State Windows showing user items and current score
-WINDOW *gameStateWin(){
-	WINDOW *stateWin;
-	int xCoord = 0, yCoord = 0, height = 3, width = COLS;
-	return stateWin = createNewWin(height,width,yCoord,xCoord);
+void *gameStateWin(){
+	int xCoord = 0, yCoord = 0, height = 4, width = COLS;
+	createNewWin(height,width,yCoord,xCoord);
 
+}
+
+WINDOW *inventoryOutput(){
+	WINDOW *invOut;
+	int xCoord = 1, yCoord = 1, height = 2, width = ((COLS / 6) * 5) - 1;
+	return invOut = createNewOutput(height,width,yCoord,xCoord);
 }
 
 WINDOW *scoreOutput(){
@@ -156,16 +192,15 @@ WINDOW *scoreOutput(){
 
 
 //Input window
-void *inputWin(){
-	WINDOW *inWin;
-	int xCoord = (COLS / 2) - 1, yCoord = LINES - 9, height = 9, width = (COLS / 2) + 1;
+void inputWin(){
+	int xCoord = ((COLS / 5) * 2) - 1, yCoord = LINES - 5, height = 5, width = ((COLS / 5) * 3) + 3;
 	createNewWin(height,width,yCoord,xCoord); 
 }
 
 //Input screen for commands
 WINDOW *inputScr(){
 	WINDOW *input;
-	int xCoord = (COLS / 2), yCoord = LINES - 8, height = 7, width = (COLS / 2) - 1;
+	int xCoord = (COLS / 5) * 2, yCoord = LINES - 4, height = 3, width = ((COLS / 5) * 3) + 1;
 	return input = createNewOutput(height,width,yCoord,xCoord); 
 }
 
@@ -199,14 +234,15 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	WINDOW *desOutput;
 	WINDOW *roomItemsWin;
 	WINDOW *doorsOut;
-	WINDOW *stateWin;
+	WINDOW *invOut;
 	WINDOW *scoreOut;
 	WINDOW *graphicOut;
 	WINDOW *input;
 	char inputStr[256]; //C-string for input
 	memset(inputStr,'\0',256);
 	//Load game windows
-	stateWin = gameStateWin(); // show user held items and current score
+	gameStateWin(); // show user held items and current score
+	invOut = inventoryOutput();
 	scoreOut = scoreOutput();
 	graphicWin(); // show room graphics
 	graphicOut = graphicOutput(); // graphic output window
@@ -218,17 +254,18 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	doorsOut = doorsOutput();
 	inputWin(); //input window bordered
 	input = inputScr(); //game waits for input
-	mvwprintw(desOutput, 0, 0, "%s\n%s", cRoomName, cDes);
+	mvwprintw(desOutput, 0, 0, "%s\n", cRoomName);
 	wrefresh(desOutput);
+	printInWin(desOutput,cDes,((COLS/5) * 3) + 1,1);
 	//Will need to loop items from array
-	mvwprintw(stateWin, 1, 1,"Items: ");
+	mvwprintw(invOut, 0, 0,"Inventory: ");
 	//Print all user held items
-	strlength = 8; //1 + Items: 
+	strlength = 11; //1 + Items: 
 	for(int i = 0; i < numItems; i++){
-		mvwprintw(stateWin, 1, strlength,"%s ", cUserItems[i]);
+		mvwprintw(invOut, 0, strlength,"%s ", cUserItems[i]);
 		strlength = strlength + strlen(cUserItems[i]) + 1;
 	}	
-	wrefresh(stateWin); // Refresh stateWin to display items
+	wrefresh(invOut); // Refresh stateWin to display items
 	mvwprintw(scoreOut, 0,0,"Score: %d",score);
 	wrefresh(scoreOut);	
 	mvwprintw(roomItemsWin, 0, 0, "Items dropped in room: ");
