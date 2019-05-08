@@ -85,7 +85,6 @@ Command* parseIt(std::string parseMe, Command* com){
 	//return com;
     }
 
-    //FIXME: what if not this block?
     //if two words, repeat this logic
     if (twoWords == true && getline(tokenStream, token, ' ')) {
 	token = firstWord + " " + token;
@@ -121,20 +120,6 @@ Command* parseIt(std::string parseMe, Command* com){
 	    com->status = 1;
 	    return com;
 	}
-	//else is it a valid direction
-	/*else if (token.compare("north") == 0 ||
-	         token.compare("south") == 0 ||
-	         token.compare("east") == 0 ||
-	         token.compare("west") == 0) {
-	    if (com->direction == 0) //if first direction
-		com->direction = token.at(0);
-	    else {
-		//second direction means error
-		com->status = 1;
-		com->errMessage = "I don't understand that command. You listed two directions.";
-		return com;
-	    }
-	}*/
 	//is it an item?
 	else if (aahhhh->getAccessibleItem(token) != NULL){
 	    if (twoWords == true)

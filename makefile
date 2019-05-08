@@ -18,8 +18,8 @@ Item.o: PyEngine/Item.cpp PyEngine/Room.h
 parser.o: Parser/parser.cpp Parser/parser.hpp PyEngine.o Item.o
 	g++ $(PYCFLAGS) $(PYLDFLAGS) $(CPPFLAGS) $(IDIRS) -c Parser/parser.cpp
 
-parserTest: parser.o Parser/parserTest.cpp
-	g++ $(PYCFLAGS) $(PYLDFLAGS) $(CPPFLAGS) $(IDIRS) parser.o PyEngine.o Room.o Item.o Parser/parserTest.cpp -o parserTest
+parserTest: parser.o parserTest.cpp
+	g++ $(PYCFLAGS) $(PYLDFLAGS) $(CPPFLAGS) $(IDIRS) parser.o PyEngine.o Room.o Item.o parserTest.cpp -o parserTest
 
 interface.o: interface.hpp interface.cpp
 	g++ $(CPPFLAGS) -c interface.cpp
