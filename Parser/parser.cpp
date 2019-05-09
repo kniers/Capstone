@@ -90,7 +90,6 @@ Command* parseIt(std::string parseMe, Command* com){
     while (getline(tokenStream, token, ' ')){
 	//ignore "the"
 	if (token.compare("the") == 0){
-	    getline(tokenStream, token, ' ');
 	    continue;
 	}
 
@@ -220,15 +219,16 @@ Command* parseIt(std::string parseMe, Command* com){
 
     }
 
-    //check for action with no object
-    if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
-	com->errMessage = "I don't understand that command. Make sure actions have objects.";
-	com->status = 1;
-	return com;
-    }
     //uncaught first word
     if (twoWords == true){
 	com->errMessage = "There's a word in there I don't understand.";
+	com->status = 1;
+	return com;
+    }
+
+    //check for action with no object
+    if (com->verb.compare("nope") != 0 && com->dirObj == NULL){
+	com->errMessage = "I don't understand that command. Make sure actions have objects.";
 	com->status = 1;
 	return com;
     }
