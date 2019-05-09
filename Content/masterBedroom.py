@@ -5,6 +5,7 @@ class MasterBedroom:
 	
 	def __init__(self, aliases, properties, doorsToAdd, itemsToAdd):
 		self.visited = False 
+		self.visible = True 
 		self.aliases = aliases 
 		self.properties = properties
 		self.doors = {}
@@ -74,7 +75,7 @@ class MasterBedroom:
 
 
 
-aliases = ['master bed', 'bedroom', 'starting bedroom']
+aliases = ["Master Bedroom", "master bed", "bedroom", "starting bedroom"]
 
 properties = {'shortDesc': "You're back in the bedroom that you started in. " \
 						   "It doesn't look like anyone has been in here since you left, " \
@@ -82,16 +83,16 @@ properties = {'shortDesc': "You're back in the bedroom that you started in. " \
 			  'longDesc': "You find yourself in what appears to be the master bedroom. " \
 						  "Behind you is the window you entered in, " \
 						  "although it probably won't be too useful without your ladder! " \
-						  "There is a closet in front of you and a door to the left. " \
+						  "There is a closet in front of you and a door to the south of the room. " \
 						  "There's a nightstand next to the closet as well. " \
-						  "An open door to the right reveals the master bathroom. Pretty nice if you ask me!\n" \
+						  "An open door on the north side of the room reveals the master bathroom. Pretty nice if you ask me!\n" \
 						  "You're kinda stuck here right now. The window isn't really an option " \
 						  "to leave through, so your only option is to somehow be a part of the party. ", 
 			  'noClothingDescAppend': "You're dressed as a burglar, so that's obviously not going to work. " \
 									  "There's got to be a way to change your appearance.",
 				'initialized': False}
 
-#doors = {'North': 'Master Bathroom Door', 'South': 'Master Bedroom Door', 'West': 'Bedroom Window'}
+
 doors = {'north': 'masterBathDoor'}
 
 items = ['closet', 'nightstand']

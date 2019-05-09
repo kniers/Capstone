@@ -47,7 +47,7 @@ class Suit:
 
 
 aliases = ["tux", "outfit", "clothes"]
-description = "Let's check out this suit. It's Italian, and likely expensive! What size? 42 long. Perfect. You'll be out of here in no time."
+description = "Let's check out this suit. It's Italian, and likely expensive! What size? 42 long. Perfect. If you choose to wear that, you'll be out of here in no time."
 properties = {'wearingDesc': "You're dressed in a suit, so you're safe to move around the party - just don't act weird.",
 			  'removeSuit': "You've removed the suit",
 			  'removeNotWearing': "How can you remove something that you're not even wearing?",

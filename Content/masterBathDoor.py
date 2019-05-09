@@ -41,12 +41,12 @@ class masterBathDoor:
 
 
 
-
+aliases = ["bathroom door", "door", "bathroom"]
 roomConnections = {"north": "masterBathroom", "south": "masterBedroom"}
-description = "The door from the master bedroom to the master bathroom"
+description = "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen."
 properties = {"locked": False}
 
-masterBathDoor = masterBathDoor([], description, properties, roomConnections)
+masterBathDoor = masterBathDoor(aliases, description, properties, roomConnections)
 
 eng.setupDoor(masterBathDoor)
 

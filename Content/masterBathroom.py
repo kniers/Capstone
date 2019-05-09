@@ -5,6 +5,7 @@ class MasterBathroom:
 	
 	def __init__(self, aliases, properties, doorsToAdd, itemsToAdd):
 		self.visited = False 
+		self.visible = True 
 		self.aliases = aliases 
 		self.properties = properties
 		self.doors = {}
@@ -56,7 +57,7 @@ class MasterBathroom:
 
 
 
-aliases = ['master bath', 'bathroom']
+aliases = ["master bath", "bathroom"]
 
 properties = {'shortDesc': "You're in that master bathroom. Nothing in particular stands out here. " \
 						   "It's not like the master bathroom is the most interesting room in the house. ",
