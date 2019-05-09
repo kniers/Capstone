@@ -59,7 +59,7 @@ Command* parseIt(std::string parseMe, Command* com){
     if (aahhhh->getAccessibleItem(token) != NULL){
 	//duplicates are bad
 	if (aahhhh->getAccessibleItem(token)->isDuplicate() == true){
-	    com->errMessage = "Which one?";
+	    com->errMessage = "Which " + token + "?";
 	    com->status = 1;
 	    return com;
 	}
