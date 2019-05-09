@@ -120,7 +120,7 @@ int main()
                 }
             } else { // Failure from parser
                 // Print error message from parser. Right now it goes to cout
-                description = "-parser error-";
+                description = command->errMessage;
             }
         } else {
             // Debug mode
