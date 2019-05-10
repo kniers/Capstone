@@ -20,8 +20,8 @@ class masterBathDoor:
 			return False 
 	
 	def go(self):
-		masterBed = eng.getRoomByName("masterBedroom")
-		masterBath = eng.getRoomByName("masterBathroom")
+		masterBed = eng.getRoomByName("Master Bedroom")
+		masterBath = eng.getRoomByName("Master Bathroom")
 		currRoom = eng.getCurrentRoom()
 		if currRoom == masterBed:
 			return eng.goToRoom(masterBath)
@@ -41,8 +41,8 @@ class masterBathDoor:
 
 
 
-aliases = ["bathroom door", "door", "bathroom"]
-roomConnections = {"north": "masterBathroom", "south": "masterBedroom"}
+aliases = ["door"]
+roomConnections = {"north": "Master Bathroom", "south": "Master Bedroom"}
 description = "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen."
 properties = {"locked": False}
 

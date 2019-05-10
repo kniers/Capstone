@@ -1,7 +1,7 @@
 import eng 
 
 class MasterBedroom:
-	name = "masterBedroom"
+	name = "Master Bedroom"
 	
 	def __init__(self, aliases, properties, doorsToAdd, itemsToAdd):
 		self.visited = False 
