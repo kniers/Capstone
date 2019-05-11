@@ -83,7 +83,7 @@ properties = {'shortDesc': "You're back in the bedroom that you started in. " \
 			  'longDesc': "You find yourself in what appears to be the master bedroom. " \
 						  "Behind you is the window you entered in, " \
 						  "although it probably won't be too useful without your ladder! " \
-						  "There is a closet in front of you and a door to the south of the room. " \
+						  "There is a closet on the south wall and a door on the west wall of the room. " \
 						  "There's a nightstand next to the closet as well. " \
 						  "An open door on the north side of the room reveals the master bathroom. Pretty nice if you ask me!\n" \
 						  "You're kinda stuck here right now. The window isn't really an option " \
@@ -93,7 +93,7 @@ properties = {'shortDesc': "You're back in the bedroom that you started in. " \
 				'initialized': False}
 
 
-doors = {'north': 'masterBathDoor'}
+doors = {'north': 'masterBathDoor', 'west': 'masterBedDoor'}
 
 items = ['closet', 'nightstand']
 
