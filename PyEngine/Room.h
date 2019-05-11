@@ -26,6 +26,7 @@ public:
     bool hasAlias(std::string roomName);
     std::vector<Item*> getItems();
     std::vector<Item*> getDoors();
+    std::vector<std::string> getDirections();
     void setVisited();
     std::vector<Item*> getDroppedItems();
 };

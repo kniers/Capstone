@@ -164,6 +164,31 @@ std::vector<Item*> Room::getDoors()
 }
 
 /*
+    Get a list of all the directions out of the room. The doors must be visible to be included in this list
+*/
+std::vector<std::string> Room::getDirections()
+{
+    std::vector<Item*> doorList = getDoors();
+    PyObject* doors = PyObject_GetAttrString(pyRoom, (char*)"doors");
+    assertThat(PyDict_Check(doors), "Error! doors must be a dictionary");
+    PyObject* directionList = PyDict_Keys(doors);
+
+    std::vector<std::string> directions;
+
+    Py_ssize_t size = PyList_Size(directionList);
+    for (Py_ssize_t i = 0; i < size; i++) {
+        if (doorList[i]->isVisible()) {
+            PyObject* dir = PyList_GetItem(directionList, i);
+            const char* dirStr = getStringFromPyObject(dir);
+            std::string dirCppStr(dirStr);
+            directions.push_back(dirCppStr);
+        }
+    }
+
+    return directions;
+}
+
+/*
     Flag the room as visited by the player
 */
 void Room::setVisited()

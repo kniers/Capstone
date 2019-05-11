@@ -31,8 +31,14 @@ int main()
     // Main loop
     while (true) {
         // Refresh info to display on UI
+
+        // Current room
         Room* currentRoom = eng->getCurrentRoom();
+
+        // Current score
         long score = eng->getScore();
+
+        // Inventory list
         inventorySize = inventory->size();
         auto inventoryItr = inventory->begin();
         int inventoryIndex = 0;
@@ -41,15 +47,27 @@ int main()
             inventoryItr++;
             inventoryIndex++;
         }
-        vector<Item*> doors = currentRoom->getDoors();
+
+        // Obvious exits. Only displays the direction of doors that are visible in the room
+        vector<string> doors = currentRoom->getDirections();
         doorsInRoomSize = doors.size();
         auto doorsItr = doors.begin();
         int doorIndex = 0;
-        // Note: using door names for now, but might change it to directions out of the room
         while (doorsItr != doors.end()) {
-            doorsInRoom[doorIndex] = (*doorsItr)->getName();
+            doorsInRoom[doorIndex] = *doorsItr;
             doorsItr++;
             doorIndex++;
+        }
+
+        // Items that were dropped by the player
+        vector<Item*> droppedItemsVector = currentRoom->getDroppedItems();
+        droppedItemsSize = droppedItemsVector.size();
+        auto droppedItr = droppedItemsVector.begin();
+        int droppedIndex = 0;
+        while (droppedItr != droppedItemsVector.end()) {
+            droppedItems[droppedIndex] = (*droppedItr)->getName();
+            droppedItr++;
+            droppedIndex++;
         }
 
         // Show different room name if in debug mode
@@ -61,6 +79,8 @@ int main()
 
         // Update UI
         string input = gameUI(0, roomName, description, inventoryItems, inventorySize, droppedItems, droppedItemsSize, doorsInRoom, doorsInRoomSize, score);
+
+        // Handle high level commands
         if (input.compare("quit") == 0 || input.compare("exit") == 0) exit(1); // exit game
         if (input.compare("debug") == 0 && !debugMode) { // Enter debug mode
             debugMode = true;
