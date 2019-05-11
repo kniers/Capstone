@@ -94,7 +94,7 @@ Item
 		Get an item based on the "name" property, no matter where the item is in the game
 
 	None addToInventory(Item itemToAdd)
-		Add an item to the player's inventory
+		Add an item to the player's inventory. Remove it from the current room
 
 	None removeFromInventory(Item itemToRemove)
 		Remove an item from the player's inventory
@@ -102,6 +102,8 @@ Item
 	Boolean inInventory(Item itemToCheck)
 		Check if the player has an item in their inventory
 
+	None dropItem(Item itemToDrop)
+		Drop an item in the current room and remove it from the inventory. Dropped items appear on UI
 
 Room
 	None setupRoom(Room newRoom)
@@ -129,9 +131,6 @@ Rooms are Python objects, so they don't need anything special for Python APIs. C
 
 	-- Room* doorTo(string roomName) -- implemented as a private function in PyEngine
 		Takes a room name, door name, or direction and returns a reference to the next room. Doors haven't been defined yet, but there will need to be a way of checking we can get through the door
-
-	-- void dropItem(Item* item) -- not implemented. Maybe it just handled in Python?
-		Drop the item in the room. Removes it from player's inventory. It can be picked up later with "get" command
 
 	-- bool hasDroppedItem(Item* item) -- not implemented yet
 		Returns true if the player dropped the item in the room. It can always be picked up with "get"

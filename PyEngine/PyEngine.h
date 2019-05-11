@@ -25,8 +25,7 @@ private:
     std::vector<Item*>* inventory;
     std::unordered_map<std::string, std::unordered_set<std::string>*>* verbs;
     Item* duplicateItem;
-    PyObject* locals;
-    PyObject* globals;
+
 
     /****************************************
      *      Internal access
@@ -57,6 +56,7 @@ private:
     static PyObject* emb_addToInventory(PyObject *self, PyObject *args);
     static PyObject* emb_removeFromInventory(PyObject *self, PyObject *args);
     static PyObject* emb_inInventory(PyObject *self, PyObject *args);
+    static PyObject* emb_dropItem(PyObject *self, PyObject *args);
 
     // Door
     static PyObject* emb_setupDoor(PyObject *self, PyObject *args);

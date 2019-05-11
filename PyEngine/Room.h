@@ -27,6 +27,7 @@ public:
     std::vector<Item*> getItems();
     std::vector<Item*> getDoors();
     void setVisited();
+    std::vector<Item*> getDroppedItems();
 };
 
 #endif

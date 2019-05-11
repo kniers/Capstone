@@ -111,6 +111,32 @@ std::vector<Item*> Room::getItems()
         items.push_back(item);
     }
 
+    // Add in any dropped items
+    std::vector<Item*> droppedItems = getDroppedItems();
+    items.insert(items.end(), droppedItems.begin(), droppedItems.end());
+
+    return items;
+}
+
+/*
+    Get items that the player dropped in the room
+*/
+std::vector<Item*> Room::getDroppedItems() 
+{
+    PyObject* droppedList = PyObject_GetAttrString(pyRoom, (char*)"droppedItems");
+    assertThat(PyList_Check(droppedList), "Error! droppedItems must be a list of item names!");
+
+    std::vector<Item*> items;
+
+    Py_ssize_t size = PyList_Size(droppedList);
+    for (Py_ssize_t i = 0; i < size; i++) {
+        PyObject* itemName = PyList_GetItem(droppedList, i);
+        const char* itemNameStr = getStringFromPyObject(itemName);
+        Item* item = PyEngine::getInstance()->getItemByName(itemNameStr);
+        assertThat((item != NULL), "Error! Dropped item in room not found");
+        items.push_back(item);
+    }
+
     return items;
 }
 

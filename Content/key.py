@@ -31,8 +31,9 @@ class Key:
 			# add key to inventory
 			eng.addToInventory(self)
 			# remove from room item list
-			currRoom = eng.getCurrentRoom()
-			currRoom.removeItem('key')
+			# Now automatic with addToInventory()!
+			#currRoom = eng.getCurrentRoom()
+			#currRoom.removeItem('key')
 			return self.properties['takeKey']
 	
 

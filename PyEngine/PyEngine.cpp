@@ -25,8 +25,6 @@ PyEngine* PyEngine::getInstance()
         instance->verbs = new std::unordered_map<std::string, std::unordered_set<std::string>*>();
         instance->duplicateItem = new Item(NULL, false, true);
         instance->LoadPyFiles("Content");
-        instance->locals = PyDict_New();
-        instance->globals = PyDict_New();
         std::remove("err.txt");
     }
     return instance;
@@ -119,6 +117,10 @@ std::string PyEngine::debugRoomDetails(std::string roomName)
     if (PyObject_HasAttrString(roomPyObj, (char*)"items")) {
         PyObject* items = PyObject_GetAttrString(roomPyObj, (char*)"items");
         ret = ret + "items = " + printPyObject(items) + "\n";
+    }
+    if (PyObject_HasAttrString(roomPyObj, (char*)"droppedItems")) {
+        PyObject* droppedItems = PyObject_GetAttrString(roomPyObj, (char*)"droppedItems");
+        ret = ret + "droppedItems = " + printPyObject(droppedItems) + "\n";
     }
     if (PyObject_HasAttrString(roomPyObj, (char*)"doors")) {
         PyObject* doors = PyObject_GetAttrString(roomPyObj, (char*)"doors");
@@ -291,7 +293,7 @@ PyObject* PyEngine::emb_loseGame(PyObject *self, PyObject *args)
 PyObject* PyEngine::emb_setupItem(PyObject *self, PyObject *args)
 {
     PyObject* pyitem;
-    Item* item;
+    Item* item = NULL;
     PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
     Py_INCREF(pyitem);
     const char* itemName = getStringFromPyObject(pyitem, (char*)"name");
@@ -435,6 +437,15 @@ PyObject* PyEngine::emb_setupRoom(PyObject *self, PyObject *args)
         assertThat(PyBool_Check(visitedFlag), "Room attribute \"visited\" must be a boolean!");
     }
 
+    // Add an array for items dropped in a room
+    if (!PyObject_HasAttrString(pyroom, (char*)"droppedItems")) {
+        PyObject* newDroppedItemsList = PyList_New(0);
+        PyObject_SetAttrString(pyroom, (char*)"droppedItems", newDroppedItemsList);
+    } else {
+        PyObject* droppedItemsList = PyObject_GetAttrString(pyroom, (char*)"droppedItems");
+        assertThat(PyList_Check(droppedItemsList), "Room attribute \"droppedItems\" must be a list!");
+    }
+
     return Py_BuildValue("");
 }
 
@@ -488,6 +499,52 @@ PyObject* PyEngine::emb_addToInventory(PyObject* self, PyObject *args)
     {
         std::vector<Item*>* inventory = getInstance()->inventory;
         inventory->push_back(item);
+
+        // Remove from current room
+        Room* currentRoom = getInstance()->getCurrentRoom();
+        std::vector<Item*> droppedItems = currentRoom->getDroppedItems();
+        std::vector<Item*> items = currentRoom->getItems();
+        if (std::find(droppedItems.begin(), droppedItems.end(), item) != droppedItems.end()) {
+            // remove from droppedItems
+            PyObject* pyRoom = currentRoom->getPyRoom();
+            PyObject* itemList = PyObject_GetAttrString(pyRoom, (char*)"droppedItems");
+            assertThat(PyList_Check(itemList), "Error! droppedItems must be a list of item names!");
+            
+            std::vector<Item*> items;
+
+            Py_ssize_t size = PyList_Size(itemList);
+            for (Py_ssize_t i = 0; i < size; i++) {
+                PyObject* itemName = PyList_GetItem(itemList, i);
+                const char* itemNameStr = getStringFromPyObject(itemName);
+                Item* checkItem = PyEngine::getInstance()->getItemByName(itemNameStr);
+                assertThat((checkItem != NULL), "Error! Item in room not found");
+                if (item == checkItem) {
+                    // Remove this item
+                    PyObject_DelItem(itemList, PyLong_FromLong(i));
+                    break;
+                }
+            }
+        } else if (std::find(items.begin(), items.end(), item) != items.end()) {
+            // remove from items
+            PyObject* pyRoom = currentRoom->getPyRoom();
+            PyObject* itemList = PyObject_GetAttrString(pyRoom, (char*)"items");
+            assertThat(PyList_Check(itemList), "Error! items must be a list of item names!");
+            
+            std::vector<Item*> items;
+
+            Py_ssize_t size = PyList_Size(itemList);
+            for (Py_ssize_t i = 0; i < size; i++) {
+                PyObject* itemName = PyList_GetItem(itemList, i);
+                const char* itemNameStr = getStringFromPyObject(itemName);
+                Item* checkItem = PyEngine::getInstance()->getItemByName(itemNameStr);
+                assertThat((checkItem != NULL), "Error! Item in room not found");
+                if (item == checkItem) {
+                    // Remove this item
+                    PyObject_DelItem(itemList, PyLong_FromLong(i));
+                    break;
+                }
+            }
+        }
     }
     return Py_BuildValue("");
 }
@@ -531,12 +588,37 @@ PyObject* PyEngine::emb_inInventory(PyObject *self, PyObject *args)
 }
 
 /*
+    Python API - remove an item from the inventory and add it as a dropped item in the current room
+*/
+PyObject* PyEngine::emb_dropItem(PyObject *self, PyObject *args)
+{
+    PyObject* pyitem;
+    PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
+    Item* item = getInstance()->getItem(pyitem);
+    if (item != NULL)
+    {
+        // Remove from inventory if in inventory
+        if (emb_inInventory(self, args)) {
+            emb_removeFromInventory(self, args);
+        }
+        // Add to current room's droppedItems
+        Room* currentRoom = getInstance()->getCurrentRoom();
+        PyObject* pyroom = currentRoom->getPyRoom();
+        PyObject* droppedItemsList = PyObject_GetAttrString(pyroom, (char*)"droppedItems");
+        const char* itemName = item->getName().c_str();
+        PyObject* pyItemName = PyUnicode_FromString(itemName);
+        PyList_Append(droppedItemsList, pyItemName);
+    }
+    return Py_BuildValue("");
+}
+
+/*
     Setup a new instance of a door item
 */
 PyObject* PyEngine::emb_setupDoor(PyObject *self, PyObject *args)
 {
     PyObject* pyitem;
-    Item* item;
+    Item* item = NULL;
     PyArg_UnpackTuple(args, "", 1, 1, &pyitem);
     Py_INCREF(pyitem);
     const char* doorName = getStringFromPyObject(pyitem, (char*)"name");
@@ -645,6 +727,7 @@ PyMethodDef PyEngine::EmbMethods[] =
     {"addToInventory", emb_addToInventory, METH_VARARGS, ""},
     {"removeFromInventory", emb_removeFromInventory, METH_VARARGS, ""},
     {"inInventory", emb_inInventory, METH_VARARGS, ""},
+    {"dropItem", emb_dropItem, METH_VARARGS, ""},
     {"setVerbs", emb_setVerbs, METH_VARARGS, ""},
     {"setupDoor", emb_setupDoor, METH_VARARGS, ""},
     {NULL, NULL, 0, NULL}
