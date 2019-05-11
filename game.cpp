@@ -61,12 +61,20 @@ int main()
 
         // Update UI
         string input = gameUI(0, roomName, description, inventoryItems, inventorySize, droppedItems, droppedItemsSize, doorsInRoom, doorsInRoomSize, score);
-        if (input.compare("quit") == 0) exit(1); // exit game
+        if (input.compare("quit") == 0 || input.compare("exit") == 0) exit(1); // exit game
         if (input.compare("debug") == 0 && !debugMode) { // Enter debug mode
             debugMode = true;
         }
         if (debugMode && input.compare("python") == 0) { // Enter python console from debug mode
             debugConsole = true;
+        }
+        if (!debugMode && input.compare("look") == 0) {
+            description = eng->getItemByName("room")->runVerb("look");
+            continue;
+        }
+        if (!debugMode && input.compare("help") == 0) {
+            description = "Here's where I'd put a help menu. IF I HAD ONE!";
+            continue;
         }
 
         // Normal route

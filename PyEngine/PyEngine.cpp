@@ -894,6 +894,17 @@ Item* PyEngine::getAccessibleItem(std::string itemName)
         }
     }
 
+    // Check current room
+    Room* currentRoom = getCurrentRoom();
+    if (lowercase(currentRoom->getName()).compare(itemName) == 0 || currentRoom->hasAlias(itemName)) {
+        Item* currentRoomItem = getItemByName("room");
+        if (item == NULL) {
+            item = currentRoomItem;
+        } else if (item != currentRoomItem) {
+            item = duplicateItem;
+        }
+    }
+
 
     return item;
 }
