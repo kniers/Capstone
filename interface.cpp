@@ -1,6 +1,6 @@
 /* filename: interface.cpp
  * description: ncurses user interface for TBA3 Capstone project
- * version: 2019-05-07.1
+ * version: 2019-05-11.1
  * compile: g++ interface.cpp -o uiinit -lncurses: test run with uiinit
  * author: Adam Deaton
  */
@@ -13,6 +13,13 @@ void printInWin(WINDOW *win, char buf[MAXSTR], int width, int row){
 	int k = 0;
 	int reset = k;
 	for(int i = 0; i < strlen(buf); i++){
+		//If newline increase row by one and reset all tracking variables
+		if(buf[i] == '\n'){
+			row++;
+			k = 0;
+			reset = k;
+			col = 0;
+		}
 		if(buf[i] == ' '){
 			prevWord = i + 1; //track next word
 			reset = k + 1; //track col position
@@ -309,7 +316,7 @@ int main(){
 	std::string doors[MAXDOORS];
 	std::string roomName;
 	int roomID;
-	description = "This upstairs bedroom has blue walls and oak wood floor. There are two windows to the south letting in natural light. In the center of the room on the west wall there is a queen sized bed with a gray spread. On the east wall there is a dresser and mirror.\n"; 
+	description = "This upstairs bedroom\n has blue walls and oak wood floor. There are two windows to the south letting in natural light. In the center of the room on the west wall there is a queen sized bed with a gray spread. On the east wall there is a dresser and mirror.\n"; 
 	roomID = 1;
 	roomName = "Bedroom";
 	score = 5500;
