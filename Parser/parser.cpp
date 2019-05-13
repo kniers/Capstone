@@ -57,7 +57,7 @@ Command* parseIt(std::string parseMe, Command* com){
 
     //is it a valid door/item?
     if (aahhhh->getAccessibleItem(token) != NULL){
-	//duplicates are bad
+	//check for ambiguous items
 	if (aahhhh->getAccessibleItem(token)->isDuplicate() == true){
 	    com->errMessage = "Which " + token + "?";
 	    com->status = 1;
@@ -81,6 +81,8 @@ Command* parseIt(std::string parseMe, Command* com){
 	//save token as verb
 	com->verb = aahhhh->getVerb(token);
     }
+    //if we don't recognize the token, we assume
+    //it's the first word of a two word item
     else {
 	twoWords = true;
 	firstWord = token;
@@ -98,9 +100,8 @@ Command* parseIt(std::string parseMe, Command* com){
 	    //twoWords = false;
 	    token = firstWord + " " + token;
 	}
-	//If the verb is not filled in, then we have a command of format
-	//<dirObj>. If this is the case, then we shouldn't have any more
-	//verbs
+	//a verb will always be the first word,
+	//so if we have another verb, error
 	if (aahhhh->getVerb(token).compare("") != 0){
 	    //print error
 	    com->errMessage = "I don't understand that command. Make sure any action begins your command.";
@@ -154,12 +155,13 @@ Command* parseIt(std::string parseMe, Command* com){
 	        }
 	    }
 
-	    //now we place the verb we've checked
-	    //if direct object is blank
+	    //now that we've checked the object, we place it
+	    //if our first object
 	    if (com->dirObj == NULL){
 		com->dirObj = addMe;
 		com->dirDoorFlag = com->dirObj->isDoor();
 	    }
+	    //else if our second object
 	    else if (com->indObj == NULL){
 		//if <verb> <dirObj> <preposition> <indObj>,
 		//save token as indirect object
@@ -206,10 +208,12 @@ Command* parseIt(std::string parseMe, Command* com){
 	    else if (token.compare("on") == 0)
 		hasPrep = true;
 	    //FIXME: more prepositions
+	    //if we don't recognize the word, assume we have two words
 	    else if (twoWords == false){
 		firstWord = token;
 		twoWords = true;
 	    }
+	    //two uncaught words
 	    else {
 		com->errMessage = "There's a word in there I don't recognize.";
 		com->status = 1;
