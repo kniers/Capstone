@@ -9,7 +9,7 @@ class Hallway:
 					'longDesc': "You find yourself in the hallway. To the north is a stairwell going down. " \
 								"To the south towards the end of the hallway is a door. " \
 								"Across from you (west) is another door, and obviously the door you came through is behind you. "}
-	doors = {'east': 'masterBedDoor', 'south': 'officeDoor', 'west': 'guestBedDoor'}
+	doors = {'east': 'masterBedDoor', 'south': 'officeDoor', 'north': 'guestBedDoor', 'west': 'secondBedDoor', 'down': 'staircase'}
 	items = []
 	properties = {'initialized': False}
 

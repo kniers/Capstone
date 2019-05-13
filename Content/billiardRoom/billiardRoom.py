@@ -1,13 +1,13 @@
 import eng 
 
-class GuestBedroom:
-	name = 'Guest Bedroom'
+class BilliardRoom:
+	name = 'Billiard Room'
 	visited = False
-	visible = False 
+	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the guest bedroom again. There's nothing here. ", 
-					'longDesc': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. "} 
-	doors = {'south': 'guestBedDoor'}
+	descriptions = {'shortDesc': "You're in the billiard room again. ", 
+					'longDesc': "The door leads you to what looks like a billiard room, with a bid billards table in the middle. "}
+	doors = {'north': 'galleryBilliardRoomDoor', 'east': 'billiardRoomConservatoryDoor', 'west': 'libraryBilliardRoomDoor'}
 	items = []
 	properties = {'initialized': False}
 
@@ -36,5 +36,5 @@ class GuestBedroom:
 		return self._printLongDesc()
 
 
-guestBed = GuestBedroom()
-eng.setupRoom(guestBed) 
+billiardRoom = BilliardRoom()
+eng.setupRoom(billiardRoom) 

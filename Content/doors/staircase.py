@@ -1,22 +1,22 @@
 import eng
 
-class GuestBedDoor:
-	name = 'guestBedDoor'
+class Staircase:
+	name = 'staircase'
 	visible = True 
-	aliases = ['door']
-	roomConnections = {'south': 'Hallway', 'north': 'Guest Bedroom'}
-	descriptions = {'desc': "Upon further inspection... there's nothing special about this door. It's from the hall to the guest bedroom."}
+	aliases = ['stair', 'stairs', 'stairway']
+	roomConnections = {'up': 'Hallway', 'down': 'Foyer'}
+	descriptions = {'desc': "It's a staircase. I'm sure you've used them before in your life. You can handle it. "}
 	properties = {'locked': False}
 
 	
 	def go(self):
-		bedroom = eng.getRoomByName('Guest Bedroom')
+		foyer = eng.getRoomByName('Foyer')
 		hall = eng.getRoomByName('Hallway')
 		currRoom = eng.getCurrentRoom()
-		if currRoom == bedroom:
+		if currRoom == foyer:
 			return eng.goToRoom(hall)
 		else:
-			return eng.goToRoom(bedroom)
+			return eng.goToRoom(foyer)
 
 
 	def look(self):
@@ -31,5 +31,5 @@ class GuestBedDoor:
 			return 'No room in that direction'
 
 
-guestBedDoor = GuestBedDoor()
-eng.setupDoor(guestBedDoor)
+staircase = Staircase()
+eng.setupDoor(staircase)

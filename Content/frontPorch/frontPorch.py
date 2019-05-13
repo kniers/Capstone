@@ -1,13 +1,13 @@
 import eng 
 
-class GuestBedroom:
-	name = 'Guest Bedroom'
+class FrontPorch:
+	name = 'Front Porch'
 	visited = False
-	visible = False 
+	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the guest bedroom again. There's nothing here. ", 
-					'longDesc': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. "} 
-	doors = {'south': 'guestBedDoor'}
+	descriptions = {'shortDesc': "You're on the front porch. ", 
+					'longDesc': "The door leads you to the porch at the front of the house. "}
+	doors = {'east': 'frontDoor'} #, 'north': 'ballroom', 'east': 'portraitGallery', 'west': 'frontPorch'}
 	items = []
 	properties = {'initialized': False}
 
@@ -36,5 +36,5 @@ class GuestBedroom:
 		return self._printLongDesc()
 
 
-guestBed = GuestBedroom()
-eng.setupRoom(guestBed) 
+frontPorch = FrontPorch()
+eng.setupRoom(frontPorch) 

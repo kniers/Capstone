@@ -1,22 +1,22 @@
 import eng
 
-class masterBathDoor:
-	name = 'masterBathDoor'
+class FoyerGalleryDoor:
+	name = 'foyerGalleryDoor'
 	visible = True 
 	aliases = ['door']
-	roomConnections = {'north': 'Master Bathroom', 'south': 'Master Bedroom'}
+	roomConnections = {'east': 'Portrait Gallery', 'west': 'Foyer'}
 	descriptions = {'desc': "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen."}
 	properties = {'locked': False}	
 			
 	
 	def go(self):
-		masterBed = eng.getRoomByName('Master Bedroom')
-		masterBath = eng.getRoomByName('Master Bathroom')
+		foyer = eng.getRoomByName('Foyer')
+		gallery = eng.getRoomByName('Portrait Gallery')
 		currRoom = eng.getCurrentRoom()
-		if currRoom == masterBed:
-			return eng.goToRoom(masterBath)
+		if currRoom == foyer:
+			return eng.goToRoom(gallery)
 		else:
-			return eng.goToRoom(masterBed)
+			return eng.goToRoom(foyer)
 
 
 	def look(self):
@@ -31,5 +31,5 @@ class masterBathDoor:
 			return 'No room in that direction'
 
 
-masterBathDoor = masterBathDoor()
-eng.setupDoor(masterBathDoor)
+foyerGalleryDoor = FoyerGalleryDoor()
+eng.setupDoor(foyerGalleryDoor)

@@ -1,26 +1,26 @@
 import eng
 
-class masterBathDoor:
-	name = 'masterBathDoor'
+class BallroomBathroomDoor:
+	name = 'ballroomBathroomDoor'
 	visible = True 
-	aliases = ['door']
-	roomConnections = {'north': 'Master Bathroom', 'south': 'Master Bedroom'}
+	aliases = ['door', 'bathroom door']
+	roomConnections = {'east': 'Ballroom', 'west': 'Bathroom'}
 	descriptions = {'desc': "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen."}
-	properties = {'locked': False}	
-			
+	properties = {'locked': False}
+	
 	
 	def go(self):
-		masterBed = eng.getRoomByName('Master Bedroom')
-		masterBath = eng.getRoomByName('Master Bathroom')
+		ballroom = eng.getRoomByName('Ballroom')
+		bathroom = eng.getRoomByName('Bathroom')
 		currRoom = eng.getCurrentRoom()
-		if currRoom == masterBed:
-			return eng.goToRoom(masterBath)
+		if currRoom == ballroom:
+			return eng.goToRoom(bathroom)
 		else:
-			return eng.goToRoom(masterBed)
+			return eng.goToRoom(ballroom)
 
 
 	def look(self):
-		return self.description
+		return self.descriptions['desc']
 
 		
 	# get connection from the perspective of the room the player is currently in
@@ -31,5 +31,5 @@ class masterBathDoor:
 			return 'No room in that direction'
 
 
-masterBathDoor = masterBathDoor()
-eng.setupDoor(masterBathDoor)
+ballroomBathroomDoor = BallroomBathroomDoor()
+eng.setupDoor(ballroomBathroomDoor)
