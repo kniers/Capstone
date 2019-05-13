@@ -9,7 +9,7 @@ class Office:
 					'longDesc': "The door leads you to what looks like an office. There's a desk with some stuff. " \
 								"It's windowless, and the only exit is back north through the door you came in. "}
 	doors = {'north': 'officeDoor'}
-	items = []
+	items = ['desk', 'letter opener', 'fountain pen']
 	properties = {'initialized': False}
 
 			

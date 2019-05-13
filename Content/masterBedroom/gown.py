@@ -10,13 +10,18 @@ class Gown:
 					'alreadyWearing': "You're already wearing the gown! ",
 					'putOnGown': "The gown fits perfectly. Now you're ready for the cocktail party! Remember that you're here to steal stuff, not have a good time.",
 					'remove': "You've removed the gown", 
-					'removeNotWearing': "How can you remove something that you're not even wearing? "}
+					'removeNotWearing': "How can you remove something that you're not even wearing? "
+					'eat': "You put the hem of the gown in your mouth. It doesn't taste very good, and it's hard to chew, so you take it out. "}
 	properties = {'wearing': False}
 		
 
 	def look(self):
 		self.visible = True
 		return self.descriptions['desc']
+
+
+	def eat(self):
+		return self.descriptions['eatGown']
 	
 
 	def wear(self):
