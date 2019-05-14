@@ -5,12 +5,13 @@ class Hallway:
 	visited = False
 	visible = False 
 	aliases = ['hall']
-	descriptions = {'shortDesc': "You're in the hallway again. There's still nobody else around. ", 
-					'longDesc': "You find yourself in the hallway. To the north is a stairwell going down. " \
+	#FIXME: change description based on state of butler
+	descriptions = {'shortDesc': "You're in the hallway again. ", 
+					'longDesc': "You find yourself in the hallway. To the north is a stairwell going down. Standing at the top of the stairwell is the butler." \
 								"To the south towards the end of the hallway is a door. " \
 								"Across from you (west) is another door, and obviously the door you came through is behind you. "}
 	doors = {'east': 'masterBedDoor', 'south': 'officeDoor', 'north': 'guestBedDoor', 'west': 'secondBedDoor', 'down': 'staircase'}
-	items = []
+	items = ['butler']
 	properties = {'initialized': False}
 
 			

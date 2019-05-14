@@ -12,7 +12,7 @@ class LetterOpener:
 					'eatLO': "You raise the letter opener to your mouth, but realize that a puncture wound in your throat probably wouldn't make your mission any easier.",
 					'dropNoHold': "You're not even carrying that.",
 					'drop': "You put down the letter opener."}
-	properties = {}
+	properties = {'sharp': False}
 	
 	
 	def look(self):
