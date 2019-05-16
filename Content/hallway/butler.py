@@ -18,7 +18,9 @@ class Butler:
 					'killButlerWithMaid': "The butler will be flirting with the maid for a while. Who are you to break up their happiness?",
 					'killFail': "That's probably not the best weapon.",
 					'killDead': "Stop! Stop! He's already dead!",
-					'alreadyTakenButler': "You've already got the body."}
+					'alreadyTakenButler': "You've already got the body.",
+					'dropNoHold': "You have to pick him up before you can drop him.",
+					'dropButler': "You place the butler's body in an out-of-the-way corner."}
 	properties = {'dead': False, 'withMaid': False}
 	
 	
@@ -42,8 +44,15 @@ class Butler:
 		#FIXME: We should prevent the player from carrying the butler downstairs somehow.
 
 
-	def drop(self, dropPoint):
+	def drop(self):
 		#FIXME: Give varying amounts of points depending on how good the player's hiding place is
+		if eng.inInventory(self) == False:
+			return self.descriptions['dropNoHold']
+		else:
+			eng.removeFromInventory(self)
+			currRoom = eng.getCurrentRoom()
+			currRoom.addItem('butler')
+			return self.descriptions['dropButler']
 
 
 	def touch(self):
@@ -69,9 +78,9 @@ class Butler:
 				if letterOpener.sharp:
 					self.dead = True
 					return self.descriptions['killButlerLOSuccess']
-				else
+				else:
 					return self.descriptions['killButlerLOFail']
-			else
+			else:
 				return self.descriptions['killFail']
 
 

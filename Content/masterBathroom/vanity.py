@@ -1,6 +1,6 @@
 import eng
 
-class vanity:
+class Vanity:
 	name = 'vanity'
 	#type = 'Item'
 	visible = True 

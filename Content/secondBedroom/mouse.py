@@ -46,7 +46,7 @@ class Mouse:
 			return self.descriptions['dropButlerDead']
 		else:
 			currRoom = eng.getCurrentRoom()
-			if currRoom.name == 'Guest Bedroom':
+			if currRoom.name == "Guest Bedroom":
 				hlwy = getRoomByName("hallway")
 				hlwy.items.remove('butler')
 				currRoom.addItem('butler')

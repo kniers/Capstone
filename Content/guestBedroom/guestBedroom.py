@@ -6,7 +6,7 @@ class GuestBedroom:
 	visible = False 
 	aliases = []
 	descriptions = {'shortDescA': "You're in the guest bedroom again. The maid is still asleep in the corner.",
-			'shortDescB': "You're in the guest bedroom again. The maid and butler are quietly chatting in the corner. They won't notice you.', 
+			'shortDescB': "You're in the guest bedroom again. The maid and butler are quietly chatting in the corner. They won't notice you.", 
 					'longDescA': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. There's a maid sleeping in the corner with a picture of the butler resting on her chest. ",
 					'longDescB': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. The maid and butler are quietly chatting in the corner. They won't notice you."} 
 	doors = {'south': 'guestBedDoor'}
