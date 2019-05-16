@@ -18,7 +18,7 @@ class Mousetrap:
 		self.visible = True
 		currRoom = eng.getCurrentRoom()
 		mouse = eng.getItemByName('mouse')
-		if mosue is not None:
+		if mouse is not None:
 			mouse.visible = True
 		return self.descriptions['desc']
 	
