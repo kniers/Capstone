@@ -3,7 +3,7 @@ import eng
 class Mousetrap:
 	name = 'mousetrap'
 	#type = 'Item'
-	visible = True 
+	visible = False 
 	aliases = ['trap']
 	descriptions = {'desc': "You look more closely at the mousetrap. Hey, there's a mouse inside! Who knew?",
 					'takeMT': "The mousetrap's a little too bulky to carry around, but you can take the mouse if you like.",

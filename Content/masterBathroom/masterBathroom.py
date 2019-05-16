@@ -10,9 +10,9 @@ class MasterBathroom:
 					'longDesc': "You've stepped into the master bathroom. It's remarkably clean, compared " \
 								"to the disgusting state you leave your own bathroom in at home. There " \
 								"doesn't appear to be anything valuable in view, which I guess can be expected. " \
-								"Outside of possibly some jewelry, what would you really expect to find in a bathroom?"}
+								"There's a vanity sitting between the sink and the bathtub."}
 	doors = {'south': 'masterBathDoor'}
-	items = []
+	items = ['bathtub', 'sink', 'vanity', 'rubber duck', 'strop']
 	properties = {}
 
 			

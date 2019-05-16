@@ -14,7 +14,7 @@ class LetterOpener:
 					'drop': "You put down the letter opener."
 					'sharpenFailLO': "You'll need something to sharpen that with.",
 					'sharpenWrongLO': "That won't work."
-					'sharpenSuccessLO': "You sharpen the letter opener."}
+					'sharpenSuccessLO': "You sharpen the letter opener. Now you're ready to go postal on the post."}
 	properties = {'sharp': False}
 	
 	
@@ -52,9 +52,9 @@ class LetterOpener:
 	def sharpen(self, otherThing):
 		if otherThing is None:
 			return self.descriptions['sharpenFailLO']
-		#elif otherThing is FIXME:
-		#	self.sharp = True
-		#	return self.descriptions['sharpenSuccessLO']
+		elif otherThing.name == 'strop':
+			self.sharp = True
+			return self.descriptions['sharpenSuccessLO']
 		else:
 			return self.descriptions['sharpenWrongLO']
 			
