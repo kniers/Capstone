@@ -6,9 +6,9 @@ class SecondBedroom:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the second bedroom again. ", 
-					'longDesc': "The door leads you to what looks like a standard second bedroom, maybe for a kid based on the painting? "}
+					'longDesc': "The door leads you to another bedroom. There's a mousetrap in the corner. "}
 	doors = {'east': 'secondBedDoor'}
-	items = []
+	items = ['mousetrap', 'mouse']
 	properties = {'initialized': False}
 
 			

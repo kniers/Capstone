@@ -15,10 +15,11 @@ class Butler:
 					'killButlerUnarmed': "You jump on the butler and begin pummeling him with your fists. He's very spry for his age, and manages to twist out of your grip. As you spar, he calls for help. You hear the sound of footsteps on the stairs. They have guns...\n\nYou snap out of the daydream. That won't work.",
 					'killButlerLOFail': "The letter opener isn't very sharp. The butler would call for help before you got him.",
 					'killButlerLOSuccess': "You cover the butler's mouth with one hand and stab his neck with the other. Success. You probably should hide the body so they can't track the murder back to Big Al.",
+					'killButlerWithMaid': "The butler will be flirting with the maid for a while. Who are you to break up their happiness?",
 					'killFail': "That's probably not the best weapon.",
 					'killDead': "Stop! Stop! He's already dead!",
 					'alreadyTakenButler': "You've already got the body."}
-	properties = {'dead': False}
+	properties = {'dead': False, 'withMaid': False}
 	
 	
 	def look(self):
@@ -57,7 +58,11 @@ class Butler:
 
 
 	def kill(self, weapon):
+		if self.withMaid:
+			return self.descriptions['killButlerWithMaid']
 		if self.dead:
+			return self.desciptions['killDead']
+		else:
 			if weapon is None:
 				return self.descriptions['killButlerUnarmed']
 			elif weapon is letterOpener:
@@ -68,9 +73,6 @@ class Butler:
 					return self.descriptions['killButlerLOFail']
 			else
 				return self.descriptions['killFail']
-		else:
-			return self.desciptions['killDead']
-		
 
 
 butler = Butler()

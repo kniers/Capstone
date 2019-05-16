@@ -11,7 +11,10 @@ class LetterOpener:
 					'touchLO': "You touch the letter opener. It's not very sharp, but will do in a pinch.",
 					'eatLO': "You raise the letter opener to your mouth, but realize that a puncture wound in your throat probably wouldn't make your mission any easier.",
 					'dropNoHold': "You're not even carrying that.",
-					'drop': "You put down the letter opener."}
+					'drop': "You put down the letter opener."
+					'sharpenFailLO': "You'll need something to sharpen that with.",
+					'sharpenWrongLO': "That won't work."
+					'sharpenSuccessLO': "You sharpen the letter opener."}
 	properties = {'sharp': False}
 	
 	
@@ -44,6 +47,17 @@ class LetterOpener:
 			currRoom = eng.getCurrentRoom()
 			currRoom.addItem('letter opener')
 			return self.descriptions['drop']
+
+
+	def sharpen(self, otherThing):
+		if otherThing is None:
+			return self.descriptions['sharpenFailLO']
+		#elif otherThing is FIXME:
+		#	self.sharp = True
+		#	return self.descriptions['sharpenSuccessLO']
+		else:
+			return self.descriptions['sharpenWrongLO']
+			
 
 letterOpener = LetterOpener()
 eng.setupItem(letterOpener)
