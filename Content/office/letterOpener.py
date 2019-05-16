@@ -11,9 +11,9 @@ class LetterOpener:
 					'touchLO': "You touch the letter opener. It's not very sharp, but will do in a pinch.",
 					'eatLO': "You raise the letter opener to your mouth, but realize that a puncture wound in your throat probably wouldn't make your mission any easier.",
 					'dropNoHold': "You're not even carrying that.",
-					'drop': "You put down the letter opener."
+					'drop': "You put down the letter opener.",
 					'sharpenFailLO': "You'll need something to sharpen that with.",
-					'sharpenWrongLO': "That won't work."
+					'sharpenWrongLO': "That won't work.",
 					'sharpenSuccessLO': "You sharpen the letter opener. Now you're ready to go postal on the post."}
 	properties = {'sharp': False}
 	
