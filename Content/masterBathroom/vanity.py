@@ -21,6 +21,10 @@ class Vanity:
 
 
 	def open(self):
+		currRoom = eng.getCurrentRoom()
+		strop = eng.getItemByName('strop')
+		if strop is not None:
+			strop.visible = True
 		return self.descriptions['openVanity']
 			
 

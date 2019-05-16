@@ -14,6 +14,10 @@ class Bathtub:
 	
 	def look(self):
 		self.visible = True
+		currRoom = eng.getCurrentRoom()
+		rDuck = eng.getItemByName('rubber duck')
+		if rDuck is not None:
+			rDuck.visible = True
 		return self.descriptions['desc']
 	
 	

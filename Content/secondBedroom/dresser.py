@@ -15,6 +15,10 @@ class Dresser:
 	
 	def look(self):
 		self.visible = True
+		currRoom = eng.getCurrentRoom()
+		mTrap = eng.getItemByName('mousetrap')
+		if mTrap is not None:
+			mTrap.visible = True
 		return self.descriptions['desc']
 	
 	
