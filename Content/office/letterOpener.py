@@ -3,7 +3,7 @@ import eng
 class LetterOpener:
 	name = 'letter opener'
 	#type = 'Item'
-	visible = False 
+	visible = True
 	aliases = []
 	descriptions = {'desc': "It's a letter opener. People with short fingernails use it to open letters.",
 					'takeLO': "You take the letter opener. No envelope will stand in your way now!",
@@ -52,7 +52,7 @@ class LetterOpener:
 		if otherThing is None:
 			return self.descriptions['sharpenFailLO']
 		elif otherThing.name == 'strop':
-			self.sharp = True
+			self.properties['sharp'] = True
 			return self.descriptions['sharpenSuccessLO']
 		else:
 			return self.descriptions['sharpenWrongLO']

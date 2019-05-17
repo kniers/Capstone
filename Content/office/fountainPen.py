@@ -3,7 +3,7 @@ import eng
 class FountainPen:
 	name = 'fountain pen'
 	#type = 'Item'
-	visible = False 
+	visible = True 
 	aliases = []
 	descriptions = {'desc': "It's a fountain pen. It's completely dry, and the ink must be locked in the desk.",
 					'takeFP': "You take the pen. You'll need some ink to use it, but you're otherwise prepared to write your life story.",

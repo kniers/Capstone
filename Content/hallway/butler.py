@@ -69,7 +69,7 @@ class Butler:
 		if self.properties['withMaid']:
 			return self.descriptions['killButlerWithMaid']
 		if self.properties['dead']:
-			return self.desciptions['killDead']
+			return self.descriptions['killDead']
 		else:
 			if weapon is None:
 				return self.descriptions['killButlerUnarmed']
