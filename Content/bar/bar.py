@@ -5,10 +5,10 @@ class Bar:
 	visited = False
 	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the bar again. ", 
-					'longDesc': "The door leads you to what looks like a bar. "}
+	descriptions = {'shortDesc': "You're in the bar again. People still enjoying conversation and drinks.", 
+					'longDesc': "The door leads you to what looks like a bar. The bar has the look of an old London upscale pub. There are a few people in the room enjoying themselves. At the bar you see a Catholic Priest."}
 	doors = {'west': 'ballroomBarDoor', 'east': 'barGardensDoor', 'south': 'barGalleryDoor'}
-	items = []
+	items = ['Catholic Priest']
 	properties = {'initialized': False}
 
 			
