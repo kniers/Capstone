@@ -11,7 +11,7 @@ class GuestBedroom:
 					'longDescB': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. The maid and butler are quietly chatting in the corner. They won't notice you."} 
 	doors = {'south': 'guestBedDoor'}
 	items = ['maid']
-	properties = {'initialized': False, maidAsleep: True}
+	properties = {'initialized': False, 'maidAsleep': True}
 
 			
 	def _printShortDesc(self):
@@ -25,7 +25,7 @@ class GuestBedroom:
 		if self.properties['initialized'] == False:
 			self.properties['initialized'] = True
 
-		if self.maidAsleep:
+		if self.properties['maidAsleep']:
 			return self.descriptions['longDescA']
 		else:
 			return self.descriptions['longDescB']
