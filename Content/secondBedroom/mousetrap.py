@@ -39,6 +39,7 @@ class Mousetrap:
 		currRoom = eng.getCurrentRoom()
 		mouse = eng.getItemByName('mouse')
 		if 'mouse' in currRoom.items:
+			mouse.visible = True
 			eng.addToInventory(mouse) # adds to inventory and removes from current room 
 			return self.descriptions['openMT']
 		else:

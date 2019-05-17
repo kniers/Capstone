@@ -74,7 +74,7 @@ class Butler:
 			if weapon is None:
 				return self.descriptions['killButlerUnarmed']
 			elif weapon is letterOpener:
-				if letterOpener.sharp:
+				if letterOpener.properties['sharp'] == True:
 					self.properties['dead'] = True
 					return self.descriptions['killButlerLOSuccess']
 				else:

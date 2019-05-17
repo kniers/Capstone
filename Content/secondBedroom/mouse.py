@@ -47,7 +47,7 @@ class Mouse:
 		else:
 			currRoom = eng.getCurrentRoom()
 			if currRoom.name == "Guest Bedroom":
-				hlwy = getRoomByName("hallway")
+				hlwy = eng.getRoomByName("hallway")
 				hlwy.items.remove('butler')
 				currRoom.addItem('butler')
 				butler.properties['withMaid'] = True
