@@ -26,17 +26,17 @@ class Butler:
 	
 	def look(self):
 		self.visible = True
-		if self.alive:
+		if self.properties['dead']:
 			return self.descriptions['descDead']
 		else:
-			return self.desciptions['descAlive']
+			return self.descriptions['descAlive']
 	
 	
 	def take(self):
 		if eng.inInventory(self):
 			return self.descriptions['alreadyTakenButler']
 		else:
-			if self.dead:
+			if self.properties['dead']:
 				eng.addToInventory(self) # adds to inventory and removes from current room 
 				return self.descriptions['takeButlerDead']
 			else:
@@ -56,7 +56,7 @@ class Butler:
 
 
 	def touch(self):
-		if self.dead:
+		if self.properties['dead']:
 			return self.descriptions['touchButlerDead']
 		else:
 			return self.descriptions['touchButlerAlive']
@@ -67,16 +67,16 @@ class Butler:
 
 
 	def kill(self, weapon):
-		if self.withMaid:
+		if self.properites['withMaid']:
 			return self.descriptions['killButlerWithMaid']
-		if self.dead:
+		if self.properties['dead']:
 			return self.desciptions['killDead']
 		else:
 			if weapon is None:
 				return self.descriptions['killButlerUnarmed']
 			elif weapon is letterOpener:
 				if letterOpener.sharp:
-					self.dead = True
+					self.properties['dead'] = True
 					return self.descriptions['killButlerLOSuccess']
 				else:
 					return self.descriptions['killButlerLOFail']
