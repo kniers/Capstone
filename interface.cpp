@@ -1,12 +1,16 @@
 /* filename: interface.cpp
  * description: ncurses user interface for TBA3 Capstone project
- * version: 2019-05-11.1
+ * version: 2019-05-17.1
  * compile: g++ interface.cpp -o uiinit -lncurses: test run with uiinit
  * author: Adam Deaton
  */
 
 #include "interface.hpp"
 
+/* printInWin takes a window and string and prints the string in the window while wrapping text
+ * parameters: pointer to WINDOW, char array, width of message, and row to start printing on in window
+ * returns: void
+ */
 void printInWin(WINDOW *win, char buf[MAXSTR], int width, int row){
 	int col = 0;
 	int prevWord;
@@ -24,20 +28,30 @@ void printInWin(WINDOW *win, char buf[MAXSTR], int width, int row){
 			prevWord = i + 1; //track next word
 			reset = k + 1; //track col position
 		}
+		//If line has ended
 		if(k % ((width)) == 0 && k != 0){
 			if(buf[i] != ' '){
 				i = prevWord;
 				while(buf[prevWord] != ' '){
 					mvwprintw(win,row,reset," ");
+					//increment thru word
 					prevWord++;
+					//increment thru line
 					reset++;
 				}
+				//Reset k and reset
 				k = 0;
 				reset = k;
 			}
 			//Reset col and increase rows
 			row++;
 			col = 0;
+			k = 0;
+			reset = 0;
+		}
+		//Prevent space on first character of a line
+		if(col == 0 && buf[i] == ' '){
+			i++;
 		}
 		mvwprintw(win,row,col,"%c",buf[i]);
 		col = col + 1;
@@ -74,24 +88,27 @@ WINDOW *createNewOutput(int h, int w, int y, int x){
 //Opening TBA3 Game Intro Window
 void introWindow(){
 	WINDOW *intro;
-	int row = 4;
+	int row = 20;
 	int col = 0;
+	//PrevWord k and reset for tracking words for wraping text
 	int prevWord;
 	int k = 0;
 	int reset = k;
-	char buf[256] = "You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion steal the wealth within and get out undetected. If you don't get enough loot, the boss will be angry. You know what happened to the last guy that made Big Al mad...\n";
+	//Intro game message
+	char buf[MAXSTR] = "You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion, steal the wealth within and get out undetected. Try not to spill any blood like last time. The Boss doesn't like to clean up any messes. If you don't get enough loot, the Boss will be angry. You know what happened to the last guy that made Big Al mad...\n";
 	initscr();
         	
-	intro = createNewOutput(LINES/2,COLS/2,LINES/4,COLS/4);
-	mvwprintw(intro,0,0,"COCKTAIL HEIST\n");
+	intro = createNewOutput(LINES - 1,COLS - 1,1,1);
+mvwprintw(intro,0,0,"  ______    ______    ______   __    __  ________   ______   ______  __\n /      \\  /      \\  /      \\ |  \\  /  \\|        \\ /      \\ |      \\|  \\\n|  ######\\|  ######\\|  ######\\| ## /  ## \\########|  ######\\ \\######| ##\n| ##   \\##| ##  | ##| ##   \\##| ##/  ##    | ##   | ##__| ##  | ##  | ##\n| ##      | ##  | ##| ##      | ##  ##     | ##   | ##    ##  | ##  | ##\n| ##   __ | ##  | ##| ##   __ | #####\\     | ##   | ########  | ##  | ##\n| ##__/  \\| ##__/ ##| ##__/  \\| ## \\##\\    | ##   | ##  | ## _| ##_ | ##_____\n \\##    ## \\##    ## \\##    ##| ##  \\##\\   | ##   | ##  | ##|   ## \\| ##     \\\n  \\######   \\######   \\######  \\##   \\##    \\##    \\##   \\## \\###### \\########\n\n           __    __  ________  ______   ______  ________\n          |  \\  |  \\|        \\|      \\ /      \\|        \\\n          | ##  | ##| ######## \\######|  ######\\\\########\n          | ##__| ##| ##__      | ##  | ##___\\##  | ##\n          | ##    ##| ##  \\     | ##   \\##    \\   | ##\n          | ########| #####     | ##   _\\######\\  | ##\n          | ##  | ##| ##_____  _| ##_ |  \\__| ##  | ##\n          | ##  | ##| ##     \\|   ## \\ \\##    ##  | ##\n           \\##   \\## \\######## \\######  \\######    \\##\n");    
 	wrefresh(intro);
 	sleep(1);
+	//Print intro game message in window
 	for(int i = 0; i < strlen(buf); i++){
 		if(buf[i] == ' '){
 			prevWord = i + 1; //track next word
 			reset = k + 1; //track col position
 		}
-		if(k % ((COLS/2)) == 0 && k != 0){
+		if(k % ((COLS - 4)) == 0 && k != 0){
 			if(buf[i] != ' '){
 				i = prevWord;
 				while(buf[prevWord] != ' '){
@@ -105,6 +122,12 @@ void introWindow(){
 			//Reset col and increase rows
 			row++;
 			col = 0;
+			k = 0;
+			reset = 0;
+		}
+		//Prevent space on first char of a line
+		if(col == 0 && i == ' '){
+			i++;
 		}
 		mvwprintw(intro,row,col,"%c",buf[i]);
 		col = col + 1;
