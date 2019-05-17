@@ -50,8 +50,7 @@ class Butler:
 			return self.descriptions['dropNoHold']
 		else:
 			eng.removeFromInventory(self)
-			currRoom = eng.getCurrentRoom()
-			currRoom.addItem('butler')
+			eng.dropItem(self)
 			return self.descriptions['dropButler']
 
 

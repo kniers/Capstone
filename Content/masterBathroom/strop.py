@@ -37,8 +37,7 @@ class Strop:
 			return self.descriptions['dropNoHold']
 		else:
 			eng.removeFromInventory(self)
-			currRoom = eng.getCurrentRoom()
-			currRoom.addItem('strop')
+			eng.dropItem(self)
 			return self.descriptions['dropStrop']
 
 

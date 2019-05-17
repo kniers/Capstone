@@ -35,8 +35,7 @@ class Suit:
 		else:
 			self.properties['wearing'] = False
 			eng.removeFromInventory(self)
-			currRoom = eng.getCurrentRoom()
-			currRoom.addItem('suit')
+			eng.dropItem(self)
 			return self.descriptions['removeSuit']
 
 

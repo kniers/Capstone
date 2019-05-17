@@ -36,8 +36,7 @@ class RubberDuck:
 			return self.descriptions['dropNoHold']
 		else:
 			eng.removeFromInventory(self)
-			currRoom = eng.getCurrentRoom()
-			currRoom.addItem('rubber duck')
+			eng.dropItem(self)
 			return self.descriptions['dropDuck']
 
 
