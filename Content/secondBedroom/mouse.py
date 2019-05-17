@@ -42,7 +42,7 @@ class Mouse:
 		butler = eng.getItemByName("butler")
 		if eng.inInventory(self) == False:
 			return self.descriptions['dropNoHold']
-		elif butler.dead:
+		elif butler.properties['dead'] == True:
 			return self.descriptions['dropButlerDead']
 		else:
 			currRoom = eng.getCurrentRoom()
@@ -50,8 +50,8 @@ class Mouse:
 				hlwy = getRoomByName("hallway")
 				hlwy.items.remove('butler')
 				currRoom.addItem('butler')
-				butler.withMaid = True
-				currRoom.maidAsleep = False
+				butler.properties['withMaid'] = True
+				currRoom.properties['maidAsleep'] = False
 				eng.removeFromInventory(self)
 				return self.descriptions['dropYes']
 			else:

@@ -15,7 +15,7 @@ class GuestBedroom:
 
 			
 	def _printShortDesc(self):
-		if self.maidAsleep:
+		if self.properties['maidAsleep'] == True:
 			return self.descriptions['shortDescA']
 		else:
 			return self.descriptions['shortDescB']
