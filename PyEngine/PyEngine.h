@@ -26,6 +26,9 @@ private:
     std::unordered_map<std::string, std::unordered_set<std::string>*>* verbs;
     Item* duplicateItem;
 
+    // Initial states for saving game
+    std::map<std::string, PyObject*> initialItems;
+    std::map<std::string, PyObject*> initialRooms;
 
     /****************************************
      *      Internal access
@@ -98,6 +101,10 @@ public:
     /****************************************
      *      C++ API
     ****************************************/
+    // Save / Load
+    void saveGame();
+    void loadGame();
+
     // Score   
     long getScore();
     void setScore(long newScore);
@@ -122,6 +129,9 @@ public:
 const char* getStringFromPyObject(PyObject* strObj);
 const char* getStringFromPyObject(PyObject* obj, const char* propertyName);
 std::string printPyObject(PyObject* obj);
+
+PyObject* copyObject(PyObject* in);
+std::string getClassName(PyObject* obj);
 
 std::string lowercase(std::string inputString);
 

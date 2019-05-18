@@ -1,0 +1,30 @@
+Saving: The command "savegame" creates the file ".save" to record the difference between the current game state and the initial state
+Loading: The command "loadgame" reloads all the python files then applies the changes from the ".save" file
+
+What gets saved:
+Score
+CurrentRoom
+Inventory
+Items/Doors: visible, properties
+Rooms: visible, visited, properties, items, droppedItems
+
+Assumptions: 
+Properties dictionaries will only contain strings, booleans, and long int values.
+Other than what's listed above, nothing else will change from gameplay.
+Class names are unique.
+
+File format:
+Line 1 - "score: 123"
+Line 2 - "currentRoom: RoomClassName"
+Line 3 - "inventory: Item1ClassName Item2ClassName ..."
+Starting at line 4, each line is for an item or room
+"ClassName: ProperyChange1 PropertyChange2"
+Property changes:
+    "visible=True"
+    "visited=True"
+    "properties_propertyName="newValue""
+    "properties_propertyName=True"
+    "properties_propertyName=123"
+    "items+AddedItemName"
+    "items-RemovedItemName"
+    "droppedItems+DroppedItemName"

@@ -6,6 +6,8 @@
 #include <unordered_set>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "PyEngine.h"
 #include "Item.h"
 #include "Room.h"
@@ -341,6 +343,9 @@ PyObject* PyEngine::emb_setupItem(PyObject *self, PyObject *args)
         assertThat(PyBool_Check(globalFlag), "Item attribute \"globalAccess\" must be a boolean!");
     }
 
+    PyObject* initialItem = copyObject(pyitem);
+    getInstance()->initialItems.insert(std::pair<std::string, PyObject*>(itemName, initialItem));
+
     return Py_BuildValue("");
 }
 
@@ -445,6 +450,9 @@ PyObject* PyEngine::emb_setupRoom(PyObject *self, PyObject *args)
         PyObject* droppedItemsList = PyObject_GetAttrString(pyroom, (char*)"droppedItems");
         assertThat(PyList_Check(droppedItemsList), "Room attribute \"droppedItems\" must be a list!");
     }
+
+    PyObject* initialRoom = copyObject(pyroom);
+    getInstance()->initialRooms.insert(std::pair<std::string, PyObject*>(name, initialRoom));
 
     return Py_BuildValue("");
 }
@@ -666,6 +674,9 @@ PyObject* PyEngine::emb_setupDoor(PyObject *self, PyObject *args)
     PyObject* roomConnectionsDict = PyObject_GetAttrString(pyitem, (char*)"roomConnections");
     assertThat(PyDict_Check(roomConnectionsDict), "Door attribute \"roomConnections\" must be a dictionary!");
 
+    PyObject* initialItem = copyObject(pyitem);
+    getInstance()->initialItems.insert(std::pair<std::string, PyObject*>(doorName, initialItem));
+
     return Py_BuildValue("");
 }
 
@@ -788,7 +799,10 @@ void PyEngine::LoadPyFiles(std::string directoryName)
                         currentFile = strdup(filename.c_str());
                         printf("Reading file: %s\n", currentFile);
                         fflush(stdout);
-                        PyRun_SimpleFile(fp, filename.c_str()); 
+                        int failure = PyRun_SimpleFile(fp, filename.c_str());
+                        if (failure) {
+                            printf("^^^Error in file!^^^\n\n");
+                        }
                     } else {
                         fprintf(stderr, "Could not open file \n");
                     }       
@@ -1096,6 +1110,406 @@ Room* PyEngine::getOppositeRoom(Room* firstRoom, Item* door)
 }
 
 /*
+    Save game to .save
+    Only records the difference betweeen the current state and the initial state
+*/
+void PyEngine::saveGame()
+{
+    std::ofstream file(".save");
+
+    // Header - score, current room, inventory
+    file << "score: " << getScore() << std::endl;
+    file << "currentRoom: " << getClassName(getCurrentRoom()->getPyRoom()) << std::endl;
+    file << "inventory:";
+    for (auto& item : *inventory) {
+        file << " " << getClassName(item->getPyItem());
+    }
+    file << std::endl;
+
+    // Items
+    for (auto& kv : items) {
+        PyObject* pyObj = kv.second->getPyItem();
+        PyObject* initialValues = initialItems[kv.first];
+        std::string className = getClassName(pyObj);
+        file << className << ": ";
+        
+        PyObject* visible = PyObject_GetAttrString(pyObj, (char*)"visible");
+        PyObject* initVisible = PyDict_GetItemString(initialValues, (char*)"visible");
+        if (visible != initVisible) {
+            file << "visible=";
+            if (visible == Py_True) {
+                file << "True ";
+            } else {
+                file << "False ";
+            }
+        }
+
+        PyObject* properties = PyObject_GetAttrString(pyObj, (char*)"properties");
+        PyObject* initProperties = PyDict_GetItemString(initialValues, (char*)"properties");
+        PyObject* propertyKeys = PyDict_Keys(initProperties);
+        Py_ssize_t size = PyList_Size(propertyKeys);
+        for (Py_ssize_t i = 0; i < size; i++) {
+            PyObject* propName = PyList_GetItem(propertyKeys, i);
+            PyObject* propValue = PyDict_GetItem(properties, propName);
+            PyObject* initPropValue = PyDict_GetItem(initProperties, propName);
+            if (PyBool_Check(propValue)) {
+                if (propValue != initPropValue) {
+                    file << "properties_" << getStringFromPyObject(propName) << "=";
+                    if (propValue == Py_True) file << "True ";
+                    else file << "False ";
+                }
+            } else if (PyLong_Check(propValue)) {
+                long propLong = PyLong_AsLong(propValue);
+                long initPropLong = PyLong_AsLong(initPropValue);
+                if (propLong != initPropLong) {
+                    file << "properties_" << getStringFromPyObject(propName) << "=" << propLong << " ";
+                }
+            } else {
+                std::string propStr = getStringFromPyObject(propValue);
+                std::string initPropStr = getStringFromPyObject(initPropValue);
+                if (propStr.compare(initPropStr) != 0) {
+                    file << "properties_" << getStringFromPyObject(propName) << "=\"" << propStr << "\" ";
+                }
+            }
+        }
+
+        file << std::endl;
+    }
+
+    for (auto& kv : rooms) {
+        PyObject* pyObj = kv.second->getPyRoom();
+        PyObject* initialValues = initialRooms[kv.first];
+        std::string className = getClassName(pyObj);
+        file << className << ": ";
+        
+        PyObject* visible = PyObject_GetAttrString(pyObj, (char*)"visible");
+        PyObject* initVisible = PyDict_GetItemString(initialValues, (char*)"visible");
+        if (visible != initVisible) {
+            file << "visible=";
+            if (visible == Py_True) {
+                file << "True ";
+            } else {
+                file << "False ";
+            }
+        }
+
+        PyObject* visited = PyObject_GetAttrString(pyObj, (char*)"visited");
+        PyObject* initVisited = PyDict_GetItemString(initialValues, (char*)"visited");
+        if (visited != initVisited) {
+            file << "visited=";
+            if (visible == Py_True) {
+                file << "True ";
+            } else {
+                file << "False ";
+            }
+        }
+
+        PyObject* properties = PyObject_GetAttrString(pyObj, (char*)"properties");
+        PyObject* initProperties = PyDict_GetItemString(initialValues, (char*)"properties");
+        PyObject* propertyKeys = PyDict_Keys(initProperties);
+        Py_ssize_t size = PyList_Size(propertyKeys);
+        for (Py_ssize_t i = 0; i < size; i++) {
+            PyObject* propName = PyList_GetItem(propertyKeys, i);
+            PyObject* propValue = PyDict_GetItem(properties, propName);
+            PyObject* initPropValue = PyDict_GetItem(initProperties, propName);
+            if (PyBool_Check(propValue)) {
+                if (propValue != initPropValue) {
+                    file << "properties_" << getStringFromPyObject(propName) << "=";
+                    if (propValue == Py_True) file << "True ";
+                    else file << "False ";
+                }
+            } else if (PyLong_Check(propValue)) {
+                long propLong = PyLong_AsLong(propValue);
+                long initPropLong = PyLong_AsLong(initPropValue);
+                if (propLong != initPropLong) {
+                    file << "properties_" << getStringFromPyObject(propName) << "=" << propLong << " ";
+                }
+            } else {
+                std::string propStr = getStringFromPyObject(propValue);
+                std::string initPropStr = getStringFromPyObject(initPropValue);
+                if (propStr.compare(initPropStr) != 0) {
+                    file << "properties_" << getStringFromPyObject(propName) << "=\"" << propStr << "\" ";
+                }
+            }
+        }
+
+        PyObject* items = PyObject_GetAttrString(pyObj, (char*)"items");
+        PyObject* initItems = PyDict_GetItemString(initialValues, (char*)"items");
+        
+        // Turn both lists into vectors
+        std::vector<std::string> itemsVector;
+        std::vector<std::string> initItemsVector;
+        size = PyList_Size(items);
+        for (Py_ssize_t i = 0; i < size; i++) {
+            itemsVector.push_back(getStringFromPyObject(PyList_GetItem(items, i)));
+        }
+        size = PyList_Size(initItems);
+        for (Py_ssize_t i = 0; i < size; i++) {
+            initItemsVector.push_back(getStringFromPyObject(PyList_GetItem(initItems, i)));
+        }
+
+        for (auto& itemName : itemsVector) {
+            if (std::find(initItemsVector.begin(), initItemsVector.end(), itemName) == initItemsVector.end()) {
+                file << "items+" << itemName << " ";
+            }
+        }
+        for (auto& itemName : initItemsVector) {
+            if (std::find(itemsVector.begin(), itemsVector.end(), itemName) == itemsVector.end()) {
+                file << "items-" << itemName << " ";
+            }
+        }
+
+        PyObject* droppedItems = PyObject_GetAttrString(pyObj, (char*)"droppedItems");
+        std::vector<std::string> droppedItemsVector;
+        size = PyList_Size(droppedItems);
+        for (Py_ssize_t i = 0; i < size; i++) {
+            droppedItemsVector.push_back(getStringFromPyObject(PyList_GetItem(droppedItems, i)));
+        }
+        for (auto& itemName : droppedItemsVector) {
+            file << "droppedItems+" << itemName << " ";
+        }
+
+        file << std::endl;
+    }
+
+    file.close();
+}
+
+/*
+    Load game from save file
+    Reloads all the rooms and items from file, then applies the changes from .save
+*/
+void PyEngine::loadGame()
+{
+    instance->inventory->clear();
+    instance->verbs = new std::unordered_map<std::string, std::unordered_set<std::string>*>();
+    instance->items.clear();
+    instance->rooms.clear();
+    instance->LoadPyFiles("Content");
+
+    // Open file
+    std::ifstream savefile;
+    savefile.open(".save");
+    if (!savefile.good()) {
+        printf("loadgame failed. Save file missing\n");
+        return;
+    }
+
+    // Set score
+    std::string scoreLine;
+    std::getline(savefile, scoreLine);
+    //printf("Score line:: %s\n", scoreLine.c_str());
+    long score = std::stol(scoreLine.substr(7));
+    setScore(score);
+
+    // Set current room
+    std::string currentRoomLine;
+    std::getline(savefile, currentRoomLine);
+    //printf("Current room line:: %s\n", currentRoomLine.c_str());
+    std::string roomName = currentRoomLine.substr(13);
+    //printf("Class name for current room: %s\n", roomName.c_str());
+    // Iterate through rooms to find the correct one
+    for (const auto& roomItr : rooms) {
+        Room* room = roomItr.second;
+        PyObject* pyroom = room->getPyRoom();
+        PyObject* pyclass = PyObject_GetAttrString(pyroom, (char*)"__class__");
+        PyObject* className = PyObject_GetAttrString(pyclass, (char*)"__name__");
+        const char* classNameCStr = getStringFromPyObject(className);
+        std::string classNameCppStr(classNameCStr);
+        //printf("Class name found: %s\n", classNameCStr);
+        if (roomName.compare(classNameCppStr) == 0) {
+            //printf("Going to %s\n", ssss.c_str());
+            goToRoom(room);
+        }
+
+    }
+
+    // Set inventory
+    inventory->clear();
+    std::string inventoryLine;
+    std::getline(savefile, inventoryLine);
+    //printf("Inventory line:: %s\n", inventoryLine.c_str());
+    std::stringstream inventoryStream;
+    inventoryStream << inventoryLine;
+    std::string word;
+    std::getline(inventoryStream, word, ' '); // read past inventory:
+    while (std::getline(inventoryStream, word, ' ')) {
+        //printf("Item: %s\n", word.c_str());
+        for (const auto& itemItr : items) {
+            Item* item = itemItr.second;
+            PyObject* pyitem = item->getPyItem();
+            PyObject* pyclass = PyObject_GetAttrString(pyitem, (char*)"__class__");
+            PyObject* className = PyObject_GetAttrString(pyclass, (char*)"__name__");
+            const char* classNameCStr = getStringFromPyObject(className);
+            std::string classNameCppStr(classNameCStr);        
+            if (word.compare(classNameCppStr) == 0) {
+                inventory->push_back(item);
+            }
+        }
+    }
+
+    // Set all the content
+    std::string line;
+    while (std::getline(savefile, line)) {
+        std::stringstream stream;
+        stream << line;
+        std::string objectClassName;
+        std::getline(stream, objectClassName, ' ');
+        objectClassName = objectClassName.substr(0, objectClassName.length() - 1); // get rid of ':'
+        //printf("Class line:: %s\n", line.c_str());
+        PyObject* pyObj = NULL; // Item or Room object
+        for (const auto& roomItr : rooms) {
+            Room* room = roomItr.second;
+            PyObject* pyroom = room->getPyRoom();
+            PyObject* pyclass = PyObject_GetAttrString(pyroom, (char*)"__class__");
+            PyObject* className = PyObject_GetAttrString(pyclass, (char*)"__name__");
+            const char* classNameCStr = getStringFromPyObject(className);
+            std::string classNameCppStr(classNameCStr);
+            if (objectClassName.compare(classNameCppStr) == 0) {
+                pyObj = pyroom;
+            }
+        }
+        for (const auto& itemItr : items) {
+            Item* item = itemItr.second;
+            PyObject* pyitem = item->getPyItem();
+            PyObject* pyclass = PyObject_GetAttrString(pyitem, (char*)"__class__");
+            PyObject* className = PyObject_GetAttrString(pyclass, (char*)"__name__");
+            const char* classNameCStr = getStringFromPyObject(className);
+            std::string classNameCppStr(classNameCStr);
+            if (objectClassName.compare(classNameCppStr) == 0) {
+                pyObj = pyitem;
+            }
+        }
+
+        if (pyObj == NULL) {
+            //printf("Did not find class %s\n", objectClassName.c_str());
+            continue;
+        }
+        //printf("Found %s\n", objectClassName.c_str());
+        std::string propertyChange;
+        while (std::getline(stream, propertyChange, ' ')) {
+            // Visible flag
+            if (strncmp(propertyChange.c_str(), (char*)"visible", 7) == 0) {
+                std::string value = propertyChange.substr(8);
+                if (strncmp(value.c_str(), (char*)"T", 1) == 0) {
+                    PyObject_SetAttrString(pyObj, (char*)"visible", Py_True);
+                } else {
+                    PyObject_SetAttrString(pyObj, (char*)"visible", Py_False);
+                }
+            }
+
+            // Visited flag
+            if (strncmp(propertyChange.c_str(), (char*)"visited", 7) == 0) {
+                std::string value = propertyChange.substr(8);
+                if (strncmp(value.c_str(), (char*)"T", 1) == 0) {
+                    PyObject_SetAttrString(pyObj, (char*)"visited", Py_True);
+                } else {
+                    PyObject_SetAttrString(pyObj, (char*)"visited", Py_False);
+                }
+            }
+
+            // Properties
+            if (strncmp(propertyChange.c_str(), (char*)"properties", 10) == 0) {
+                size_t equalsPosition = propertyChange.find("=", 0);
+                std::string propertyName = propertyChange.substr(11, equalsPosition - 11);
+                std::string newValue = propertyChange.substr(equalsPosition + 1);
+                //printf("Property name: %s\n", propertyName.c_str());
+                //printf("New value: %s\n", newValue.c_str());
+                PyObject* pyProperties = PyObject_GetAttrString(pyObj, (char*)"properties");
+                PyObject* pyValue = NULL;
+                if (newValue.compare("True") == 0) {
+                    pyValue = Py_True;
+                } else if (newValue.compare("False") == 0) {
+                    pyValue = Py_False;
+                } else if (newValue.find("\"") == 0) {
+                    std::string newValueString = newValue.substr(1, newValue.length() - 2);
+                    pyValue = PyUnicode_FromString(newValueString.c_str());
+                } else {
+                    // try making it a number
+                    long newValueLong = atol(newValue.c_str());
+                    pyValue = PyLong_FromLong(newValueLong);
+                }
+                PyDict_SetItemString(pyProperties, propertyName.c_str(), pyValue);
+            }
+
+            // Items
+            if (strncmp(propertyChange.c_str(), (char*)"items", 5) == 0) {
+                bool add = false; // Item is being added or removed
+                if (propertyChange.find("+") < propertyChange.length()) add = true;
+                // Get item name
+                std::string name = "";
+                if (add) {
+                    size_t plusLocation = propertyChange.find("+");
+                    name = propertyChange.substr(plusLocation + 1);
+                } else {
+                    size_t minusLocation = propertyChange.find("-");
+                    name = propertyChange.substr(minusLocation + 1);
+                }
+                // Find current index (if exists)
+                int itemIndex = -1;
+                PyObject* itemList = PyObject_GetAttrString(pyObj, (char*)"items");
+                Py_ssize_t size = PyList_Size(itemList);
+                for (Py_ssize_t i = 0; i < size; i++) {
+                    PyObject* itemName = PyList_GetItem(itemList, i);
+                    const char* itemNameStr = getStringFromPyObject(itemName);
+                    if (name.compare(itemNameStr) == 0) {
+                        itemIndex = i;
+                        break;
+                    }
+                }
+
+                // Add item
+                if (add && itemIndex == -1) {
+                    PyList_Append(itemList, PyUnicode_FromString(name.c_str()));
+                }
+                // remove item
+                if (!add && itemIndex != -1) {
+                    PyObject_DelItem(itemList, PyLong_FromLong(itemIndex));
+                }
+            }
+
+            // Dropped items
+            if (strncmp(propertyChange.c_str(), (char*)"droppedItems", 5) == 0) {
+                bool add = false; // Item is being added or removed
+                if (propertyChange.find("+") < propertyChange.length()) add = true;
+                // Get item name
+                std::string name = "";
+                if (add) {
+                    size_t plusLocation = propertyChange.find("+");
+                    name = propertyChange.substr(plusLocation + 1);
+                } else {
+                    size_t minusLocation = propertyChange.find("-");
+                    name = propertyChange.substr(minusLocation + 1);
+                }
+                // Find current index (if exists)
+                int itemIndex = -1;
+                PyObject* itemList = PyObject_GetAttrString(pyObj, (char*)"droppedItems");
+                Py_ssize_t size = PyList_Size(itemList);
+                for (Py_ssize_t i = 0; i < size; i++) {
+                    PyObject* itemName = PyList_GetItem(itemList, i);
+                    const char* itemNameStr = getStringFromPyObject(itemName);
+                    if (name.compare(itemNameStr) == 0) {
+                        itemIndex = i;
+                        break;
+                    }
+                }
+
+                // Add item
+                if (add && itemIndex == -1) {
+                    PyList_Append(itemList, PyUnicode_FromString(name.c_str()));
+                }
+                // remove item
+                if (!add && itemIndex != -1) {
+                    PyObject_DelItem(itemList, PyLong_FromLong(itemIndex));
+                }
+            }
+        }
+    }
+
+    savefile.close();
+}
+
+/*
     Helper to turn Python object into string
 */
 const char* getStringFromPyObject(PyObject* strObj)
@@ -1150,6 +1564,48 @@ void assertThat(bool assertion, const char* message)
         printf("%s\n", message);
         exit(1);
     }
+}
+
+/*
+    Make a copy of a room or item, but only for the things that can be saved
+*/  
+PyObject* copyObject(PyObject* in)
+{
+    PyObject* dictionary = PyDict_New();
+
+    // Visible flag
+    PyDict_SetItemString(dictionary, (char*)"visible", PyObject_GetAttrString(in, (char*)"visible"));
+
+    // Visited flag
+    if (PyObject_HasAttrString(in, (char*)"visited")) {
+        PyDict_SetItemString(dictionary, (char*)"visited", PyObject_GetAttrString(in, (char*)"visited"));
+    }
+
+    // Properties dictionary
+    PyDict_SetItemString(dictionary, (char*)"properties", PyDict_Copy(PyObject_GetAttrString(in, (char*)"properties")));
+
+    // Items list
+    if (PyObject_HasAttrString(in, (char*)"items")) {
+        PyObject* newList = PyList_New(0);
+        PyObject* inList = PyObject_GetAttrString(in, (char*)"items");
+        Py_ssize_t size = PyList_Size(inList);
+        for (Py_ssize_t i = 0; i < size; i++) {
+            PyObject* itemName = PyList_GetItem(inList, i);
+            PyList_Append(newList, itemName);
+        }
+        PyDict_SetItemString(dictionary, (char*)"items", newList);
+    }
+
+    return dictionary;
+}
+
+std::string getClassName(PyObject* obj)
+{
+    PyObject* pyclass = PyObject_GetAttrString(obj, (char*)"__class__");
+    PyObject* className = PyObject_GetAttrString(pyclass, (char*)"__name__");
+    const char* classNameCStr = getStringFromPyObject(className);
+    std::string str(classNameCStr);
+    return str;
 }
 
 // Main just for testing

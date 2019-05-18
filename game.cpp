@@ -96,6 +96,15 @@ int main()
             description = "Here's where I'd put a help menu. IF I HAD ONE!";
             continue;
         }
+        if (input.compare("loadgame") == 0) {
+            eng->loadGame();
+            description = eng->getItemByName("room")->runVerb("look");
+            continue;
+        } else if (input.compare("savegame") == 0) {
+            eng->saveGame();
+            description += "\n\nGame saved";
+            continue;
+        }
 
         // Normal route
         if (!debugMode) {
