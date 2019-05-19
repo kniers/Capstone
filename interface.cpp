@@ -1,6 +1,6 @@
 /* filename: interface.cpp
  * description: ncurses user interface for TBA3 Capstone project
- * version: 2019-05-17.1
+ * version: 2019-05-19.2
  * compile: g++ interface.cpp -o uiinit -lncurses: test run with uiinit
  * author: Adam Deaton
  */
@@ -95,7 +95,7 @@ void introWindow(){
 	int k = 0;
 	int reset = k;
 	//Intro game message
-	char buf[MAXSTR] = "You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion, steal the wealth within and get out undetected. Try not to spill any blood like last time. The Boss doesn't like to clean up any messes. If you don't get enough loot, the Boss will be angry. You know what happened to the last guy that made Big Al mad...\n";
+	char buf[MAXSTR] = "You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion, steal the wealth within and get out undetected. Try not to spill any blood like last time. The Boss doesn't like to clean up any messes. If you don't get enough loot, the Boss will be angry. You know what happened to the last guy that made Big Al mad...  Press ENTER to continue.\n";
 	initscr();
         	
 	intro = createNewOutput(LINES - 1,COLS - 1,1,1);
