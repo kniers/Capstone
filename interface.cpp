@@ -201,10 +201,9 @@ WINDOW *doorsOutput(){
 }
 
 //Game State Windows showing user items and current score
-void *gameStateWin(){
+void gameStateWin(){
 	int xCoord = 0, yCoord = 0, height = 4, width = COLS;
 	createNewWin(height,width,yCoord,xCoord);
-
 }
 
 WINDOW *inventoryOutput(){
@@ -238,6 +237,7 @@ WINDOW *inputScr(){
 * Parameters: int roomID, string roomName, string Description, string inventory (userItems), int numItems, string items dropped in room, int number of items in room, string doors in room, int number of doors in the room, int user score 
 */
 std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::string userItems[MAXITEM], int numItems, std::string itemsInRoom[MAXITEM], int numItemsInRoom, std::string doorsInRoom[MAXDOORS], int numDoors, int score){
+	//Convert C++ strings to C strings
 	std::string cppString;
 	char cDes[cppDes.size() + 1]; //c string to hold cppDes cpp string
 	strcpy(cDes, cppDes.c_str()); //copy cppDes into cDes for output with ncurses;
@@ -261,6 +261,9 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 	int strlength = 0;  //to track string lengths in output windows
 	//Initialize ncurses
 	initscr();
+	//Color attributes
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_BLACK);
 	WINDOW *desOutput;
 	WINDOW *roomItemsWin;
 	WINDOW *doorsOut;
@@ -313,14 +316,75 @@ std::string  gameUI(int roomID, std::string roomName, std::string cppDes, std::s
 		mvwprintw(doorsOut, 0, strlength,"%s, ", cDoorsInRoom[i]);
 		strlength = strlength + strlen(cDoorsInRoom[i]) + 2; //strlength is equal to previous strings and ,+space
 	}	
+	//Show mansion floor plan
+	mvwprintw(graphicOut,0,0,"                    00000000000000\n                    0|||||  0    0\n                    000000  0    0\n        0000000000  0    0  0_0000\n        0        0  0    |  0    0\n0000000000_0000000  000000  0    0\n0            |   0  0    0  |    0\n0000         0   0  0 0_ 0  0    0\n0  |         0   |  000     0    0\n000000_0000000_000  0 0 _0000_0000\n    0  |||0      0  0    |  0    0\n    |     |      0  00000000000000\n    0     0      0   SECOND FLOOR\n00000_000000_00000_00000\n0   0    0 0     0     0\n0   0    000     0     0\n0   |      |     |     0\n000000000000000000000000\n      FIRST FLOOR\n");
+	//Get player location	
+	//Set position char to red
+	wattron(graphicOut,COLOR_PAIR(1));
+	if(strcmp("Bar",cRoomName) == 0){
+		mvwprintw(graphicOut,7,15,"$");
+	}	
+	if(strcmp("Ballroom",cRoomName) == 0){
+		mvwprintw(graphicOut,7,10,"$");	
+	}	
+	if(strcmp("Foyer",cRoomName) == 0){
+		mvwprintw(graphicOut,11,7,"$");
+	}	
+	if(strcmp("Library",cRoomName) == 0){
+		mvwprintw(graphicOut,15,7,"$");	
+	}
+	if(strcmp("Study",cRoomName) == 0){
+		mvwprintw(graphicOut,15,2,"$");
+	}	
+	if(strcmp("Portrait Gallery",cRoomName) == 0){
+		mvwprintw(graphicOut,11,15,"$");	
+	}
+	if(strcmp("Billiard Room",cRoomName) == 0){
+		mvwprintw(graphicOut,15,14,"$");
+	}	
+	if(strcmp("Kitchen",cRoomName) == 0){
+		mvwprintw(graphicOut,4,10,"$");	
+	}
+	if(strcmp("Bathroom",cRoomName) == 0){
+		mvwprintw(graphicOut,8,1,"$");
+	}	
+	if(strcmp("Secret Room",cRoomName) == 0){
+		mvwprintw(graphicOut,14,10,"$");	
+	}
+	if(strcmp("Conservatory",cRoomName) == 0){
+		mvwprintw(graphicOut,15,20,"$");
+	}	
+	if(strcmp("Gardens",cRoomName) == 0){
+		mvwprintw(graphicOut,12,19,"$");	
+	}
+	if(strcmp("Billiard Room",cRoomName) == 0){
+		mvwprintw(graphicOut,15,14,"$");
+	}	
+	if(strcmp("Hallway",cRoomName) == 0){
+		mvwprintw(graphicOut,5,26,"$");	
+	}
+	if(strcmp("Master Bedroom",cRoomName) == 0){
+		mvwprintw(graphicOut,6,30,"$");	
+	}	
+	if(strcmp("Master Bathroom",cRoomName) == 0){
+		mvwprintw(graphicOut,2,30,"$");	
+	}
+	if(strcmp("Second Bedroom",cRoomName) == 0){
+		mvwprintw(graphicOut,4,22,"$");
+	}	
+	if(strcmp("Guest Bedroom",cRoomName) == 0){
+		mvwprintw(graphicOut,6,22,"$");	
+	}
+	if(strcmp("Office",cRoomName) == 0){
+		mvwprintw(graphicOut,10,22,"$");	
+	}
+	wrefresh(graphicOut);
+	attron(COLOR_PAIR(0));
 	wrefresh(doorsOut);
 	mvwprintw(input, 0,0,"What would you like to do? ");
 	wrefresh(input);
 	wgetstr(input, inputStr); //Get string from user
 	cppString = inputStr;
-	//Remove this is to test input
-	mvwprintw(graphicOut,0,0,"%s",inputStr);
-	wrefresh(graphicOut);
 	//This is to test input remove above
 	//wgetch(input); //Any key to exit
 	sleep(1);
