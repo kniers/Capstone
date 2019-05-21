@@ -41,7 +41,7 @@ void doorsWin();
 
 WINDOW *doorsOutput();
 
-void *gameStateWin();
+void gameStateWin();
 
 WINDOW *inventoryOutput();
 
