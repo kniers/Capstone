@@ -207,6 +207,8 @@ Command* parseIt(std::string parseMe, Command* com){
 		hasPrep = true;
 	    else if (token.compare("on") == 0)
 		hasPrep = true;
+	    else if (token.compare("of") == 0)
+		hasPrep = true;
 	    //FIXME: more prepositions
 	    //if we don't recognize the word, assume we have two words
 	    else if (twoWords == false){

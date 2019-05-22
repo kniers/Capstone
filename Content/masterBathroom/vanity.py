@@ -7,7 +7,7 @@ class Vanity:
 	aliases = ['drawer']
 	descriptions = {'desc': "It's a vanity, a small table for preparing one's self in the morning. There's a drawer that you can open.",
 					'touchVanity': "You touch the vanity. Nothing happens.",
-					'openVanity': "You open the drawer to the vanity. There's a strop inside as well as a bunch of useless crap."}
+					'openVanity': "You open the drawer to the vanity. Inside, there's a strop, a thing of toothpaste, and a bunch of useless crap."}
 	properties = {}
 	
 	
@@ -25,6 +25,9 @@ class Vanity:
 		strop = eng.getItemByName('strop')
 		if strop is not None:
 			strop.visible = True
+		toothpaste = eng.getItemByName('toothpaste')
+		if toothpaste is not None:
+			toothpaste.visible = True
 		return self.descriptions['openVanity']
 			
 
