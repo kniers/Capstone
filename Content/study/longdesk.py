@@ -7,7 +7,7 @@ class Longdesk:
 	aliases = ['desk', 'long desk', 'drawer']
 	descriptions = {'LongDeskDesc': "There is a long walnut desk along the wall that seats three. Looks to be a great place to read or study. There is a drawer on the left side of the desk. ",
 					'openedDesc': "The drawer is lined in red velvet. ",
-					'bibleDesc': "In the drawer is a beautiful leather bound bible with pure gold enlaid cross on the cover. The cross has seven half carat diamonds along the center.",
+					'bibleDesc': "In the drawer is a beautiful, leather-bound bible with pure gold enlaid cross on the cover. The cross has seven half-carat diamonds along the center.",
 					'nothingDesc': ", but nothing inside. ",
 					'alreadyOpenDesc': "The drawer is already open. Are you trying to break the desk? "}
 	properties = {'openedDrawer': False}
