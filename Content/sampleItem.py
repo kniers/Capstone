@@ -45,7 +45,7 @@ class SampleItem:
 	def eat(self, otherThing):
 		if otherThing is None:
 			return self.descriptions['eatFailSI']
-		else
+		else:
 			self.sharp = True
 			return self.descriptions['eatSuccessSI']
 			

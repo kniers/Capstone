@@ -12,7 +12,7 @@ class BottomDrawer:
 					'touchMe': "That's very touching of you.",
 					'eatMe': "The drawer is brown, but it's not made out of chocolate.",
 					'openMe': "You open the drawer. There's a roll of blueprints inside.",
-					'alreadyOpened': "You already did that.'}
+					'alreadyOpened': "You already did that."}
 	properties = {'opened': False}
 	
 	
@@ -23,7 +23,7 @@ class BottomDrawer:
 			if 'blueprints' in currRoom.items:
 				return self.descriptions['closedDesc'] + self.descriptions['fullDesc']
 			else:
-				self.descriptions['closedDesc'] + return self.descriptions['emptyDesc']
+				return self.descriptions['closedDesc'] + self.descriptions['emptyDesc']
 		else:
 			return self.descriptions['closedDesc']
 

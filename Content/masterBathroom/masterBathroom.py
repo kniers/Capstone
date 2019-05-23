@@ -12,7 +12,7 @@ class MasterBathroom:
 								"doesn't appear to be anything valuable in view, which I guess can be expected. " \
 								"There's a vanity sitting between the sink and the bathtub."}
 	doors = {'south': 'masterBathDoor'}
-	items = ['bathtub', 'sink', 'vanity', 'rubber duck', 'strop'. 'toothpaste']
+	items = ['bathtub', 'sink', 'vanity', 'rubber duck', 'strop', 'toothpaste']
 	properties = {}
 
 			
