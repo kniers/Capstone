@@ -18,7 +18,7 @@ class BottomDrawer:
 	
 	def look(self):
 		self.visible = True
-		if self.opened:
+		if self.properties['opened']:
 			currRoom = eng.getCurrentRoom()
 			if 'blueprints' in currRoom.items:
 				return self.descriptions['closedDesc'] + self.descriptions['fullDesc']
@@ -29,7 +29,7 @@ class BottomDrawer:
 
 
 	def open(self):
-		if self.opened:
+		if self.properties['opened']:
 			return self.descriptions['alreadyOpened']
 		else:
 			blueprints = eng.getItemByName('blueprints')

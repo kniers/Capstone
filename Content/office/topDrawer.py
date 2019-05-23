@@ -15,7 +15,7 @@ class TopDrawer:
 	
 	def look(self):
 		self.visible = True
-		if self.opened:
+		if self.properties['opened']:
 			return self.descriptions['openDesc']
 		else:
 			return self.descriptions['closedDesc']
