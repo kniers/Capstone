@@ -4,7 +4,7 @@ class MaleCritic:
 	name = 'male critic'
 	#type = 'Item'
 	visible = True 
-	aliases = ['critic']
+	aliases = ['critic', 'Bennings']
 	descriptions = {'desc': "The critic is wearing suit and staring intently at one of the portraits. He has an expression on his face calculated to make him seem smarter than he actually is. He seems friendly, though.",
 					'takeMC': "He's invested in the art. He doesn't want to go anywhere.",
 					'touchMC': "You poke the critic. He's so interested in the painting he doesn't even notice.",
@@ -41,6 +41,10 @@ class MaleCritic:
 		if aboutMe is None:
 			return self.descriptions['talkNone']
 		if aboutMe is rodinStatue:
+			currRoom = eng.getCurrentRoom()
+			currRoom.items.remove('male critic')
+			# bRoom = eng.getRoomByName('ballroom')
+			# bRoom.items.add('male critic')
 			return self.descriptions['talkMcGuffin']
 		else:
 			return self.descriptions['talkDefault']

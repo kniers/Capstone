@@ -14,7 +14,7 @@ class PortraitGallery:
 	properties = {'initialized': False}
 
 			
-	def _printShortDesc(self): 
+	def _printShortDesc(self):
 		return self.descriptions['shortDesc']
 
 			

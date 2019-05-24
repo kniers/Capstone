@@ -13,7 +13,7 @@ class character:
         return "Really? The game is that hard that you resort to suicide?"
 
     def touch(self):
-        return "Nows not the time for that"
+        return "Now is not the time for that"
 
 
 eng.setupItem(character())

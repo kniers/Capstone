@@ -12,7 +12,7 @@ class Gardens:
 								"There are two guys standing at the far end of the gardens smoking cigars. Maybe it's worth talking to them to " \
 								"see if they happen to slip up and give you some information about where valuables may be stored in the house?"}
 	doors = {'south': 'conservatoryGardensDoor', 'west': 'barGardensDoor'}
-	items = ['smokers', 'cigars']
+	items = ['smokers', 'cigars', 'pink flower']
 	properties = {'initialized': False}
 
 			
