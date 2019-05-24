@@ -5,7 +5,7 @@ class Suit:
 	#type = 'Item'
 	visible = False 
 	aliases = ['tux', 'outfit', 'clothes']
-	descriptions = {'desc': "Let's check out this suit. It's Italian, and likely expensive! What size? 42 long. Perfect. If you choose to wear that, you'll be out of here in no time.",
+	descriptions = {'desc': "Let's check out this suit. It's Italian, and likely expensive! What size? 42 long. Perfect. If you choose to wear that, you'll be out of here in no time. Hey, there's a red and blue tie too.",
 					'wearingDesc': "You're dressed in a suit, so you're safe to move around the party - just don't act weird.",
 					'removeSuit': "You've removed the suit",
 					'removeNotWearing': "How can you remove something that you're not even wearing?",

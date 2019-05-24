@@ -5,7 +5,7 @@ class Gown:
 	#type = 'Item'
 	visible = False
 	aliases = ['dress']
-	descriptions = {'desc': "What's this? A beautiful gown. Great for cocktail parties!",
+	descriptions = {'desc': "What's this? A beautiful red gown with a yellow sash. Great for cocktail parties!",
 					'wearingDesc': "You're dressed in a gown, so you're safe to move around the party - just don't act weird.",
 					'alreadyWearing': "You're already wearing the gown! ",
 					'putOnGown': "The gown fits perfectly. Now you're ready for the cocktail party! Remember that you're here to steal stuff, not have a good time.",
