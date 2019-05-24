@@ -48,7 +48,6 @@ class PinkFlowers:
 		if self.properties['wearing'] == False:
 			self.properties['wearing'] = True 
 			eng.addToInventory(self) # adds to inventory and removes from current room
-			eng.
 			return self.descriptions['wearPF']
 		else:
 			return self.descriptions['alreadyWearing']

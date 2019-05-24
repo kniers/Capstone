@@ -4,7 +4,7 @@ import eng
 class character:
     name = "self"
     aliases = ["myself", "yourself"]
-    properties = ['placesOpened' = 0]
+    properties = {'placesOpened': 0}
     globalAccess = True
 
     def look(self):
