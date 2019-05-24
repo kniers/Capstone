@@ -30,7 +30,7 @@ class TopDrawer:
 			else:
 				gs = eng.getItemByName('gold statue')
 				gs.visible = True
-			 	return self.descriptions['openDescMiss']
+				return self.descriptions['openDescMiss']
 		else:
 			return self.descriptions['closedDesc']
 
