@@ -4,8 +4,8 @@ class BottomDrawer:
 	name = 'bottom drawer'
 	#type = 'Item'
 	visible = False 
-	aliases = []
-	descriptions = {'closedDesc': "It's the bottom drawer of the filing cabinet. It's identical in appearance to the top drawer.",
+	aliases = ['drawer']
+	descriptions = {'closedDesc': "It's the bottom drawer of the filing cabinet. It's identical in appearance to the top drawer. for the most part.",
 					'fullDesc': " The blueprints are still inside.",
 					'emptyDesc': " The drawer is empty.",
 					'takeOnMe': "It's attached to the filing cabinet.",

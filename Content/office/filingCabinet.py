@@ -5,7 +5,7 @@ class FilingCabinet:
 	#type = 'Item'
 	visible = True 
 	aliases = ['cabinet']
-	descriptions = {'desc': "It's a filing cabinet. There are two drawers, one above the other. It's not locked, so whatever's inside must not be super important.",
+	descriptions = {'desc': "It's a filing cabinet. There are two drawers, one above the other.",
 					'takeFC': "You would certainly hurt your back trying to carry that around, and Big Al wants healthy backs for his minions.",
 					'touchFC': "boop",
 					'eatFC': "It's too tough to chew.",
