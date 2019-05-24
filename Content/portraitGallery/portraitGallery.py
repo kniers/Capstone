@@ -24,9 +24,9 @@ class PortraitGallery:
 
 		sayMe = self.descriptions['longDesc']
 		if 'female critic' in self.items:
-			sayMe = sayMe + criticFragmentB
+			sayMe = sayMe + self.descriptions['criticFragmentB']
 		if 'male critic' in self.items:
-			sayMe = sayMe + criticFragmentA
+			sayMe = sayMe + self.descriptions['criticFragmentA']
 		
 		return sayMe
 

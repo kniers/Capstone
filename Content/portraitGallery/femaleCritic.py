@@ -34,13 +34,7 @@ class FemaleCritic:
 
 
 	def talk(self, aboutMe):
-		if aboutMe is portraits:
-			return self.descriptions['talkPortraits']
-		elif aboutMe is landscape:
-			return self.descriptions['talkLandscape']
-		elif aboutMe is stillLife:
-			return self.descriptions['talkStillLife']
-		elif aboutMe is None:
+		if aboutMe is None:
 			gown = eng.getItemByName("gown")
 			suit = eng.getItemByName("suit")
 			flower = eng.getItemByName("pink flower")
@@ -53,6 +47,12 @@ class FemaleCritic:
 					return self.descriptions['talkNoneWithoutFlowerSuit']
 				elif gown.properties['wearing']:
 					return self.descriptions['talkNoneWithoutFlowerGown']
+		elif aboutMe is portraits:
+			return self.descriptions['talkPortraits']
+		elif aboutMe is landscape:
+			return self.descriptions['talkLandscape']
+		elif aboutMe is stillLife:
+			return self.descriptions['talkStillLife']
 		elif aboutMe is rodinStatue:
 			return self.descriptions['talkMcGuffin']
 		else:

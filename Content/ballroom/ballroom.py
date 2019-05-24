@@ -6,9 +6,9 @@ class Ballroom:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the ballroom again. ", 
-					'longDesc': "The door leads you to what looks like a grand ballroom. "}
+					'longDesc': "The door leads you to what looks like a grand ballroom. Several couples are dancing in their own little worlds. One of the more striking features of the room is a large statue at the end."}
 	doors = {'south': 'foyerBallroomDoor', 'north': 'ballroomKitchenDoor', 'east': 'ballroomBarDoor', 'west': 'ballroomBathroomDoor'}
-	items = []
+	items = ['rodin statue']
 	properties = {'initialized': False}
 
 			

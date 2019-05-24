@@ -9,8 +9,8 @@ class Gardens:
 					'longDesc': "The back door leads you out to the gardens. It's a beautiful night, but everyone seems to care about the bar " \
 								"inside more than the gardens outside. Of course, you don't care about the weather or the bar; " \
 								"you just want to steal as much as possible. \n" \
-								"There are two guys standing at the far end of the gardens smoking cigars. Maybe it's worth talking to them to " \
-								"see if they happen to slip up and give you some information about where valuables may be stored in the house?"}
+								"There are two guys smoking cigars standing next to some pink flowers at the far end of the gardens. Maybe it's worth talking to them to " \
+								"see if they happen to slip up and give you some information about where valuables may be stored in the house."}
 	doors = {'south': 'conservatoryGardensDoor', 'west': 'barGardensDoor'}
 	items = ['smokers', 'cigars', 'pink flower']
 	properties = {'initialized': False}

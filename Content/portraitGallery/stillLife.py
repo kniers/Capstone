@@ -30,7 +30,7 @@ class StillLife:
 		if "male critic" in currRoom.items or "female critic" in currRoom.items:
 			return self.descriptions['touchNotAlone']
 		else:
-			if self.hasKey:
+			if self.properties['hasKey']:
 				k = eng.getItemByName('cabinet key')
 				k.visible = true
 				return self.descriptions['touchAlone'] + self.descriptions['touchWithKey']

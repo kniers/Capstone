@@ -1,6 +1,6 @@
 import eng
 
-class PinkFlowers:
+class PinkFlower:
 	name = 'pink flower'
 	#type = 'Item'
 	visible = True

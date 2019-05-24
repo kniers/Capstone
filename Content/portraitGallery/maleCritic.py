@@ -13,7 +13,7 @@ class MaleCritic:
 					'talkStillLife': "You ask the critic what he thinks about the still life. He pauses to think for a moment, then says 'It seems out of place in this gallery. Most of these works are by artists who are at least somewhat recognized. But that one is by a no-name painter.'",
 					'talkMcGuffin': "You say to the critic 'You know that statue in the ballroom? I think it's by Rodin.'\n\n'Rodin?' says the critic. 'Ah, what a genius. I must take a look.' The critic leaves for the ballroom.",
 					'talkDefault': "The critic doesn't respond. Evidentally he doesn't want to talk about that.",
-					'talkFemaleCritic': "'What's with your friend over there?' you ask. 'She fancies herself the last word when it comes to fashion, but her entire critical method consists of counting the number of colors you're wearing and complaining if you have more than two.'",
+					'talkFemaleCritic': "'What's with your friend over there?' you ask. He replies 'She fancies herself the last word when it comes to fashion, but her entire critical method consists of counting the number of colors you're wearing and complaining if you have more than two.'",
 					'talkNone': "'How's it going?' you ask the critic. 'Oh, quite all right.' he responds. 'I was just admiring this piece of the late Emily Whittaker. It's no Rondin, but it is stimulating.'"}
 	properties = {}
 	
@@ -32,15 +32,17 @@ class MaleCritic:
 
 
 	def talk(self, aboutMe):
-		if aboutMe is portraits:
-			return self.descriptions['talkPortraits']
-		if aboutMe is landscape:
-			return self.descriptions['talkLandscape']
-		if aboutMe is stillLife:
-			return self.descriptions['talkStillLife']
 		if aboutMe is None:
 			return self.descriptions['talkNone']
-		if aboutMe is rodinStatue:
+		elif aboutMe is portraits:
+			return self.descriptions['talkPortraits']
+		elif aboutMe is landscape:
+			return self.descriptions['talkLandscape']
+		elif aboutMe is stillLife:
+			return self.descriptions['talkStillLife']
+		elif aboutMe is femaleCritic:
+			return self.descriptions['talkFemaleCritic']
+		elif aboutMe is rodinLocation:
 			currRoom = eng.getCurrentRoom()
 			currRoom.items.remove('male critic')
 			# bRoom = eng.getRoomByName('ballroom')
