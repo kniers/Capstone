@@ -32,7 +32,7 @@ class StillLife:
 		else:
 			if self.properties['hasKey']:
 				k = eng.getItemByName('cabinet key')
-				k.visible = true
+				k.visible = True
 				return self.descriptions['touchAlone'] + self.descriptions['touchWithKey']
 			else:
 				return self.descriptions['touchAlone']
