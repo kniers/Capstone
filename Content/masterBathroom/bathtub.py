@@ -7,8 +7,10 @@ class Bathtub:
 	aliases = []
 	descriptions = {'desc': "It's a white ceramic bathtub. There's a rubber duck sitting near the drain.",
 					'takeBT': "It's bolted to the floor. Also, it's a freaking bathtub. How the heck would you carry it?",
-					'touchSI': "You touch the bathtub. It's ceramic surface is cool.",
-					'eatBT': "No."}
+					'touchSI': "You touch the bathtub. Its ceramic surface feels cool.",
+					'eatBT': "No.",
+					'useBT': "You took a shower this morning.",
+					'talkBT': "'So what's up?' you say to the bathtub. The bathtub doesn't respond."}
 	properties = {}
 	
 	
@@ -25,13 +27,20 @@ class Bathtub:
 		return self.descriptions['takeBT']
 
 
+	def talk(self):
+		return self.descriptions['talkBT']
+
+
+	def use(self):
+		return self.descriptions['useBT']
+
+
 	def touch(self):
 		return self.descriptions['touchSI']
 
 
-	def eat(self, otherThing):
-		if otherThing is None:
-			return self.descriptions['eatBT']
+	def eat(self):
+		return self.descriptions['eatBT']
 
 		
 bathtub = Bathtub()

@@ -41,7 +41,7 @@ class Strop:
 			return self.descriptions['dropStrop']
 
 
-	def eat(self, otherThing):
+	def eat(self):
 		return self.descriptions['eatStrop']
 			
 

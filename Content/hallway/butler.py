@@ -20,7 +20,9 @@ class Butler:
 					'killDead': "Stop! Stop! He's already dead!",
 					'alreadyTakenButler': "You've already got the body.",
 					'dropNoHold': "You have to pick him up before you can drop him.",
-					'dropButler': "You place the butler's body in an out-of-the-way corner."}
+					'dropButler': "You place the butler's body in an out-of-the-way corner.",
+					'hitButler': "If you hit the butler, he'll raise the alarm. That would be a problem.",
+					'talkButler': "If the butler notices you, he'll raise the alarm. That would be a problem."}
 	properties = {'dead': False, 'withMaid': False}
 	
 	
@@ -63,6 +65,18 @@ class Butler:
 
 	def eat(self):
 		return self.descriptions['eatButler']
+
+
+	def hit(self):
+		return self.descriptions['hitButler']
+
+
+	def talk(self):
+		return self.descriptions['talkButler']
+
+
+	def give(self):
+		return self.descriptions['talkButler']
 
 
 	def kill(self, weapon):
