@@ -8,7 +8,7 @@ class masterBedroomWindow:
 	descriptions = {'desc': "Upon further inspection... there's nothing special about this window. " \
 							"It would've been your ticket to freedom if you hadn't knocked over the ladder.",
 					'noExit': "You can't get out that way without the ladder that you kicked over as you snuck in through the window."}
-	properties = {'locked': False}
+	properties = {}
 	
 	
 	def go(self):
