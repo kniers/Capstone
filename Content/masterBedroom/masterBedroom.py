@@ -10,7 +10,7 @@ class MasterBedroom:
 								 "although it's hard to be sure. ", 
 					'longDesc': "You find yourself in what appears to be the master bedroom. " \
 								"Behind you is the window you entered in, " \
-								"although it probably won't be too useful without your ladder! " \
+								"although it probably won't be too useful without the ladder you accidentally knocked over on the way in! " \
 								"There is a closet on the south wall and a door on the west wall of the room. " \
 								"There's a nightstand next to the closet as well. " \
 								"An open door on the north side of the room reveals the master bathroom. Pretty nice if you ask me!\n" \
@@ -19,7 +19,7 @@ class MasterBedroom:
 					'noClothingDescAppend': "You're dressed as a burglar, so that's obviously not going to work. " \
 											"There's got to be a way to change your appearance."}
 	doors = {'north': 'masterBathDoor', 'west': 'masterBedDoor'}
-	items = ['closet', 'nightstand', 'suit', 'gown', 'key']
+	items = ['closet', 'nightstand', 'suit', 'gown', 'key', 'masterBedroomWindow']
 	properties = {'initialized': False}
 
 			
