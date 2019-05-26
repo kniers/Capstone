@@ -23,6 +23,5 @@ class masterBedDoor:
 		return self.descriptions['desc']
 
 		
-
 masterBedDoor = masterBedDoor()
 eng.setupDoor(masterBedDoor)

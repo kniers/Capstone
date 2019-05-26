@@ -22,14 +22,6 @@ class ConservatoryGardensDoor:
 	def look(self):
 		return self.descriptions['desc']
 
-		
-	# get connection from the perspective of the room the player is currently in
-	def getConnection(self, direction):
-		if direction in self.roomConnections:
-			return self.roomConnections[direction]
-		else:
-			return 'No room in that direction'
-
 
 conservatoryGardensDoor = ConservatoryGardensDoor()
 eng.setupDoor(conservatoryGardensDoor)

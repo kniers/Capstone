@@ -20,15 +20,7 @@ class masterBathDoor:
 
 
 	def look(self):
-		return self.description
-
-		
-	# get connection from the perspective of the room the player is currently in
-	def getConnection(self, direction):
-		if direction in self.roomConnections:
-			return self.roomConnections[direction]
-		else:
-			return 'No room in that direction'
+		return self.descriptions['desc']
 
 
 masterBathDoor = masterBathDoor()
