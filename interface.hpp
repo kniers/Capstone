@@ -1,7 +1,7 @@
 /*********************************************************************
 * File: interface.hpp
 * Author: Adam Deaton
-* Date: 2019.05.04
+* Date: 2019.05.26
 * Description: Header for user interface.cpp details in cpp file
 *********************************************************************/
 #ifndef INTERFACE_HPP
@@ -13,7 +13,7 @@
 #include <string>
 #include <iostream>
 
-#define MAXITEM 12
+#define MAXITEM 32
 #define MAXDOORS 6
 #define MAXSTR 1024
 
@@ -43,7 +43,7 @@ WINDOW *doorsOutput();
 
 void gameStateWin();
 
-WINDOW *inventoryOutput();
+WINDOW *extraOutput();
 
 WINDOW *scoreOutput();
 
@@ -51,6 +51,10 @@ void inputWin();
 
 WINDOW *inputScr();
 
-std::string gameUI(int, std::string, std::string, std::string*, int, std::string*, int, std::string*, int, int);
+void printMap(WINDOW, char);
+
+void printItems(WINDOW, char, int, int, int);
+
+std::string gameUI(bool, int, std::string, std::string, std::string*, int, std::string*, int, std::string*, int, int);
 
 #endif
