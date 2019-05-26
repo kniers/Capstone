@@ -25,6 +25,7 @@ int main()
     int doorsInRoomSize = 0;
     bool debugMode = false;
     bool debugConsole = false;
+    bool invCommand = false;
 
     vector<Item*>* inventory = eng->getInventory();
 
@@ -78,7 +79,8 @@ int main()
         }
 
         // Update UI
-        string input = gameUI(0, roomName, description, inventoryItems, inventorySize, droppedItems, droppedItemsSize, doorsInRoom, doorsInRoomSize, score);
+        string input = gameUI(invCommand, 0, roomName, description, inventoryItems, inventorySize, droppedItems, droppedItemsSize, doorsInRoom, doorsInRoomSize, score);
+	invCommand = false; //reset invCommand to not show inventory
 
         // Handle high level commands
         if (input.compare("quit") == 0 || input.compare("exit") == 0) exit(1); // exit game
@@ -96,6 +98,10 @@ int main()
             description = "Here's where I'd put a help menu. IF I HAD ONE!";
             continue;
         }
+	if(input.compare("inventory") == 0 || input.compare("Inventory") == 0){
+	    invCommand = true; //show inventory
+	    continue;
+	}
         if (input.compare("loadgame") == 0) {
             eng->loadGame();
             description = eng->getItemByName("room")->runVerb("look");
