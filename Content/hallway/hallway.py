@@ -9,9 +9,10 @@ class Hallway:
 	descriptions = {'shortDesc': "You're in the hallway again. ", 
 					'longDesc': "You find yourself in the hallway. To the north is a stairwell going down. Standing at the top of the stairwell is the butler." \
 								"To the south towards the end of the hallway is a door. " \
-								"Across from you (west) is another door, and obviously the door you came through is behind you. "}
+								"Across from you (west) is another door, and obviously the door you came through is behind you. ",
+					'painting': "There's a magnificant painting hanging on the west wall."}
 	doors = {'east': 'masterBedDoor', 'south': 'officeDoor', 'north': 'guestBedDoor', 'west': 'secondBedDoor', 'down': 'staircase'}
-	items = ['butler']
+	items = ['butler', 'masterpiece']
 	properties = {'initialized': False}
 
 			
@@ -23,7 +24,10 @@ class Hallway:
 		if self.properties['initialized'] == False:
 			self.properties['initialized'] = True
 		
-		return self.descriptions['longDesc']
+		description = self.descriptions['longDesc']
+		if 'masterpiece' in self.items:
+			description += '\n' + self.descriptions['painting']
+		return description
 
 		
 	def enterRoom(self):

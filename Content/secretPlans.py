@@ -23,6 +23,8 @@ class SecretPlans:
 		if eng.inInventory(self):
 			return self.descriptions['alreadyTakenSP']
 		else:
+			billiardTable = eng.getItemByName('billiard table')
+			billiardTable.properties['hasPlans'] = False
 			eng.addToInventory(self) # adds to inventory and removes from current room 
 			return self.descriptions['takeSP']
 

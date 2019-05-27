@@ -16,6 +16,10 @@ class Staircase:
 		if currRoom == foyer:
 			return eng.goToRoom(hall)
 		else:
+			# Can't go downstairs holding the masterpiece from the hallway
+			masterpiece = eng.getItemByName('masterpiece')
+			if eng.inInventory(masterpiece):
+				return "Going downstairs to the party while holding this huge stolen painting isn't the best idea you've had. You should drop it."
 			return eng.goToRoom(foyer)
 
 

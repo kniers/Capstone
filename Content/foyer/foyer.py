@@ -6,9 +6,10 @@ class Foyer:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the foyer again. ", 
-					'longDesc': "The door leads you to the foyer at the front of the house. "}
+					'longDesc': "You're in the grand foyer at the front of the house. A dazzling chandelier hangs from the ceiling.",
+					'drink': "A server sees you are empty handed and offers you a drink. You accept the drink just to fit in with the party."}
 	doors = {'up': 'staircase', 'west': 'frontDoor', 'north': 'foyerBallroomDoor', 'east': 'foyerGalleryDoor', 'south': 'foyerLibraryDoor'}
-	items = []
+	items = ['chandelier', 'martini', 'drink server']
 	properties = {'initialized': False}
 
 			
@@ -24,12 +25,16 @@ class Foyer:
 
 		
 	def enterRoom(self):
+		description = ""
 		if (self.visited == True):
-			return self._printShortDesc()
+			description = self._printShortDesc()
 		else:
 			self.visited = True
-			return self._printLongDesc()
-
+			description = self._printLongDesc()
+			martini = eng.getItemByName('martini')
+			description += "\n\n" + self.descriptions['drink']
+			eng.addToInventory(martini)
+		return description
 			
 	# Per game requirements, look should reprint long description 
 	def look(self):

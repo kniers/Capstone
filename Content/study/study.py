@@ -6,9 +6,9 @@ class Study:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the study again. Same desk along the wall as before.", 
-					'longDesc': "The door leads you to what looks like a study. There's a desk along the wall with ample light for getting lost in long peroids of study."}
+					'longDesc': "The door leads you to what looks like a study. There's a desk along the wall with ample light for getting lost in long peroids of study. The walls are lined with interesting artifacts from around the world. A woman is standing around admiring the artifacts."}
 	doors = {'east': 'libraryStudyDoor'}
-	items = ['longDesk', 'Bible']
+	items = ['longDesk', 'Bible', 'margaret', 'beer', 'artifacts', 'mummy\'s curse']
 	properties = {'initialized': False}
 
 			

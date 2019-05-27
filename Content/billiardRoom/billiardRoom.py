@@ -6,11 +6,12 @@ class BilliardRoom:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the billiard room again. ", 
-					'longDesc': "The door leads you to what looks like a billiard room, with a billards table in the middle. "}
+					'longDesc': "The door leads you to what looks like a billiard room, with a billards table in the middle. Decorative plants are lined up along the wall. ",
+					'players': "Some low hanging lights illuminate the table where two gentlemen are finishing up a game of 8-ball. ",
+					'noPlayers': "No one else is in here. Time to take a closer look around. "}
 	doors = {'north': 'galleryBilliardRoomDoor', 'east': 'billiardRoomConservatoryDoor', 'west': 'libraryBilliardRoomDoor'}
-	items = []
-	properties = {'initialized': False}
-
+	items = ['billiard table', 'billiard players', 'billiard lights', 'decorative plants', 'light switch', 'table lever', 'ruby']
+	properties = {'initialized': False, 'players': True}
 			
 	def _printShortDesc(self): 
 		return self.descriptions['shortDesc']
@@ -20,7 +21,13 @@ class BilliardRoom:
 		if self.properties['initialized'] == False:
 			self.properties['initialized'] = True
 		
-		return self.descriptions['longDesc']
+		description = self.descriptions['longDesc']
+		if self.properties['players']:
+			description += self.descriptions['players']
+		else:
+			description += self.descriptions['noPlayers']
+
+		return description
 
 		
 	def enterRoom(self):
