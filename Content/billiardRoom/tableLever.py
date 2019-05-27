@@ -2,7 +2,7 @@ import eng
 
 class TableLever:
     name = 'table lever'
-    aliases = ['lever']
+    aliases = ['Lever']
     visible = False
 
     def look(self):
@@ -43,7 +43,7 @@ class TableLever:
                 description += "\n\nThe Secret Plans are hidden inside!"
             else:
                 table.properties['hasRuby'] = True
-                ruby = eng.getItemByName('ruby')
+                ruby = eng.getItemByName('Ruby')
                 ruby.visible = True
                 description += "\n\nA Giant Ruby is inside!"
             return description

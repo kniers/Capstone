@@ -15,7 +15,7 @@ class LightSwitch:
             self.properties['lightsOff'] = True
             room = eng.getCurrentRoom()
             room.items.remove('billiard players')
-            return "You inconspicuously flip the light switch and the lights above the table turn off.\n\Willie:\n\"Hmm, they must have blown a circuit. What do you say, should we call it a draw?\"\n\nJake:\n\"A draw!? You never stood a chance. Whatever. Let's go grab another drink\"\n\nBoth men exit."
+            return "You inconspicuously flip the light switch and the lights above the table turn off.\nWillie:\n\"Hmm, they must have blown a circuit. What do you say, should we call it a draw?\"\n\nJake:\n\"A draw!? You never stood a chance. Whatever. Let's go grab another drink\"\n\nBoth men exit."
 
     def hit(self):
         return self.use()

@@ -127,7 +127,7 @@ bool Item::hasAlias(std::string itemName)
             const char* alias = getStringFromPyObject(aliasString);
             std::string aliasStr(alias);
             aliasStr = lowercase(aliasStr);
-            if (itemName.compare(alias) == 0)
+            if (itemName.compare(aliasStr) == 0)
             {
                 return true;
             }

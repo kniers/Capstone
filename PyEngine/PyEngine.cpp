@@ -1138,9 +1138,9 @@ void PyEngine::saveGame()
         if (visible != initVisible) {
             file << "visible=";
             if (visible == Py_True) {
-                file << "True ";
+                file << "True\t";
             } else {
-                file << "False ";
+                file << "False\t";
             }
         }
 
@@ -1155,20 +1155,20 @@ void PyEngine::saveGame()
             if (PyBool_Check(propValue)) {
                 if (propValue != initPropValue) {
                     file << "properties_" << getStringFromPyObject(propName) << "=";
-                    if (propValue == Py_True) file << "True ";
-                    else file << "False ";
+                    if (propValue == Py_True) file << "True\t";
+                    else file << "False\t";
                 }
             } else if (PyLong_Check(propValue)) {
                 long propLong = PyLong_AsLong(propValue);
                 long initPropLong = PyLong_AsLong(initPropValue);
                 if (propLong != initPropLong) {
-                    file << "properties_" << getStringFromPyObject(propName) << "=" << propLong << " ";
+                    file << "properties_" << getStringFromPyObject(propName) << "=" << propLong << "\t";
                 }
             } else {
                 std::string propStr = getStringFromPyObject(propValue);
                 std::string initPropStr = getStringFromPyObject(initPropValue);
                 if (propStr.compare(initPropStr) != 0) {
-                    file << "properties_" << getStringFromPyObject(propName) << "=\"" << propStr << "\" ";
+                    file << "properties_" << getStringFromPyObject(propName) << "=\"" << propStr << "\"\t";
                 }
             }
         }
@@ -1187,9 +1187,9 @@ void PyEngine::saveGame()
         if (visible != initVisible) {
             file << "visible=";
             if (visible == Py_True) {
-                file << "True ";
+                file << "True\t";
             } else {
-                file << "False ";
+                file << "False\t";
             }
         }
 
@@ -1198,9 +1198,9 @@ void PyEngine::saveGame()
         if (visited != initVisited) {
             file << "visited=";
             if (visible == Py_True) {
-                file << "True ";
+                file << "True\t";
             } else {
-                file << "False ";
+                file << "False\t";
             }
         }
 
@@ -1215,20 +1215,20 @@ void PyEngine::saveGame()
             if (PyBool_Check(propValue)) {
                 if (propValue != initPropValue) {
                     file << "properties_" << getStringFromPyObject(propName) << "=";
-                    if (propValue == Py_True) file << "True ";
-                    else file << "False ";
+                    if (propValue == Py_True) file << "True\t";
+                    else file << "False\t";
                 }
             } else if (PyLong_Check(propValue)) {
                 long propLong = PyLong_AsLong(propValue);
                 long initPropLong = PyLong_AsLong(initPropValue);
                 if (propLong != initPropLong) {
-                    file << "properties_" << getStringFromPyObject(propName) << "=" << propLong << " ";
+                    file << "properties_" << getStringFromPyObject(propName) << "=" << propLong << "\t";
                 }
             } else {
                 std::string propStr = getStringFromPyObject(propValue);
                 std::string initPropStr = getStringFromPyObject(initPropValue);
                 if (propStr.compare(initPropStr) != 0) {
-                    file << "properties_" << getStringFromPyObject(propName) << "=\"" << propStr << "\" ";
+                    file << "properties_" << getStringFromPyObject(propName) << "=\"" << propStr << "\"\t";
                 }
             }
         }
@@ -1250,12 +1250,12 @@ void PyEngine::saveGame()
 
         for (auto& itemName : itemsVector) {
             if (std::find(initItemsVector.begin(), initItemsVector.end(), itemName) == initItemsVector.end()) {
-                file << "items+" << itemName << " ";
+                file << "items+" << itemName << "\t";
             }
         }
         for (auto& itemName : initItemsVector) {
             if (std::find(itemsVector.begin(), itemsVector.end(), itemName) == itemsVector.end()) {
-                file << "items-" << itemName << " ";
+                file << "items-" << itemName << "\t";
             }
         }
 
@@ -1266,7 +1266,7 @@ void PyEngine::saveGame()
             droppedItemsVector.push_back(getStringFromPyObject(PyList_GetItem(droppedItems, i)));
         }
         for (auto& itemName : droppedItemsVector) {
-            file << "droppedItems+" << itemName << " ";
+            file << "droppedItems+" << itemName << "\t";
         }
 
         file << std::endl;
@@ -1387,7 +1387,7 @@ void PyEngine::loadGame()
         }
         //printf("Found %s\n", objectClassName.c_str());
         std::string propertyChange;
-        while (std::getline(stream, propertyChange, ' ')) {
+        while (std::getline(stream, propertyChange, '\t')) {
             // Visible flag
             if (strncmp(propertyChange.c_str(), (char*)"visible", 7) == 0) {
                 std::string value = propertyChange.substr(8);

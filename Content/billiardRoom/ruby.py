@@ -1,7 +1,7 @@
 import eng
 
 class Ruby:
-    name = 'ruby'
+    name = 'Ruby'
     aliases = ['giant ruby']
     visible = False
 

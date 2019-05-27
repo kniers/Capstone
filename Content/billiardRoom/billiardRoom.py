@@ -10,7 +10,7 @@ class BilliardRoom:
 					'players': "Some low hanging lights illuminate the table where two gentlemen are finishing up a game of 8-ball. ",
 					'noPlayers': "No one else is in here. Time to take a closer look around. "}
 	doors = {'north': 'galleryBilliardRoomDoor', 'east': 'billiardRoomConservatoryDoor', 'west': 'libraryBilliardRoomDoor'}
-	items = ['billiard table', 'billiard players', 'billiard lights', 'decorative plants', 'light switch', 'table lever', 'ruby']
+	items = ['billiard table', 'billiard players', 'billiard lights', 'decorative plants', 'light switch', 'table lever', 'Ruby']
 	properties = {'initialized': False, 'players': True}
 			
 	def _printShortDesc(self): 
@@ -22,7 +22,7 @@ class BilliardRoom:
 			self.properties['initialized'] = True
 		
 		description = self.descriptions['longDesc']
-		if self.properties['players']:
+		if 'billiard players' in self.items:
 			description += self.descriptions['players']
 		else:
 			description += self.descriptions['noPlayers']
