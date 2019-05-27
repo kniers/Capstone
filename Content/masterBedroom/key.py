@@ -1,7 +1,7 @@
 import eng
 
-class Key:
-	name = 'key'
+class BedroomKey:
+	name = 'bedroom key'
 	#type = 'Item'
 	visible = False 
 	aliases = []
@@ -35,5 +35,5 @@ class Key:
 			return self.descriptions['drop']
 
 
-key = Key()
+key = BedroomKey()
 eng.setupItem(key)
