@@ -4,7 +4,7 @@ class BedroomKey:
 	name = 'bedroom key'
 	#type = 'Item'
 	visible = False 
-	aliases = []
+	aliases = ['key']
 	descriptions = {'desc': "This is a pretty standard key in terms of appearance.",
 					'dropNoHold': "You can't drop the key, you aren't holding it!", 
 					'drop': "You dropped the key back into the nightstand where you found it. Don't want to place it anywhere else and raise suspicion.", 

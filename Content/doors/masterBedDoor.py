@@ -6,29 +6,29 @@ class masterBedDoor:
 	aliases = ['door', 'hallway door']
 	roomConnections = {'east': 'Master Bedroom', 'west': 'Hallway'}
 	descriptions = {'desc': "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen.",
-			'underdressed': "Hold on! You can't mingle looking like that. You'd stand out like a watermelon in a bowl full of chick peas.",
-			'unlockNone': "The door is locked. You can't force it, somebody might hear you.",
+			'lockedDoor': "It's locked. Hopefully there's a spare key in here somewhere.",
+			'alreadyOpen': "You already opened the door.",
+			'unlockSuccess': "The key fits. You unlock the door and leave it open.",
 			'unlockFail': "That won't work.",
-			'unlockSuccess': "The key fits. You open the door with ease."}
+			'notDressed': "Hold up now! You're not dressed for the party! You'll stand out like a watermelon in a bowl full of chick peas!"}
 	properties = {'locked': True}
 	
 	
 	def go(self):
 		if self.properties['locked']:
-			return self.descriptions['unlockNone']
-		else:
-			suit = getItemByName('suit')
-			gown = getItemByname('gown')
-			if suit.properties['wearing'] or gown.properties['wearing']:
-				masterBed = eng.getRoomByName('Master Bedroom')
-				hall = eng.getRoomByName('Hallway')
-				currRoom = eng.getCurrentRoom()
-				if currRoom == masterBed:
-					return eng.goToRoom(hall)
-				else:
-					return eng.goToRoom(masterBed)
+			return self.descriptions['lockedDoor']
+		suit = eng.getItemByName("suit")
+		gown = eng.getItemByName("gown")
+		if suit.properties['wearing'] or gown.properties['wearing']:
+			masterBed = eng.getRoomByName('Master Bedroom')
+			hall = eng.getRoomByName('Hallway')
+			currRoom = eng.getCurrentRoom()
+			if currRoom == masterBed:
+				return eng.goToRoom(hall)
 			else:
-				return self.descriptions['underdressed']
+				return eng.goToRoom(masterBed)
+		else:
+			return self.descriptions['notDressed']
 
 
 	def look(self):
@@ -36,14 +36,23 @@ class masterBedDoor:
 
 
 	def open(self, otherThing):
-		if otherThing is None:
-			return self.descriptions['unlockNone']
-		elif otherThing is bedroomKey:
-			self.properties['locked'] = False
-			return self.descriptions['unlockSuccess']
+		if self.properties['locked']:
+			if otherThing.name == 'bedroom key':
+				self.properties['locked'] = False
+				return self.descriptions['unlockSuccess']
+			else:
+				return self.descriptions['unlockFail']
 		else:
-			return self.descriptions['unlockFail']
+			return self.descriptions['alreadyOpen']
 
 		
+	# get connection from the perspective of the room the player is currently in
+	def getConnection(self, direction):
+		if direction in self.roomConnections:
+			return self.roomConnections[direction]
+		else:
+			return 'No room in that direction'
+
+
 masterBedDoor = masterBedDoor()
 eng.setupDoor(masterBedDoor)
