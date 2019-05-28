@@ -22,7 +22,7 @@ class Gown:
 
 
 	def take(self):
-		self.wear()
+		return self.wear()
 
 
 	def eat(self):
@@ -30,15 +30,16 @@ class Gown:
 	
 
 	def wear(self):
+		returnMe = ""
 		suit = eng.getItemByName('suit')
 		if suit.properties['wearing']:
-			suit.remove()
+			returnMe = suit.remove() + "\n\n"
 		if self.properties['wearing'] == False:
 			self.properties['wearing'] = True 
 			eng.addToInventory(self) # adds to inventory and removes from current room 
-			return self.descriptions['putOnGown']
+			return returnMe + self.descriptions['putOnGown']
 		else:
-			return self.descriptions['alreadyWearing']
+			return returnMe + self.descriptions['alreadyWearing']
 		
 		
 	# Take off the gown, if player is wearing it 
