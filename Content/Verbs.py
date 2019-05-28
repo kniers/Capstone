@@ -3,8 +3,8 @@ import eng
 # Define the available verbs
 verbs = { 
         "eat": {"eat", "drink"}, 
-        "take": {"take", "grab", "get", "steal"}, 
-        "look": {"look", "inspect"}, 
+        "take": {"take", "grab", "get", "steal", "snatch"}, 
+        "look": {"look", "inspect", "examine"}, 
         "go": {"go"}, 
         "use": {"use"}, 
         "kill": {"kill"}, 
@@ -14,11 +14,11 @@ verbs = {
         "wear": {"wear", "equip"}, 
         "read": {"read"}, 
         "drop": {"drop"}, 
-        "hit": {"hit", "punch", "break"}, 
+        "hit": {"hit", "punch", "break", "whack"}, 
         "talk": {"talk", "speak", "ask"}, 
         "sharpen": {"sharpen", "whet"}, 
         "give": {"give"},
-        "whack": {"whack"}
+        "twist": {"twist"}
     }
 
 eng.setVerbs(verbs)

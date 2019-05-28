@@ -8,6 +8,7 @@ class Suit:
 	descriptions = {'desc': "Let's check out this suit. It's Italian, and likely expensive! What size? 42 long. Perfect. If you choose to wear that, you'll be out of here in no time. Hey, there's a red and blue tie too.",
 					'wearingDesc': "You're dressed in a suit, so you're safe to move around the party - just don't act weird.",
 					'removeSuit': "You've removed the suit",
+					'dontStrip': "If you're trying not to be noticed, you probably don't want to strip.",
 					'removeNotWearing': "How can you remove something that you're not even wearing?",
 					'alreadyWearing': "You're already wearing the suit!",
 					'putOnSuit': "The suit fits perfectly. Now you're ready for the cocktail party! " \
@@ -18,9 +19,16 @@ class Suit:
 	def look(self):
 		self.visible = True
 		return self.descriptions['desc']
+
+
+	def take(self):
+		self.wear()
 	
 
 	def wear(self):
+		gown = eng.getItemByName("gown")
+		if gown.properties['wearing']:
+			gown.remove()
 		if self.properties['wearing'] == False:
 			self.properties['wearing'] = True 
 			eng.addToInventory(self) # adds to inventory and removes from current room 
@@ -30,6 +38,9 @@ class Suit:
 	
 	# Take off the suit, if player is wearing it 
 	def remove(self):
+		currRoom = eng.getCurrentRoom()
+		if currRoom.name != "Master Bedroom":
+			return self.descriptions['dontStrip']
 		if self.properties['wearing'] == False:
 			return self.descriptions['removeNotWeariing']
 		else:

@@ -24,7 +24,7 @@ class Craftsman:
             if about.name == 'billiardTableTopic':
                 lever = eng.getItemByName('table lever')
                 lever.visible = True
-                return "Hank:\n\"Yeah, I built that pool table in the next room! Let me guess, cue ball got stuck? Here's the secret to getting it open. There's a lever on the bottom of the table and ya gotta whack it. Not just a normal hit, ya really gotta WHACK it. Hear what I'm sayin?\""
+                return "Hank:\n\"Yeah, I built that pool table in the next room! Let me guess, cue ball got stuck? Here's the secret to getting it open. There's a lever on the bottom of the table and ya gotta twist it. Hard! Ya really gotta put some elbow grease in it. Hear what I'm sayin?\""
             elif about.name == 'mahogany table':
                 return "Hank:\n\"I built this table about a year back. They liked it so much they asked me to built a new pool table for them. Just finished it up last week.\""
             elif about.name == 'highball glass':

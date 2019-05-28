@@ -27,12 +27,12 @@ class TableLever:
         return self.use()
 
     # Opens table
-    def whack(self):
+    def twist(self):
         room = eng.getCurrentRoom()
         if 'billiard players' in room.items:
             return "You can't get up to it because the players are in the way"
         else:
-            description = "With a great amount of force, you whack the lever and it opens a panel on the side of the pool table. "
+            description = "With a great amount of force, you twist the lever and it opens a panel on the side of the pool table. "
             table = eng.getItemByName('billiard table')
             table.properties['open'] = True
             character = eng.getItemByName('self')
