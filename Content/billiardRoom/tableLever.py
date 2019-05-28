@@ -2,7 +2,7 @@ import eng
 
 class TableLever:
     name = 'table lever'
-    aliases = ['Lever']
+    aliases = ['lever']
     visible = False
 
     def look(self):
