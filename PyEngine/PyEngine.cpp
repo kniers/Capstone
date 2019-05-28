@@ -26,6 +26,7 @@ PyEngine* PyEngine::getInstance()
         instance->inventory = new std::vector<Item*>();
         instance->verbs = new std::unordered_map<std::string, std::unordered_set<std::string>*>();
         instance->duplicateItem = new Item(NULL, false, true);
+	instance->duplicateDoor = new Item(NULL, true, true);
         instance->LoadPyFiles("Content");
         std::remove("err.txt");
     }
@@ -963,23 +964,6 @@ Item* PyEngine::getAccessibleItem(std::string itemName)
         }
     }
 
-    // Check doors
-    std::vector<Item*> doors = getCurrentRoom()->getDoors();
-    for (uint i = 0; i < doors.size(); i++)
-    {
-        Item* testItem = doors[i];
-        if (testItem->isVisible()) {
-            if (lowercase(testItem->getName()).compare(itemName) == 0 || testItem->hasAlias(itemName))
-            {
-                if (item == NULL) {
-                    item = testItem;
-                } else if (item != testItem) {
-                    item = duplicateItem;
-                }            
-            }
-        }
-    }
-
     // Check direction or room
     Item* door = getDoorTo(itemName);
     if (door != NULL && door->isVisible())
@@ -999,6 +983,23 @@ Item* PyEngine::getAccessibleItem(std::string itemName)
             item = currentRoomItem;
         } else if (item != currentRoomItem) {
             item = duplicateItem;
+        }
+    }
+
+    // Check doors
+    std::vector<Item*> doors = getCurrentRoom()->getDoors();
+    for (uint i = 0; i < doors.size(); i++)
+    {
+        Item* testItem = doors[i];
+        if (testItem->isVisible()) {
+            if (lowercase(testItem->getName()).compare(itemName) == 0 || testItem->hasAlias(itemName))
+            {
+                if (item == NULL) {
+                    item = testItem;
+                } else if (item != testItem) {
+                    item = duplicateDoor;
+                }            
+            }
         }
     }
 

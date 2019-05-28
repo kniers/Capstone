@@ -25,6 +25,7 @@ private:
     std::vector<Item*>* inventory;
     std::unordered_map<std::string, std::unordered_set<std::string>*>* verbs;
     Item* duplicateItem;
+    Item* duplicateDoor;
 
     // Initial states for saving game
     std::map<std::string, PyObject*> initialItems;
