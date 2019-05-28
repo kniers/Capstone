@@ -117,7 +117,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    Item* addMe = aahhhh->getAccessibleItem(token);
 	    if (addMe->isDuplicate() == true){
 	        if (addMe->isDoor() == false || com->direction == 0){
-		    com->errMessage = "Which one?";
+		    com->errMessage = "Which " + token + "?";
 		    com->status = 1;
 		    return com;
 		}
