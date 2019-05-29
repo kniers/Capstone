@@ -29,7 +29,7 @@ class Smokers:
 			# if you have an item they want
 			cake = eng.getItemByName('cake')
 			if eng.inInventory(cake):
-				return self.give(cake)
+				return cake.give(self)
 			else:
 				return self.descriptions['noGiftConversation']
 		
