@@ -70,7 +70,9 @@ Command* parseIt(std::string parseMe, Command* com){
 	if (token.compare("north") == 0 ||
 	     token.compare("south") == 0 ||
 	     token.compare("east") == 0 ||
-	     token.compare("west") == 0) {
+	     token.compare("west") == 0 ||
+	     token.compare("down") == 0 ||
+	     token.compare("up") == 0) {
 	    com->direction = token.at(0);
 	}
 
@@ -150,7 +152,9 @@ Command* parseIt(std::string parseMe, Command* com){
 	    if (token.compare("north") == 0 ||
 	        token.compare("south") == 0 ||
 	        token.compare("east") == 0 ||
-	        token.compare("west") == 0) {
+	        token.compare("west") == 0 ||
+		token.compare("down") == 0 ||
+		token.compare("up") == 0) {
 	        if (com->direction == 0) //if first direction
 	            com->direction = token.at(0);
 	        else {
