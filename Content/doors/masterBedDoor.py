@@ -45,12 +45,12 @@ class masterBedDoor:
 	def open(self, otherThing):
 		if self.properties['locked']:
 			if otherThing is None:
-				key = eng.getItemByName('bedroom key')
+				key = eng.getItemByName('spare key')
 				if eng.inInventory(key):
 					return self._unlockDoor()
 				else:
 					return self.descriptions['unlockFail']
-			if otherThing.name == 'bedroom key':
+			if otherThing.name == 'spare key':
 				return self._unlockDoor()
 			else:
 				return self.descriptions['unlockFail']
