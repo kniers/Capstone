@@ -1,8 +1,7 @@
 import eng
 
-class Bardender:
+class Bartender:
 	name = 'bartender'
-	#type = 'Item'
 	visible = True 
 	aliases = []
 	descriptions = {'desc': "The bartender is standing behind the bar, serving drinks to whoever wants them.",

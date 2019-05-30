@@ -8,8 +8,9 @@ class masterBedDoor:
 	descriptions = {'desc': "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen.",
 			'lockedDoor': "It's locked. Hopefully there's a spare key in here somewhere.",
 			'alreadyOpen': "You already opened the door.",
-			'unlockSuccess': "The key fits. You unlock the door and leave it open.",
-			'unlockFail': "That won't work.",
+			'unlockSuccess': "The key fits. You unlock the door and leave it open. " \
+					 "The door unsurprisingly leads to a hallway - all houses are the same in that regard no matter how rich you are.",
+			'unlockFail': "That won't work. The door is locked.",
 			'notDressed': "Hold up now! You're not dressed for the party! You'll stand out like a watermelon in a bowl full of chick peas!"}
 	properties = {'locked': True}
 	
@@ -34,12 +35,23 @@ class masterBedDoor:
 	def look(self):
 		return self.descriptions['desc']
 
+	def _unlockDoor(self):
+		self.properties['locked'] = False
+		hall = eng.getRoomByName('Hallway')
+		hall.visible = True
+		return self.descriptions['unlockSuccess']
+
 
 	def open(self, otherThing):
 		if self.properties['locked']:
+			if otherThing is None:
+				key = eng.getItemByName('bedroom key')
+				if eng.inInventory(key):
+					return self._unlockDoor()
+				else:
+					return self.descriptions['unlockFail']
 			if otherThing.name == 'bedroom key':
-				self.properties['locked'] = False
-				return self.descriptions['unlockSuccess']
+				return self._unlockDoor()
 			else:
 				return self.descriptions['unlockFail']
 		else:

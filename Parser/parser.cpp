@@ -60,6 +60,9 @@ Command* parseIt(std::string parseMe, Command* com){
 	//check for ambiguous items
 	if (aahhhh->getAccessibleItem(token)->isDuplicate() == true){
 	    com->errMessage = "Which " + token + "?";
+	    if (token.compare("door") == 0){
+	        com->errMessage += " There are doors in multiple directions. ";
+	    }
 	    com->status = 1;
 	    return com;
 	}
@@ -118,6 +121,9 @@ Command* parseIt(std::string parseMe, Command* com){
 	    if (addMe->isDuplicate() == true){
 	        if (addMe->isDoor() == false || com->direction == 0){
 		    com->errMessage = "Which " + token + "?";
+		    if (com->direction == 0){
+		        com->errMessage += " There are doors in multiple directions. ";
+		    }
 		    com->status = 1;
 		    return com;
 		}

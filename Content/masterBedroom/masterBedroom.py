@@ -10,8 +10,8 @@ class MasterBedroom:
 								 "although it's hard to be sure. ", 
 					'longDesc': "You find yourself in what appears to be the master bedroom. " \
 								"Behind you is the window you entered in, " \
-								"although it probably won't be too useful without the ladder you accidentally knocked over on the way in! " \
-								"There is a closet on the south wall and a door on the west wall of the room. " \
+								"although it probably won't be too useful because you accidentally knocked over your ladder on the way in! " \
+								"There is a closet to your left and a door on the west wall of the room. " \
 								"There's a nightstand next to the closet as well. " \
 								"An open door on the north side of the room reveals the master bathroom. Pretty nice if you ask me!\n" \
 								"You're kinda stuck here right now. The window isn't really an option " \

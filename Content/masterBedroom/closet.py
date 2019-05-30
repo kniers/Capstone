@@ -6,7 +6,7 @@ class Closet:
 	visible = True 
 	aliases = ['wardrobe']
 	descriptions = {'closedDesc': "It's a closet... Not much more to say about it. Open it if you'd like. ",
-					'openDesc': "Pretty standard closet. ",
+					'openDesc': "You open the closet. It's a pretty standard one. ",
 					'suitDesc': "Theres a suit hanging in there. ",
 					'gownDesc': "There's a gown hanging in there. That's about it. ",
 					'bothDesc': "There's a snazzy suit in there, or a gown if that's more your style. ",

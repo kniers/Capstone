@@ -5,7 +5,7 @@ verbs = {
         "eat": {"eat", "drink"},
         "take": {"take", "grab", "get", "steal", "snatch"},
         "look": {"look", "inspect", "examine"},
-        "go": {"go"},
+        "go": {"go", "walk"},
         "use": {"use"},
         "kill": {"kill"},
         "open": {"open", "unlock", "pull out"},
