@@ -19,7 +19,7 @@ class MasterBedroom:
 					'noClothingDescAppend': "You're dressed as a burglar, so that's obviously not going to work. " \
 											"There's got to be a way to change your appearance."}
 	doors = {'north': 'masterBathDoor', 'west': 'masterBedDoor'}
-	items = ['closet', 'nightstand', 'suit', 'gown', 'bedroom key', 'masterBedroomWindow']
+	items = ['closet', 'nightstand', 'suit', 'gown', 'spare key', 'masterBedroomWindow']
 	properties = {'initialized': False}
 
 			

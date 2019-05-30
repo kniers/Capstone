@@ -30,7 +30,7 @@ class Nightstand:
 			return self.descriptions['alreadyOpenDesc']
 		else:
 			self.properties['opened'] = True
-			key = eng.getItemByName('bedroom key')
+			key = eng.getItemByName('spare key')
 			if key is not None:
 				key.visible = True				
 			return self.look()
