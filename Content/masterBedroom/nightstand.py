@@ -17,7 +17,7 @@ class Nightstand:
 	def look(self):
 		if self.properties['opened'] == True:
 			currRoom = eng.getCurrentRoom()
-			if 'bedroom key' in currRoom.items: # means key has not been picked up/moved, so it's in the drawer 
+			if 'spare key' in currRoom.items: # means key has not been picked up/moved, so it's in the drawer 
 				return self.descriptions['keyDesc']
 			else:
 				return self.descriptions['noKeyDesc']
