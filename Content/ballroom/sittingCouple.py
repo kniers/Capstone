@@ -5,7 +5,7 @@ class SittingCouple:
 	#type = 'Item'
 	visible = True 
 	aliases = ['Felix', 'Sara']
-	descriptions = {'desc': "",
+	descriptions = {'desc': "A nice couple is sitting at a table chatting quietly.",
 					'takeRA': "They're happy where they are.",
 					'touchRA': "Let's talk personal space.",
 					'eatRA': "Just no.",

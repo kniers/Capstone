@@ -8,7 +8,7 @@ class Bar:
 	descriptions = {'shortDesc': "You're in the bar again. People are still enjoying conversation and drinks.", 
 					'longDesc': "The door leads you to what looks like a bar. The bar has the look of an old London upscale pub. There are a few people in the room enjoying themselves and a bartender behind the counter. At the bar you see a Catholic Priest."}
 	doors = {'west': 'ballroomBarDoor', 'east': 'barGardensDoor', 'south': 'barGalleryDoor'}
-	items = ['Catholic Priest', 'bardtender']
+	items = ['Catholic Priest', 'bartender']
 	properties = {'initialized': False}
 
 			
