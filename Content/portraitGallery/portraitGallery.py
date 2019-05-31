@@ -10,7 +10,7 @@ class PortraitGallery:
 				'criticFragmentA': " There's a male critic looking at one of the portraits.",
 				'criticFragmentB': " There's a female critic looking at the large landscape."}
 	doors = {'north': 'barGalleryDoor', 'west': 'foyerGalleryDoor', 'south': 'galleryBilliardRoomDoor'}
-	items = ['still life', 'landscape', 'portraits', 'male critic', 'female critic', 'cabinet key']
+	items = ['still life', 'landscape', 'portraits', 'male critic', 'female critic', 'strange key']
 	properties = {'initialized': False}
 
 			

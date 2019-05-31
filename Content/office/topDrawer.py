@@ -38,7 +38,7 @@ class TopDrawer:
 	def open(self, kee):
 		if kee is None:
 			return self.descriptions['openLocked']
-		elif kee.name == 'cabinet key':
+		elif kee.name == 'strange key':
 			self.properties['opened'] = True
 			self.properties['locked'] = False
 			return self.descriptions['openMe']
