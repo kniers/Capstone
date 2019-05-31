@@ -13,7 +13,8 @@ class TopDrawer:
 					'eatMe': "The drawer is brown, but it's not made out of chocolate.",
 					'openLocked': "You try the drawer, but it's locked.",
 					'openMe': "The key fits perfectly. You open the drawer.",
-					'openBad': "You try to stuff it in the keyhole, but it doesn't work."}
+					'openBad': "You try to stuff it in the keyhole, but it doesn't work.",
+					'alreadyOpen': "You already opened that."}
 	properties = {'opened': False, 'locked': True}
 	
 	
@@ -36,12 +37,14 @@ class TopDrawer:
 
 
 	def open(self, kee):
+		if self.properties['opened']
+			return self.descriptions['alreadyOpen']
 		if kee is None:
 			return self.descriptions['openLocked']
 		elif kee.name == 'strange key':
 			self.properties['opened'] = True
 			self.properties['locked'] = False
-			return self.descriptions['openMe']
+			return self.descriptions['openMe'] + self.look()
 		else:
 			return self.descriptions['openBad']
 	

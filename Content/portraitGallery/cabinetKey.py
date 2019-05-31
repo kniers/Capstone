@@ -4,7 +4,7 @@ class CabinetKey:
 	name = 'strange key'
 	#type = 'Item'
 	visible = False 
-	aliases = ['key']
+	aliases = ['key', 'painting key', 'painted key']
 	descriptions = {'desc': "It's a small key. It's too small for a door; it looks like it might go to a filing cabinet.",
 					'takeKey': "You take the key.",
 					'alreadyTakenKey': "You already took that.",
