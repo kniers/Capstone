@@ -1,7 +1,7 @@
 import eng
 
 class CabinetKey:
-	name = 'cabinet key'
+	name = 'strange key'
 	#type = 'Item'
 	visible = False 
 	aliases = ['key']
