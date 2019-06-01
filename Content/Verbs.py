@@ -17,7 +17,10 @@ verbs = {
         "hit": {"hit", "punch", "break", "whack"},
         "talk": {"talk", "speak", "ask"}, 
         "sharpen": {"sharpen", "whet"}, 
-        "give": {"give"},
+        "give": {"give", "feed"},
+	"search": {"search"},
+	"listen": {"listen"},
+	"push": {"push"},
         "twist": {"twist"}
     }
 
