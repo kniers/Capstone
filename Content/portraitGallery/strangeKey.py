@@ -1,6 +1,6 @@
 import eng
 
-class CabinetKey:
+class StrangeKey:
 	name = 'strange key'
 	#type = 'Item'
 	visible = False 
@@ -45,5 +45,5 @@ class CabinetKey:
 		return self.descriptions['eatKey']
 			
 
-cabinetKey = CabinetKey()
-eng.setupItem(cabinetKey)
+strangeKey = StrangeKey()
+eng.setupItem(strangeKey)
