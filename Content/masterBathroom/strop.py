@@ -5,7 +5,7 @@ class Strop:
 	#type = 'Item'
 	visible = False 
 	aliases = []
-	descriptions = {'desc': "It's a strop, a long leather strap used for sharpening razor blades.",
+	descriptions = {'desc': "It's a strop, a long leather strap used for sharpening razor blades. You don't see any spare blades around here, but maybe there's something else you can sharpen.",
 					'takeStrop': "You pick up the strop.",
 					'alreadyTakenStrop': "You already took that.",
 					'touchStrop': "You touch the strop. There's no achievement for this.",

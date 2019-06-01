@@ -5,7 +5,10 @@ class Desk:
 	#type = 'Item'
 	visible = True 
 	aliases = []
-	descriptions = {'desc': "It's a perfectly adequate desk. It does its job, but it's nothing to write home about. All the drawers are locked. There's a fountain pen and a letter opener sitting on top of it.",
+	descriptions = {'desc': "It's a perfectly adequate desk. It does its job, but it's nothing to write home about. All the drawers are locked. ",
+					'hasPenAndOpener': "There's a fountain pen and a letter opener sitting on top of it.",
+					'hasPen': "There's a fountain pen sitting on top of it.",
+					'hasOpener': "There's a letter opener sitting on top of it.",
 					'takeDesk': "It's too heavy. Besides, it wouldn't even fit in your pocket.",
 					'touchDesk': "You touch the desk. It doesn't touch you back, except in the Newtonian sense.",
 					'eatDesk': "That won't fit in your mouth. Besides, that many calories wouldn't help your figure at all.",
@@ -16,13 +19,21 @@ class Desk:
 	
 	def look(self):
 		self.visible = True
+		currRoom = eng.getCurrentRoom()
 		fountainPen = eng.getItemByName('fountain pen')
 		if fountainPen is not None:
 			fountainPen.visible = True
 		letterOpener = eng.getItemByName('letter opener')
 		if letterOpener is not None:
 			letterOpener.visible = True
-		return self.descriptions['desc']
+		description = self.descriptions['desc']
+		if 'fountain pen' in currRoom.items and 'letter opener' in currRoom.items:
+			description += self.descriptions['hasPenAndOpener']
+		elif 'fountain pen' in currRoom.items:
+			description += self.descriptions['hasPen']
+		elif 'letter opener' in currRoom.items:
+			description += self.descriptions['letter opener']
+		return description
 	
 	
 	def take(self):

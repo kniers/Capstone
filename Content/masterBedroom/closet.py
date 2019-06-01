@@ -27,7 +27,7 @@ class Closet:
 			elif 'gown' in currRoom.items:
 				return desc + self.descriptions['gownDesc']
 			else:
-				return desc + self.description['neitherDesc']
+				return desc + self.descriptions['neitherDesc']
 		else:
 			return self.descriptions['closedDesc']
 	

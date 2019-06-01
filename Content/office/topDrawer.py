@@ -4,7 +4,7 @@ class TopDrawer:
 	name = 'top drawer'
 	#type = 'Item'
 	visible = False 
-	aliases = ['drawer']
+	aliases = []
 	descriptions = {'closedDesc': "It's the top drawer of the filing cabinet. It's identical in appearance to the bottom drawer for the most part.",
 					'openDescHit': "You look inside the drawer. Bingo! There's what you're looking for! Now you just have to take it and exit the front door.",
 					'openDescMiss': "You look inside the drawer. There's a small gold statue in there. It's not what you're here for, but it's a good consolation prize.",

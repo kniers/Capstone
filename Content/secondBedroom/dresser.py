@@ -34,7 +34,7 @@ class Dresser:
 		return self.descriptions['eatDresser']
 
 
-	def open(dresser):
+	def open(self):
 		return self.descriptions['openDresser']
 
 			

@@ -6,6 +6,7 @@ class Mousetrap:
 	visible = False 
 	aliases = ['trap']
 	descriptions = {'desc': "You look more closely at the mousetrap. Hey, there's a mouse inside! Who knew?",
+					'noMouse': "It's an empty mousetrap.",
 					'takeMT': "The mousetrap's a little too bulky to carry around, but you can take the mouse if you like.",
 					'touchMT': "You touch the mousetrap. Nothing happens.",
 					'eatMT': "Half of Europe died due to diseases carried by rats. That's a risk you're not taking.",
@@ -18,9 +19,11 @@ class Mousetrap:
 		self.visible = True
 		currRoom = eng.getCurrentRoom()
 		mouse = eng.getItemByName('mouse')
-		if mouse is not None:
-			mouse.visible = True
-		return self.descriptions['desc']
+		mouse.visible = True
+		if 'mouse' in currRoom.items:
+			return self.descriptions['desc']
+		else:
+			return self.descriptions['noMouse']
 	
 	
 	def take(self):

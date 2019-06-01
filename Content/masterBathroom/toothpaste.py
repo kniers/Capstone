@@ -11,7 +11,8 @@ class Toothpaste:
 					'touchPaste': "You touch the tube. It's mostly empty inside, kind of like your soul.",
 					'eatPaste': "Toothpaste contains fluoride, which can cause an upset stomach.",
 					'dropNoHold': "You pick up the toothpaste and then put it back where you found it.",
-					'dropPaste': "You put the toothpaste down. No dentist will tell you what to do."}
+					'dropPaste': "You put the toothpaste down. No dentist will tell you what to do.",
+					'usePaste': "You use the toothpaste to clean your teeth. Minty fresh!"}
 	properties = {}
 	
 	
@@ -43,6 +44,9 @@ class Toothpaste:
 
 	def eat(self):
 		return self.descriptions['eatPaste']
+
+	def use(self):
+		return self.descriptions['usePaste']
 			
 
 toothpaste = Toothpaste()

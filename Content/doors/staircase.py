@@ -3,7 +3,7 @@ import eng
 class Staircase:
 	name = 'staircase'
 	visible = True 
-	aliases = ['stair', 'stairs', 'stairway']
+	aliases = ['stair', 'stairs', 'stairway', 'downstairs', 'upstairs']
 	roomConnections = {'up': 'Hallway', 'down': 'Foyer'}
 	descriptions = {'desc': "It's a staircase. I'm sure you've used them before in your life. You can handle it. ",
 			'butlerDead': "You need to hide the butler's body before you go downstairs. If somebody sees it, they'll call the police, which you don't need right now.",

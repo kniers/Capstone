@@ -6,10 +6,10 @@ class Office:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the office again. There's still a desk and all that kinda stuff. ", 
-					'longDesc': "The door leads you to what looks like an office. There's a desk with a fountain pen and a letter opener on it. " \
+					'longDesc': "The door leads you to what looks like an office. There's a desk along the wall. " \
 								"There's also a filing cabinet in the corner. The room is windowless, and the only exit is back north through the door you came in. "}
 	doors = {'north': 'officeDoor'}
-	items = ['desk', 'letter opener', 'fountain pen', 'filing cabinet', 'top drawer', 'bottom drawer', 'blueprints', 'gold statue']
+	items = ['desk', 'letter opener', 'fountain pen', 'filing cabinet', 'top drawer', 'bottom drawer', 'blueprints', 'gold statue', 'drawers']
 	properties = {'initialized': False}
 
 			

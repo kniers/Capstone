@@ -4,7 +4,7 @@ class FountainPen:
 	name = 'fountain pen'
 	#type = 'Item'
 	visible = True 
-	aliases = []
+	aliases = ['pen']
 	descriptions = {'desc': "It's a fountain pen. It's completely dry, and the ink must be locked in the desk.",
 					'takeFP': "You take the pen. You'll need some ink to use it, but you're otherwise prepared to write your life story.",
 					'alreadyTakenFP': "You put the pen down and pick it back up again.",

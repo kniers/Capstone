@@ -5,7 +5,8 @@ class LetterOpener:
 	#type = 'Item'
 	visible = True
 	aliases = []
-	descriptions = {'desc': "It's a letter opener. People with short fingernails use it to open letters.",
+	descriptions = {'desc': "It's a letter opener. People with short fingernails use it to open letters. ",
+					'sharpDesc': "It looks sharp enough to kill someone with.",
 					'takeLO': "You take the letter opener. No envelope will stand in your way now!",
 					'alreadyTakenLO': "You already took that.",
 					'touchLO': "You touch the letter opener. It's not very sharp, but will do in a pinch.",
@@ -20,7 +21,10 @@ class LetterOpener:
 	
 	def look(self):
 		self.visible = True
-		return self.descriptions['desc']
+		description = self.descriptions['desc']
+		if self.properties['sharp']:
+			description += self.descriptions['sharpDesc']
+		return description
 	
 	
 	def take(self):

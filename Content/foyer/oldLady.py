@@ -4,7 +4,7 @@ class OldLady:
 	name = 'old lady'
 	#type = 'Item'
 	visible = True 
-	aliases = ['Mrs. Haut', 'Bethal Haut', 'Bethal']
+	aliases = ['Mrs. Haut', 'Bethal Haut', 'Bethal', 'lady']
 	descriptions = {'desc': "She is a little old lady with white hair and tint of purple. ",
 					'intro':"Hello dear, I am Bethal Haut. I used to be Master Winston's nanny years ago. Still a good family friend. ",
 					'converse':"YOU: I am ... I work at the Winston Corporation in Finance. BETHAL: Nice to meet you. ",

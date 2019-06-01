@@ -7,6 +7,7 @@ class Butler:
 	aliases = []
 	descriptions = {'descAlive': "The butler is standing at the top of the stairway, observing the party below. You can't sneak past him without arousing his suspicion. You could kill him if you had a weapon, but Big Al would prefer this mission be done quietly.",
 					'descDead': "The butler's body is still right where you left it.",
+					'descHolding': "You're carrying the butler's body. You should drop it somewhere out of sight.",
 					'takeButlerAlive': "You mean, like to dinner? I don't think he'd be interested.",
 					'takeButlerDead': "You pick up the butler's body. Now to get it out of sight.",
 					'touchButlerAlive': "That would attract his attention, something you don't want at the moment.",
@@ -28,7 +29,9 @@ class Butler:
 	
 	def look(self):
 		self.visible = True
-		if self.properties['dead']:
+		if eng.inInventory(self):
+			return self.descriptions['descHolding']
+		elif self.properties['dead']:
 			return self.descriptions['descDead']
 		else:
 			return self.descriptions['descAlive']

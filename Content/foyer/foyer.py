@@ -7,7 +7,7 @@ class Foyer:
 	aliases = []
 	descriptions = {'shortDesc': "You're in the foyer again. There is an old lady sitting near the stairwell.", 
 					'longDesc': "You're in the grand foyer at the front of the house. A dazzling chandelier hangs from the ceiling.",
-					'drink': "A server sees you are empty handed and offers you a drink. You accept the drink just to fit in with the party."}
+					'drink': "A server sees you are empty handed and offers you a martini. You accept the drink just to fit in with the party."}
 	doors = {'up': 'staircase', 'west': 'frontDoor', 'north': 'foyerBallroomDoor', 'east': 'foyerGalleryDoor', 'south': 'foyerLibraryDoor'}
 	items = ['chandelier', 'martini', 'drink server', 'old lady']
 	properties = {'initialized': False}
