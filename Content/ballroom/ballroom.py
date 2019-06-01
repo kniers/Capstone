@@ -38,4 +38,3 @@ class Ballroom:
 
 ballroom = Ballroom()
 eng.setupRoom(ballroom)
-eng.goToRoom(ballroom) # This line only because the master bedroom is the first room
