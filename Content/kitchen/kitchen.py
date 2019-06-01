@@ -18,7 +18,7 @@ class Kitchen:
 									 "these rich people didn't eat it all. ",
 					'smokersDesc': "That'd be perfect for the smokers outside. I'm sure the cake will get them in a more generous mood."}
 	doors = {'south': 'ballroomKitchenDoor'}
-	items = ['fridge', 'cake']
+	items = ['fridge', 'cake', 'tuna']
 	properties = {'initialized': False}
 
 			
