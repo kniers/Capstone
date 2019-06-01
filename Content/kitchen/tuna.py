@@ -10,7 +10,7 @@ class Tuna:
 					'nothingToGive': "The sharks want flesh nothing else. Don't eat or give tuna to anyone else. ",
 					'aBite': "Okay, one bite, but leave some for the sharks. ",
 					'alreadyHave': "You already have the tuna",
-					'droppedTun': "You have dropped the tuna. It will smell eventually. ",
+					'droppedTuna': "You have dropped the tuna. It will smell eventually. ",
 					'dontHave': "You don't have the tuna to drop. "}
 	properties = {'triedEat': False, 'have': False}
 	

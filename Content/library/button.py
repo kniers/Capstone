@@ -8,7 +8,7 @@ class Button:
 	descriptions = {'buttonDesc': "It is a silver button just begging to be pushed. ",
 					'pushedDesc': "Looks like the button opened a three foot wide portion of the bookshelf. There is an iron door behind the case. ",
 					'bookshelfCloses': "The three foot portion of the bookshelf rises out of the flooring hiding the iron door. ",
-					'bookshelfOpens': "A three foot portion of the bookshelf lowers into a compartment in the floor. This reveals an iron door behind the shelving. "}
+					'bookshelfOpens': "A three foot portion of the bookshelf lowers into a compartment in the floor. This reveals an iron door in the floor behind the shelving. "}
 	properties = {'buttonPushed': False}
 
 	def look(self):

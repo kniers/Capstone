@@ -14,7 +14,7 @@ class SharkTank:
 
 	def look(self):
 		if self.properties['opened'] == True:
-			return self.description['openDesc']
+			return self.descriptions['openDesc']
 		else:
 			return self.descriptions['tankDesc']
 
