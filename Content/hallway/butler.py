@@ -89,6 +89,10 @@ class Butler:
 			return self.descriptions['killDead']
 		else:
 			if weapon is None:
+				letterOpener = eng.getItemByName('letter opener')
+				if eng.inInventory(letterOpener):
+					self.properties['dead'] = True 
+					return self.descriptions['killButlerLOSuccess']
 				return self.descriptions['killButlerUnarmed']
 			elif weapon is letterOpener:
 				if letterOpener.properties['sharp'] == True:

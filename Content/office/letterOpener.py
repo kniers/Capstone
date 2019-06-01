@@ -54,6 +54,10 @@ class LetterOpener:
 
 	def sharpen(self, otherThing):
 		if otherThing is None:
+			strop = eng.getItemByName('strop')
+			if eng.inInventory(strop):
+				self.properties['sharp'] = True 
+				return self.descriptions['sharpenSuccessLO']
 			return self.descriptions['sharpenFailLO']
 		elif otherThing.name == 'strop':
 			self.properties['sharp'] = True
