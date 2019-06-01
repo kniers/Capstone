@@ -6,7 +6,7 @@ class SharkTank:
 	visible = True 
 	aliases = ['shark tank', 'tank', 'fish tank', 'aquarium']
 	descriptions = {'tankDesc': "It is a large shark tank about 18-ft x 24-ft in size. Inside there are five leopard sharks swimming around. The undersea environment has rocks, coral, and various seaweeds. You look closer and you notice a huge shark tooth at the bottom in the rocks.",
-					'openDesc': "You have opened the top of the tank.",
+					'openDesc': "You have opened the top of the tank. Inside there are five leopard sharks swimming around. The undersea environment has rocks, coral, and various seaweeds. You look closer and you notice a huge shark tooth at the bottom in the rocks.",
 					'alreadyOpen': "Can't open it twice",
 					'closeDesc': "The tank is closed. ",
 					'alreadyClosed': "It is closed "}
