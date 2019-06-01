@@ -37,7 +37,7 @@ class TopDrawer:
 
 
 	def open(self, kee):
-		if self.properties['opened']
+		if self.properties['opened']:
 			return self.descriptions['alreadyOpen']
 		if kee is None:
 			return self.descriptions['openLocked']

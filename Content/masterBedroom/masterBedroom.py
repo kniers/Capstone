@@ -7,7 +7,10 @@ class MasterBedroom:
 	aliases = ['master bed', 'bedroom', 'starting bedroom', 'starting room']
 	descriptions = {'shortDesc': "You're back in the bedroom that you started in. " \
 								 "It doesn't look like anyone has been in here since you left, " \
-								 "although it's hard to be sure. ", 
+								 "although it's hard to be sure. " \
+								 "The exits are the same - ",
+					'hallDoorClosed': "a closed door to the west and the door to the master bathroom to the north. ",
+					'hallDoorOpen': "there's a door to the hallway to the west and the door to the master bathroom to the north. ",
 					'longDesc': "You find yourself in what appears to be the master bedroom. " \
 								"Behind you is the window you entered in, " \
 								"although it probably won't be too useful because you accidentally knocked over your ladder on the way in! " \
@@ -24,7 +27,11 @@ class MasterBedroom:
 
 			
 	def _printShortDesc(self): 
-		return self.descriptions['shortDesc']
+		hall = eng.getRoomByName('Hallway')
+		if hall.visited:
+			return self.descriptions['shortDesc'] + self.descriptions['hallDoorOpen']
+		else:
+			return self.descriptions['shortDesc'] + self.descriptions['hallDoorClosed']
 
 		
 	# Dynamic based on what player is wearing 	

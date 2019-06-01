@@ -16,7 +16,8 @@ class masterBedDoor:
 	
 	
 	def go(self):
-		if self.properties['locked']:
+		key = eng.getItemByName('spare key')
+		if self.properties['locked'] and  not eng.inInventory(key):
 			return self.descriptions['lockedDoor']
 		suit = eng.getItemByName("suit")
 		gown = eng.getItemByName("gown")
