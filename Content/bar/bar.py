@@ -6,9 +6,9 @@ class Bar:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the bar again. People are still enjoying conversation and drinks.", 
-					'longDesc': "The door leads you to what looks like a bar. The bar has the look of an old London upscale pub. There are a few people in the room enjoying themselves and a bartender behind the counter. At the bar you see a Catholic Priest."}
+					'longDesc': "The door leads you to what looks like a bar. The bar has the look of an old London upscale pub with a long marble counter. There are a few people in the room enjoying themselves and a bartender behind the counter. At the bar you see a Catholic Priest."}
 	doors = {'west': 'ballroomBarDoor', 'east': 'barGardensDoor', 'south': 'barGalleryDoor'}
-	items = ['Catholic Priest', 'bartender']
+	items = ['Catholic Priest', 'bartender', 'counter', 'bone key']
 	properties = {'initialized': False}
 
 			
