@@ -1,17 +1,17 @@
 class BookLOTR:
-	name = 'LordOfTheRings'
+	name = 'The Hobbit'
 	#type = 'Item'
 	visible = True
-	aliases = ['Lord of the Rings', 'LOTR', 'lord of the rings', 'lotr']
-	descriptions = {'desc': "Hardbound copy of Lord of Rings with the Hobbit through The Return of the King. ",
-					'descHaveBook': "You have Lord of the Rings in your inventory. ",
+	aliases = ['Hobbit', 'LOTR']
+	descriptions = {'desc': "Hardbound copy of The Hobbit. ",
+					'descHaveBook': "You have The Hobbit in your inventory. ",
 					'read': "Three Rings for the Elven-kings under the sky, Seven for the Dwarf-lords in their halls of stone, Nine for Mortal Men, doomed to die, One for the Dark Lord on his dark throne, In the Land of Mordor where the Shadows lie... ",
 					'readMore': "One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them. In the Land of Mordor where the Shadows lie... ",
 					'alreadyHave': "You already have the book. Maybe we should drop it?",
 					'takeBook': "Book is in your inventory.",
 					'droppedBook' : "You've dropped the book.", 
 					'dontHave': "You can't drop something you don't have.",
-					'eatBook': "You can't even get your mouth around it. "}
+					'eatBook': "Seems a bit dusty maybe we shouldn't. "}
 	properties = {'have': False, 'read': False}
 
 	def look(self):

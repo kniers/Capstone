@@ -8,7 +8,7 @@ class Library:
 	descriptions = {'shortDesc': "You're in the library again. Same bookshelf ", 
 					'longDesc': "The door leads you to what looks like a library. There is a bookshelf that run around all the free wall space. There are numerous books all around. "}
 	doors = {'north': 'foyerLibraryDoor', 'east': 'libraryBilliardRoomDoor', 'west': 'libraryStudyDoor', 'down': 'librarySecretRoomDoor'}
-	items = ['LordOfTheRings', 'Dracula', 'Great Expectations', 'Charles Winston', 'button', 'Nathaniel Winston', 'bookshelf']
+	items = ['The Hobbit', 'Dracula', 'Great Expectations', 'Charles Winston', 'button', 'Nathaniel Winston', 'bookshelf']
 	properties = {'initialized': False}
 
 			
