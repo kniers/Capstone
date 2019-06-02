@@ -6,7 +6,8 @@ class MasterBathroom:
 	visible = True # Door to bathroom is open
 	aliases = ['master bathroom', 'master bath', 'bathroom']
 	descriptions = {'shortDesc': "You're in that master bathroom. Nothing in particular stands out here. " \
-								 "It's not like the master bathroom is the most interesting room in the house. ",
+								 "It's not like the master bathroom is the most interesting room in the house. " \
+								 "The only exit is back south to the master bedroom. ",
 					'longDesc': "You've stepped into the master bathroom. It's remarkably clean, compared " \
 								"to the disgusting state you leave your own bathroom in at home. There " \
 								"doesn't appear to be anything valuable in view, which I guess can be expected. " \

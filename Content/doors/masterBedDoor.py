@@ -9,7 +9,7 @@ class masterBedDoor:
 			'lockedDoor': "It's locked. Hopefully there's a spare key in here somewhere.",
 			'alreadyOpen': "You already opened the door.",
 			'unlockSuccess': "The key fits. You unlock the door and leave it open. " \
-					 "The door unsurprisingly leads to a hallway - all houses are the same in that regard no matter how rich you are.",
+					 "You can see that the door leads to a hallway, although you haven't stepped out yet. ",
 			'unlockFail': "That won't work. The door is locked.",
 			'notDressed': "Hold up now! You're not dressed for the party! You'll stand out like a watermelon in a bowl full of chick peas!"}
 	properties = {'locked': True}

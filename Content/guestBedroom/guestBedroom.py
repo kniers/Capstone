@@ -7,8 +7,13 @@ class GuestBedroom:
 	aliases = []
 	descriptions = {'shortDescA': "You're in the guest bedroom again. The maid is still asleep in the corner.",
 			'shortDescB': "You're in the guest bedroom again. The maid and butler are quietly chatting in the corner. They won't notice you.", 
-					'longDescA': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. There's a maid sleeping in the corner with a picture of the butler resting on her chest. ",
-					'longDescB': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. The maid and butler are quietly chatting in the corner. They won't notice you."} 
+					'longDescA': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. " \
+								 "There's a maid sleeping in the corner with a picture of the butler resting on her chest. " \
+								 "The room is windowless ('kinda weird for a bedroom', you think to yourself, but whatever), " \
+								 "so the only exit is back out the south door that you entered through.",
+					'longDescB': "You're in the guest bedroom, presumably. It's smaller than the master bedroom. " \
+								 "The maid and butler are quietly chatting in the corner. They won't notice you. " \
+								 "As mentioned, the room is windowless so you're only exit is the door to the south that you entered through. "} 
 	doors = {'south': 'guestBedDoor'}
 	items = ['maid']
 	properties = {'initialized': False, 'maidAsleep': True}

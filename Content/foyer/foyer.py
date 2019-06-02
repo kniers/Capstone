@@ -5,8 +5,11 @@ class Foyer:
 	visited = False
 	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the foyer again. There is an old lady sitting near the stairwell.", 
-					'longDesc': "You're in the grand foyer at the front of the house. A dazzling chandelier hangs from the ceiling.",
+	descriptions = {'shortDesc': "You're in the foyer again. There is an old lady sitting near the stairwell. " \
+								 "You have exits in all directions to choose from. ", 
+					'longDesc': "You're in the grand foyer at the front of the house. A dazzling chandelier hangs from the ceiling. " \
+								"Besides the staircase you came down earlier, there are doors in each direction. The one to the west looks like " \
+								"the entrance to the house. The other three... it's difficult to tell where they lead. ",
 					'drink': "A server sees you are empty handed and offers you a martini. You accept the drink just to fit in with the party."}
 	doors = {'up': 'staircase', 'west': 'frontDoor', 'north': 'foyerBallroomDoor', 'east': 'foyerGalleryDoor', 'south': 'foyerLibraryDoor'}
 	items = ['chandelier', 'martini', 'drink server', 'old lady']

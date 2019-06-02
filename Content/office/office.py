@@ -5,7 +5,7 @@ class Office:
 	visited = False
 	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the office again. There's still a desk and all that kinda stuff. ", 
+	descriptions = {'shortDesc': "You're in the office again. There's still a desk and all that kinda stuff. The only exit remains back north to the hallway. ", 
 					'longDesc': "The door leads you to what looks like an office. There's a desk along the wall. " \
 								"There's also a filing cabinet in the corner. The room is windowless, and the only exit is back north through the door you came in. "}
 	doors = {'north': 'officeDoor'}

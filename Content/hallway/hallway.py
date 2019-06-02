@@ -6,7 +6,7 @@ class Hallway:
 	visible = False 
 	aliases = ['hall']
 	#FIXME: change description based on state of butler
-	descriptions = {'shortDesc': "You're in the hallway again. ", 
+	descriptions = {'shortDesc': "You're in the hallway again. It's still got doors in each direction and the staircase going down. ", 
 					'longDesc': "You find yourself in the hallway. Just off to the side to your right is a stairwell going down. ",
 					'butlerLocation': "Standing at the top of the stairwell is the butler. ",
 					'doorLocations': "To the south towards the end of the hallway is a door. Similarly, there's a door to the north. " \
