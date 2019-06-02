@@ -88,6 +88,10 @@ WINDOW *createNewOutput(int h, int w, int y, int x){
 //Opening TBA3 Game Intro Window
 void introWindow(){
 	WINDOW *intro;
+	//Set colors
+	start_color();	
+	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+	attron(COLOR_PAIR(1));
 	int row = 5;
 	int col = 0;
 	//PrevWord k and reset for tracking words for wraping text
@@ -246,15 +250,11 @@ WINDOW *inputScr(){
  * returns: void
  */
 void printMap(WINDOW *graphicOut, char *cRoomName){
-	
-	//Color attributes
-	start_color();
-	init_pair(1, COLOR_RED, COLOR_BLACK);
 	//Show mansion floor plan
 	mvwprintw(graphicOut,0,0,"                    00000000000000\n                    0|||||  0    0\n                    000000  0    0\n        0000000000  0    0  0_0000\n        0        0  0    |  0    0\n0000000000_0000000  000000  0    0\n0            |   0  0    0  |    0\n0000         0   0  0 0_ 0  0    0\n0  |         0   |  000     0    0\n000000_0000000_000  0 0 _0000_0000\n    0  |||0      0  0    |  0    0\n    |     |      0  00000000000000\n    0     0      0   SECOND FLOOR\n00000_000000_00000_00000\n0   0    0 0     0     0\n0   0    000     0     0\n0   |      |     |     0\n000000000000000000000000\n      FIRST FLOOR\n");
 	//Get player location	
 	//Set position char to red
-	wattron(graphicOut,COLOR_PAIR(1));
+	wattron(graphicOut,COLOR_PAIR(2));
 	if(strcmp("Bar",cRoomName) == 0){
 		mvwprintw(graphicOut,7,15,"$");
 	}	
@@ -313,7 +313,7 @@ void printMap(WINDOW *graphicOut, char *cRoomName){
 		mvwprintw(graphicOut,10,22,"$");	
 	}
 	wrefresh(graphicOut);
-	attron(COLOR_PAIR(0));
+	attron(COLOR_PAIR(1));
 }
 /* function: printItems
  * description: prints an array of c string items
@@ -364,6 +364,12 @@ std::string  gameUI(bool inv, int roomID, std::string roomName, std::string cppD
 	//Initialize ncurses
 	initscr();
 	
+	//Start and set color attributes
+	start_color();	
+	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+	init_pair(2, COLOR_RED, COLOR_BLACK);
+	attron(COLOR_PAIR(1));
+	//Create output windows
 	WINDOW *desOutput;
 	WINDOW *roomItemsWin;
 	WINDOW *doorsOut;
