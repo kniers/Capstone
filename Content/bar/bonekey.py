@@ -4,10 +4,10 @@ class BoneKey:
 	name = 'bone key'
 	#type = 'Item'
 	visible = False
-	aliases = ['bonekey']
+	aliases = ['bonekey', 'key']
 	descriptions = {'desc': "Looks to be a key fashioned from some animal or human bone... ",
 					'alreadyHave': "You already have the key. Maybe we should drop it?",
-					'takeKey': "Bone key is in your inventory. ",
+					'takeKey': "You got the bone key. How medieval. ",
 					'droppedKey' : "You've dropped the bone key. ", 
 					'dontHave': "You can't drop something you don't have.",
 					'eatKey': "There is no meat left on the bone. "}
@@ -42,6 +42,12 @@ class BoneKey:
 			eng.removeFromInventory(self)
 			eng.dropItem(self)
 			return self.descriptions['droppedKey']
+
+	def use(self, item):
+		if item is None:
+			return "Use it on what?"
+		if item.name == 'librarySecretRoomDoor':
+			return item.open(self)
 
 		
 bonekey = BoneKey()

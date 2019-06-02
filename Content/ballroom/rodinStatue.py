@@ -5,7 +5,7 @@ class RodinStatue:
 	#type = 'Item'
 	visible = True
 	aliases = ['statue']
-	descriptions = {'desc': "It's a life-sized human statue by the artist Rodin. Rodin? He's the guy who sculpted The Thinker. There's somebody in the mansion who would like to see this."}
+	descriptions = {'desc': "It's a life-sized human statue by the artist Rodin. Rodin? He's the guy who sculpted The Thinker. I bet there's somebody in the mansion who would like to see this."}
 	properties = {}
 	
 	
@@ -13,7 +13,7 @@ class RodinStatue:
 		self.visible = True
 		rl = eng.getItemByName('rodin location')
 		rl.visible = True
-		eng.addToInventory(rl)
+		#eng.addToInventory(rl) # Now the location item is in the portrait gallery instead of your inventory
 		return self.descriptions['desc']
 	
 	

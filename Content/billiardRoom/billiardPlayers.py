@@ -23,7 +23,7 @@ class BilliardPlayers:
         return "You awkwardly touch one of the players as he lines up a shot. He didn't seem to notice, but there doesn't seem to be anything valuable in his pockets."
 
     def hit(self):
-        return "\"Hey! Can't you see we're in the middle of something? I'm not in the mood for a fight."
+        return "\"Hey! Can't you see we're in the middle of something? I'm not in the mood for a fight.\""
 
     def kill(self):
         return self.hit()

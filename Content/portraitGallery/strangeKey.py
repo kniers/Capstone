@@ -43,6 +43,14 @@ class StrangeKey:
 
 	def eat(self):
 		return self.descriptions['eatKey']
+
+	def use(self, item):
+		if item is None:
+			return "Use it on what?"
+		elif item.name == 'top drawer':
+			return item.open(self)
+		else:
+			return "That didn't work"
 			
 
 strangeKey = StrangeKey()

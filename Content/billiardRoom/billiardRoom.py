@@ -6,7 +6,7 @@ class BilliardRoom:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the billiard room again. ", 
-					'longDesc': "The door leads you to what looks like a billiard room, with a billards table in the middle. Decorative plants are lined up along the wall. ",
+					'longDesc': "The door leads you to what looks like a billiard room, with a billiard table in the middle. Decorative plants are lined up along the wall. ",
 					'players': "Some low hanging lights illuminate the table where two gentlemen are finishing up a game of 8-ball. ",
 					'noPlayers': "No one else is in here. Time to take a closer look around. "}
 	doors = {'north': 'galleryBilliardRoomDoor', 'east': 'billiardRoomConservatoryDoor', 'west': 'libraryBilliardRoomDoor'}

@@ -2,10 +2,10 @@ import eng
 
 class Beer:
     name = 'beer'
-    aliases = ['bottle']
+    aliases = []
 
     def look(self):
-        return "A bottle of high quality beer. You haven't seen any others around the party"
+        return "A glass of high quality craft beer from the bar. You haven't seen any others around the party since they ran out. "
 
     def take(self):
         martini = eng.getItemByName('martini')

@@ -6,7 +6,7 @@ class SecretRoom:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the secret room again. Same big shark tank. ", 
-					'longDesc': "The door leads you to a secret room. Cool! In the center of the room you see a huge aquarium with what seems to be leopard sharks. "}
+					'longDesc': "The hatch leads you to a secret room. Cool! In the center of the room you see a huge aquarium with what seems to be leopard sharks. "}
 	doors = {'up': 'librarySecretRoomDoor'}
 	items = ['emerald', 'sharktank', 'sharks', 'megalodon tooth']
 	properties = {'initialized': False}

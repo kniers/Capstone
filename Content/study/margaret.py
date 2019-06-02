@@ -8,7 +8,7 @@ class Margaret:
     def look(self):
         description = "There's a woman here checking out the collection of artifacts. "
         if self.properties['hasBeer']:
-            description += "While it seems everyone else here is drinking fancy cocktails, this woman is double-fisting two bottles of beer."
+            description += "While it seems everyone else here is drinking fancy cocktails, this woman is double-fisting two glasses of beer."
         return description
 
     def talk(self, about):
@@ -16,9 +16,9 @@ class Margaret:
             if self.properties['hasBeer']:
                 martini = eng.getItemByName('martini')
                 if eng.inInventory(martini):
-                    return "Margaret:\n\"Hello there. I'm Margaret. It's nice to meet you. Isn't this stuff so cool? They were about to run out of beer so I grabbed two bottles. I would offer you one, but it looks like you already have a martini.\""
+                    return "Margaret:\n\"Hello there. I'm Margaret. It's nice to meet you. Isn't this stuff so cool? They were about to run out of beer so I grabbed two glasses. I would offer you one, but it looks like you already have a martini.\""
                 else:
-                    return "Margaret:\n\"Hello there. I'm Margaret. It's nice to meet you. Isn't this stuff so cool? They were about to run out of beer so I grabbed two bottles. Do you want one?\""
+                    return "Margaret:\n\"Hello there. I'm Margaret. It's nice to meet you. Isn't this stuff so cool? They were about to run out of beer so I grabbed two glasses. Do you want one?\""
             else:
                 return "Margaret:\n\"Wow, it must have taken them years to collect this stuff.\""
         elif about.name == 'artifacts':

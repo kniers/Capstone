@@ -5,6 +5,7 @@ class Fridge:
 	visible = False 
 	aliases = ['refrigerator']
 	descriptions = {'openFridge': "Someone (you!?) was irresponsible and left the fridge open. There's so much cake in there, but it's starting to soften. ",
+					'openWithTuna': "There's a whole tuna in here, too.",
 					'desc': "There's a massive fridge towards the back of the kitchen. It's like one of those super fancy ones that gets " \
 							"advertised on TV, but bigger. The owner of this place must be loaded if he wastes money on a fridge that could " \
 							"fit an elephant. ",
@@ -19,7 +20,11 @@ class Fridge:
 	def look(self):
 		self.visible = True
 		if self.properties['opened'] == True:
-			return self.descriptions['openFridge']
+			currRoom = eng.getCurrentRoom()
+			if 'tuna' in currRoom.items:
+				return self.descriptions['openFridge'] + self.descriptions['openWithTuna']
+			else:
+				return self.descriptions['openFridge']
 		else:
 			return self.descriptions['desc']
 	

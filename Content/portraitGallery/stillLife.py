@@ -5,7 +5,7 @@ class StillLife:
 	#type = 'Item'
 	visible = True 
 	aliases = []
-	descriptions = {'desc': "It's a hyper-realistic still life. It portrays a green table with a pitcher, some grapes, some dead pheasants, a key, and fruit in a bowl on it. It looks almost too real.",
+	descriptions = {'desc': "It's a hyper-realistic still life. It portrays a green table with a pitcher, some grapes, some dead pheasants, a key, and fruit in a bowl on it. It looks almost too real. You feel like you could reach right in and touch everything. ",
 					'takeSL': "It's too big. You'd never get it out of here without arousing suspicion. Also, it's not that valuable anyway.",
 					'touchAlone': "You reach out and gently feel the painting.",
 					'touchWithKey': " As your finger runs across the strange key the artist painted, you feel metal. Somebody stuck a real key to the painting!",

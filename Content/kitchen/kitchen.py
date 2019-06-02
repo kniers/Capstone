@@ -13,7 +13,7 @@ class Kitchen:
 								"I guess if the staff is going to treat you as if you're not there, you can get away with whatever you want. " \
 								"Matter of fact, they're probably trained to not confront any of the guests, regardless of what the guest does. " \
 								"That's perfect for you - you can just take whatever you need.\n" \
-								"As you look around you see that there's a fridge towards the back. That's really the only interesting thing in the room. ",
+								"As you look around you see that there's a refrigerator towards the back. That's really the only interesting thing in the room. ",
 					'cakeAvailable': "I bet there's still cake in the fridge, though. There's plates of it all around the house and I bet " \
 									 "these rich people didn't eat it all. ",
 					'smokersDesc': "That'd be perfect for the smokers outside. I'm sure the cake will get them in a more generous mood."}

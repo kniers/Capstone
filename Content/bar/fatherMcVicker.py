@@ -4,7 +4,7 @@ class FatherMcVicker:
 	name = 'Catholic Priest'
 	#type = 'Item'
 	visible = True 
-	aliases = ['Father McVicker', 'priest', 'father']
+	aliases = ['Father McVicker', 'priest']
 	descriptions = {'desc': "There is a Catholic Priest standing at the bar. Looks like he is debating whether to buy a drink or not.",
 					'bless':'Father touches you on the shoulder. "Bless you son."',
 					'converse':"Ello, I am Father McVicker. Nice to meet you. I have been a friend of this family for three generations.",

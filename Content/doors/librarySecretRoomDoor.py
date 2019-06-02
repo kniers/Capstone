@@ -3,22 +3,26 @@ import eng
 class LibrarySecretRoomDoor:
 	name = 'librarySecretRoomDoor'
 	visible = False 
-	aliases = ['door']
+	aliases = ['iron hatch', 'hatch']
 	roomConnections = {'up': 'Library', 'down': 'Secret Room'}
-	descriptions = {'desc': "It is an old iron door. Looks very sturdy.",
-				'lockedDoor': "The door is locked. ",
-				'unlockFail': "Lock didn't turn",
-				'unlockSuccess': "The old lock creeks and turns. The door opens to a stone stairwell leading downward. "}
+	descriptions = {'desc': "It is an old iron hatch. Looks very sturdy.",
+				'lockedDoor': "The hatch is locked. ",
+				'unlockFail': "The lock didn't turn",
+				'unlockSuccess': "The old lock creeks and turns. The hatch opens to a stone stairwell leading downward. ",
+				'alreadyOpen': "It's already open. You can head down now. "}
 	properties = {'locked': True}
 
 	def open(self, otherThing):
 		if self.properties['locked']:
 			if otherThing is None:
-				key = eng.getItemByName('bone key')
-				if eng.inInventory(key):
-					return self._unlockDoor()
-				else:
-					return self.descriptions['unlockFail']
+				return "It's locked"
+				
+				# forcing player to explicitly unlock with bone key
+				#key = eng.getItemByName('bone key')
+				#if eng.inInventory(key):
+				#	return self._unlockDoor()
+				#else:
+				#	return self.descriptions['unlockFail']
 			if otherThing.name == 'bone key':
 				return self._unlockDoor()
 			else:

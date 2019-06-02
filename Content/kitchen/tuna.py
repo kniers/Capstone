@@ -3,12 +3,13 @@ import eng
 class Tuna:
 	name = 'tuna'
 	visible = False 
-	aliases = []
+	aliases = ['whole tuna']
 	descriptions = {'desc': "It is a whole small tuna. Sashimi grade! ",
 					'takeTuna': "You take the whole tuna. ",
 					'giveTuna': "You give the sharks the tuna, They attack it viciously. Hope that kills their appetite. ",
-					'nothingToGive': "The sharks want flesh nothing else. Don't eat or give tuna to anyone else. ",
-					'aBite': "Okay, one bite, but leave some for the sharks. ",
+					'nothingToGive': "No one in their right mind would want a whole tuna like this. No human, that is. ",
+					'eat': "You're a fan of sushi, but you would have to bite through the skin. Are you sure this is what you want?",
+					'aBite': "Okay, one bite. Someone... or something... else might want it. ",
 					'alreadyHave': "You already have the tuna",
 					'droppedTuna': "You have dropped the tuna. It will smell eventually. ",
 					'dontHave': "You don't have the tuna to drop. "}
@@ -40,6 +41,8 @@ class Tuna:
 	# give tuna to hungry leopard sharks	
 	def give(self, item):
 		#check if item is leopard sharks
+		if item is None:
+			return "Give it to whom?"
 		if item.name == 'sharks':
 			eng.removeFromInventory(self)
 			item.properties['hungry'] = False	
@@ -49,7 +52,7 @@ class Tuna:
 	def eat(self):
 		if self.properties['triedEat'] == False:
 			self.properties['triedEat'] = True
-			return self.descriptions['nothingToGive']
+			return self.descriptions['eat']
 		else:
 			return self.descriptions['aBite']
 

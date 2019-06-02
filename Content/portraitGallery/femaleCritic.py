@@ -4,7 +4,7 @@ class FemaleCritic:
 	name = 'female critic'
 	#type = 'Item'
 	visible = True 
-	aliases = ['critic', 'Stoges']
+	aliases = ['critic', 'Stoges', 'woman']
 	descriptions = {'desc': "The female critic is intently examining the landscape painting. She's unironically wearing a costume that looks like it belongs in the horse race scene of the movie My Fair Lady.",
 					'takeMC': "She's invested in the art. She doesn't want to go anywhere.",
 					'touchMC': "That action has several possible results, all of them bad.",

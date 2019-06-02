@@ -11,7 +11,7 @@ class Tooth:
 					'droppedTooth' : "You drop the shark tooth. ",
 					'dontHave': "You can't drop something you don't have.",
 					'eatTooth': "Yeah, that isn't happening. ",
-					'underTooth': "Under tooth you see an emerald. ",
+					'underTooth': "Under the tooth you see an emerald. ",
 					'cant': "Seems like you can't get to it maybe the sharks are hungry or the tank is closed. "}
 	properties = {'have': False, 'had':False}
 

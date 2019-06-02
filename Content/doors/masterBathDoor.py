@@ -3,7 +3,7 @@ import eng
 class masterBathDoor:
 	name = 'masterBathDoor'
 	visible = True 
-	aliases = ['door']
+	aliases = []
 	roomConnections = {'north': 'Master Bathroom', 'south': 'Master Bedroom'}
 	descriptions = {'desc': "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen."}
 	properties = {'locked': False}	

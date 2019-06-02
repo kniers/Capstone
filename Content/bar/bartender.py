@@ -7,7 +7,8 @@ class Bartender:
 	descriptions = {'desc': "The bartender is standing behind the bar, serving drinks to whoever wants them.",
 					'touchBT': "You reach out and shake the bartender's hand.",
 					'killBT': "You're not going to eliminate any source of free drinks.",
-					'hitBT': "You're not going to offend a source of free drinks."}
+					'hitBT': "You're not going to offend a source of free drinks.",
+					'talkBT': "Good evening. I'm sorry, but we just ran out of beer. Maybe there's something else I can make for you."}
 	properties = {}
 	
 	
@@ -26,6 +27,9 @@ class Bartender:
 
 	def touch(self):
 		return self.descriptions['touchBT']
+
+	def talk(self):
+		return self.descriptions['talkBT']
 			
 
 bartender = Bartender()

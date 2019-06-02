@@ -7,9 +7,9 @@ class SpareKey:
 	aliases = ['key']
 	descriptions = {'desc': "This is a pretty standard key in terms of appearance.",
 					'dropNoHold': "You can't drop the key, you aren't holding it!", 
-					'drop': "You dropped the key back into the nightstand where you found it. Don't want to place it anywhere else and raise suspicion.", 
+					'drop': "You set the spare key down. It'll be here in case you need it again.", 
 					'alreadyTakenKey': "You're already carrying the key.", 
-					'takeKey': "You've picked up the key. Who knows what door you'll need it for, but it'll probably be useful."}
+					'takeKey': "You've picked up the key. Something tells you that it will come in handy very soon."}
 	properties = {}
 	
 	
@@ -30,10 +30,19 @@ class SpareKey:
 		if eng.inInventory(self) == False:
 			return self.descriptions['dropNoHold']
 		else:
-			eng.removeFromInventory(self)
 			eng.dropItem(self)
 			return self.descriptions['drop']
 
+	def use(self, other):
+		if eng.inInventory(self):
+			if other is None:
+				return "Use it on what?"
+			elif other.name == 'masterBedDoor':
+				return other.open(self)
+			else:
+				return "That didn't work"
+		else:
+			return "You don't have it. Try taking it."
 
 key = SpareKey()
 eng.setupItem(key)

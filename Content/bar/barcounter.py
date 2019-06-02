@@ -15,12 +15,12 @@ class Counter:
 
 	#search bar counter to find bone key
 	def search(self):
-		if self.properties['looked']:
-			currRoom = eng.getCurrentRoom()
-			bonekey = eng.getItemByName('bone key')
-			if bonekey is not None:
-				bonekey.visible = True
-				return self.descriptions['searched']
+		#if self.properties['looked']:
+		currRoom = eng.getCurrentRoom()
+		bonekey = eng.getItemByName('bone key')
+		if bonekey is not None:
+			bonekey.visible = True
+			return self.descriptions['searched']
 
 barcounter = Counter()
 eng.setupItem(barcounter)

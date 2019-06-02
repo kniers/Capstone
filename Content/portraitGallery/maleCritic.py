@@ -4,7 +4,7 @@ class MaleCritic:
 	name = 'male critic'
 	#type = 'Item'
 	visible = True 
-	aliases = ['critic', 'Bennings']
+	aliases = ['critic', 'Bennings', 'man']
 	descriptions = {'desc': "The critic is wearing suit and staring intently at one of the portraits. He has an expression on his face calculated to make him seem smarter than he actually is. He seems friendly, though.",
 					'takeMC': "He's invested in the art. He doesn't want to go anywhere.",
 					'touchMC': "You poke the critic. He's so interested in the painting he doesn't even notice.",
@@ -14,7 +14,7 @@ class MaleCritic:
 					'talkMcGuffin': "You say to the critic 'You know that statue in the ballroom? I think it's by Rodin.'\n\n'Rodin?' says the critic. 'Ah, what a genius. I must take a look.' The critic leaves for the ballroom.",
 					'talkDefault': "The critic doesn't respond. Evidentally he doesn't want to talk about that.",
 					'talkFemaleCritic': "'What's with your friend over there?' you ask. He replies 'She fancies herself the last word when it comes to fashion, but her entire critical method consists of counting the number of colors you're wearing and complaining if you have more than two.'",
-					'talkNone': "'How's it going?' you ask the critic. 'Oh, quite all right.' he responds. 'I was just admiring this piece of the late Emily Whittaker. It's no Rondin, but it is stimulating.'"}
+					'talkNone': "'How's it going?' you ask the critic. 'Oh, quite all right.' he responds. 'I was just admiring this piece of the late Emily Whittaker. It's no Rodin, but it is stimulating.'"}
 	properties = {}
 	
 	

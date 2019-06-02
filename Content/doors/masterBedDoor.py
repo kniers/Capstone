@@ -3,7 +3,7 @@ import eng
 class masterBedDoor:
 	name = 'masterBedDoor'
 	visible = True 
-	aliases = ['door', 'hallway door']
+	aliases = ['door', 'hallway door', 'bedroom door']
 	roomConnections = {'east': 'Master Bedroom', 'west': 'Hallway'}
 	descriptions = {'desc': "Upon further inspection... there's nothing special about this door. It looks like any other door you've ever seen.",
 			'lockedDoor': "It's locked. Hopefully there's a spare key in here somewhere.",
@@ -17,7 +17,7 @@ class masterBedDoor:
 	
 	def go(self):
 		key = eng.getItemByName('spare key')
-		if self.properties['locked'] and  not eng.inInventory(key):
+		if self.properties['locked']:
 			return self.descriptions['lockedDoor']
 		suit = eng.getItemByName("suit")
 		gown = eng.getItemByName("gown")
