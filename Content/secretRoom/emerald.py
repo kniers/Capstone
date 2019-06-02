@@ -4,8 +4,8 @@ class Emerald:
 	name = 'emerald'
 	#type = 'Item'
 	visible = False
-	aliases = ['Eye of Ashoka']
-	descriptions = {'desc': "It is a beautiful emerald, looks to be about an eight carats. Stunning... ",
+	aliases = ['EyeOfAshoka']
+	descriptions = {'desc': "It is a beautiful emerald, looks to be about eight carats. Stunning... ",
 					'alreadyHave': "You already have the emerald. Maybe we should drop it.",
 					'takeJewel': "Emerald is in your inventory. The Boss is going to be really happy. ",
 					'droppedJewel' : "You drop the emerald. ", 
@@ -28,6 +28,8 @@ class Emerald:
 		if self.visible:
 			if self.properties['have'] == False:
 				eng.addToInventory(self)
+				score = eng.getScore()
+				eng.setScore(score + 100);
 				self.properties['have'] = True
 				return self.descriptions['takeJewel']
 			else:
@@ -43,6 +45,8 @@ class Emerald:
 			self.properties['have'] = False
 			eng.removeFromInventory(self)
 			eng.dropItem(self)
+			score = eng.getScore()
+			eng.setScore(score - 100)
 			return self.descriptions['droppedJewel']
 
 		
