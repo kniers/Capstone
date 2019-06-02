@@ -5,8 +5,12 @@ class Bar:
 	visited = False
 	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the bar again. People are still enjoying conversation and drinks.", 
-					'longDesc': "The door leads you to what looks like a bar. The bar has the look of an old London upscale pub with a long marble counter. There are a few people in the room enjoying themselves and a bartender behind the counter. At the bar you see a Catholic Priest."}
+	descriptions = {'shortDesc': "You're in the bar again. People are still enjoying conversation and drinks. There are exits to the south and west, and a door to the east leading outside. ", 
+					'longDesc': "The door leads you to a bar. " \
+								"The bar has the look of an old London upscale pub with a long marble counter. " \
+								"There are a few people in the room enjoying themselves and a bartender behind the counter. " \
+								"At the bar you see a Catholic Priest. Once you're done here, you can take west or south exits, " \
+								"or a door to the east that leads outside. "}
 	doors = {'west': 'ballroomBarDoor', 'east': 'barGardensDoor', 'south': 'barGalleryDoor'}
 	items = ['Catholic Priest', 'bartender', 'counter', 'bone key']
 	properties = {'initialized': False}
@@ -28,6 +32,8 @@ class Bar:
 			return self._printShortDesc()
 		else:
 			self.visited = True
+			gardens = eng.getRoomByName('Gardens')
+			gardens.visible = True # Bar description talks about outside, so it should be labeled visible 
 			return self._printLongDesc()
 
 			

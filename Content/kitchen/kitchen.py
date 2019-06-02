@@ -6,14 +6,17 @@ class Kitchen:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the kitchen again. It appears you're still invisible to the staff... weird. " \
-								 "There's nothing obvious to grab on the kitchen counter. ", 
+								 "There's nothing obvious to grab on the kitchen counter, but there might be stuff to take once you look around. " \
+								 "You're only way out is south - back from where you came, so take those doors whenever you're ready. ", 
 					'longDesc': "The door leads you into the kitchen, bustling with staff. It's weird to have a guest in the kitchen, " \
 								"but strangely, nobody seems to notice. You actually try to catch a server's attention as she walks by " \
 								"but she ignores you. Rude!\n" \
 								"I guess if the staff is going to treat you as if you're not there, you can get away with whatever you want. " \
 								"Matter of fact, they're probably trained to not confront any of the guests, regardless of what the guest does. " \
 								"That's perfect for you - you can just take whatever you need.\n" \
-								"As you look around you see that there's a refrigerator towards the back. That's really the only interesting thing in the room. ",
+								"As you look around you see that there's a refrigerator towards the back. " \
+								"That's really the only interesting thing in the room. " \
+								"Once you're done, it seems the only exit is back south from where you came in. ",
 					'cakeAvailable': "I bet there's still cake in the fridge, though. There's plates of it all around the house and I bet " \
 									 "these rich people didn't eat it all. ",
 					'smokersDesc': "That'd be perfect for the smokers outside. I'm sure the cake will get them in a more generous mood."}

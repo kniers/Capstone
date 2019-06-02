@@ -5,8 +5,10 @@ class BilliardRoom:
 	visited = False
 	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the billiard room again. ", 
-					'longDesc': "The door leads you to what looks like a billiard room, with a billiard table in the middle. Decorative plants are lined up along the wall. ",
+	descriptions = {'shortDesc': "You're in the billiard room again. You've got exits to the north, east, and west. ", 
+					'longDesc': "The door leads you to what looks like a billiard room, with a billiard table in the middle. " \
+								"Decorative plants are lined up along the wall. " \
+								"There are doors out of this room to the north, east, and west, whenever you're ready. ",
 					'players': "Some low hanging lights illuminate the table where two gentlemen are finishing up a game of 8-ball. ",
 					'noPlayers': "No one else is in here. Time to take a closer look around. "}
 	doors = {'north': 'galleryBilliardRoomDoor', 'east': 'billiardRoomConservatoryDoor', 'west': 'libraryBilliardRoomDoor'}

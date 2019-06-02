@@ -5,8 +5,9 @@ class Library:
 	visited = False
 	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the library again. Same bookshelf ", 
-					'longDesc': "The door leads you to what looks like a library. There is a bookshelf that run around all the free wall space. There are numerous books all around. "}
+	descriptions = {'shortDesc': "You're in the library again. Same bookshelf. Exits to the north, east, and west. All the same. ", 
+					'longDesc': "The door leads you to what looks like a library. There is a bookshelf that runs around all the free wall space. " \
+								"There are numerous books all around. There are doors to the north, east, and west if the books bore you too much. "}
 	doors = {'north': 'foyerLibraryDoor', 'east': 'libraryBilliardRoomDoor', 'west': 'libraryStudyDoor', 'down': 'librarySecretRoomDoor'}
 	items = ['The Hobbit', 'Dracula', 'Great Expectations', 'Charles Winston', 'button', 'Nathaniel Winston', 'bookshelf']
 	properties = {'initialized': False}
