@@ -33,6 +33,9 @@ class Bible:
 		if self.properties['read'] == True:
 			self.properties['have'] = True 
 			eng.addToInventory(self) # adds to inventory and removes from current room 
+			#increase score
+			score = eng.getScore()
+			eng.setScore(score + 30)
 			return self.descriptions['takeBible']
 		else:
 			return self.descriptions['alreadyHave']
@@ -46,6 +49,9 @@ class Bible:
 			self.properties['have'] = False
 			eng.removeFromInventory(self)
 			eng.dropItem(self)
+			#reduce score		
+			score = eng.getScore()
+			eng.setScore(score - 30)
 			return self.descriptions['droppedBible']
 
 	def read(self):
