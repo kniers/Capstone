@@ -4,8 +4,8 @@ class SecretPlans:
 	name = 'secret plans'
 	#type = 'Item'
 	visible = True 
-	aliases = ['plans']
-	descriptions = {'desc': "These are the secret plans for MacGuffin Inc's latest product. This is the one thing Big Al wants the most.",
+	aliases = ['plans', 'papers', 'paper']
+	descriptions = {'desc': "These are the secret plans for MacGuffin Inc's latest product. This is the one thing Big Al wants the most. ",
 					'takeSP': "You take the plans without any hesitation.",
 					'alreadyTakenSP': "You already took that.",
 					'touchSP': "You can't believe that they're real, but they are.",
@@ -25,8 +25,15 @@ class SecretPlans:
 		else:
 			billiardTable = eng.getItemByName('billiard table')
 			billiardTable.properties['hasPlans'] = False
-			eng.addToInventory(self) # adds to inventory and removes from current room 
-			return self.descriptions['takeSP']
+			tank = eng.getItemByName('sharktank')
+			tank.properties['hasPlans'] = False
+			eng.addToInventory(self) # adds to inventory and removes from current room
+			eng.setScore(eng.getScore() + 120)
+			foyer = eng.getRoomByName('Foyer')
+			porch = eng.getRoomByName('Front Porch')
+			foyer.items.remove('old lady')
+			porch.items.append('old lady')
+			return self.descriptions['desc'] + self.descriptions['takeSP']
 
 
 	def touch(self):

@@ -149,7 +149,7 @@ mvwprintw(intro,0,0,"  ______    ______    ______   __    __  ________   ______ 
 	wrefresh(intro);
 	wgetch(intro);
 
-	sleep(1);
+	//sleep(1);
 	
 	clear();
 	endwin();
@@ -433,7 +433,7 @@ std::string  gameUI(bool inv, int roomID, std::string roomName, std::string cppD
 	cppString = inputStr;
 	//This is to test input remove above
 	//wgetch(input); //Any key to exit
-	sleep(1);
+	//sleep(1);
 	endwin(); //end curses mode
 	return cppString;
 

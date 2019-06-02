@@ -4,23 +4,30 @@ class FrontPorch:
 	name = 'Front Porch'
 	visited = False
 	visible = False
-	aliases = []
+	aliases = ['outside']
 	descriptions = {'shortDesc': "You're on the front porch. ", 
-					'longDesc': "The door leads you to the porch at the front of the house. "}
+					'longDesc': "The door leads you to the porch at the front of the house. Several luxary cars are parked by the house. At the other end of the long driveway is a guard shack. ",
+					'bethal': "The old lady from the foyer is now out here calling for the guards. The jig is up. You'll never get past the guards. You need to find another way out, and quick!"}
 	doors = {'east': 'frontDoor'} #, 'north': 'ballroom', 'east': 'portraitGallery', 'west': 'frontPorch'}
-	items = []
+	items = ['cars', 'guards', 'guard shack']
 	properties = {'initialized': False}
 
 			
-	def _printShortDesc(self): 
-		return self.descriptions['shortDesc']
+	def _printShortDesc(self):
+		description = self.descriptions['shortDesc']
+		if 'old lady' in self.items:
+			description += self.descriptions['bethal']
+		return description
 
 			
 	def _printLongDesc(self):
 		if self.properties['initialized'] == False:
 			self.properties['initialized'] = True
 		
-		return self.descriptions['longDesc']
+		description = self.descriptions['longDesc']
+		if 'old lady' in self.items:
+			description += self.descriptions['bethal']
+		return description
 
 		
 	def enterRoom(self):

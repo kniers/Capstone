@@ -7,7 +7,7 @@ class Conservatory:
 	aliases = []
 	descriptions = {'shortDesc': "You're in the conservatory again. ", 
 					'longDesc': "The door leads you to what looks like a conservatory with floor to ceiling windows. You can hear the commotion of people having a good time out in the gardens, but nothing is going on in here. There's a man sitting by himself at the table looking out the window. A highball glass is on the table next to him. "}
-	doors = {'north': 'conservatoryGardensDoor', 'west': 'billiardRoomConservatoryDoor'}
+	doors = {'north': 'conservatoryGardensDoor', 'west': 'billiardRoomConservatoryDoor', 'east': 'escape'}
 	items = ['craftsman', 'billiardTableTopic', 'conservatory windows', 'highball glass', 'mahogany table']
 	properties = {'initialized': False}
 

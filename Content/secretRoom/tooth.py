@@ -12,6 +12,7 @@ class Tooth:
 					'dontHave': "You can't drop something you don't have.",
 					'eatTooth': "Yeah, that isn't happening. ",
 					'underTooth': "Under the tooth you see an emerald. ",
+					'secretPlans': "Under the tooth you see some papers wrapped in plastic partially burried under the rocks. It must be pretty important if they're hidden in a shark tank!",
 					'cant': "Seems like you can't get to it maybe the sharks are hungry or the tank is closed. "}
 	properties = {'have': False, 'had':False}
 
@@ -31,10 +32,19 @@ class Tooth:
 			self.properties['have'] = True
 			self.properties['had'] = True 
 			eng.addToInventory(self) # adds to inventory and removes from current room 
-			emerald = eng.getItemByName('emerald')
-			if emerald is not None:
+			
+			character = eng.getItemByName('self')
+			character.properties['placesOpened'] += 1
+			if character.properties['placesOpened'] == 3:
+				tank.properties['hasPlans'] = True
+				currRoom.items.append('secret plans')
+				currRoom.items.remove('emerald')
+				return self.descriptions['secretPlans']
+			else:
+				emerald = eng.getItemByName('emerald')
 				emerald.visible = True	
 				return self.descriptions['underTooth']
+			
 		#Must have had the tooth once
 		elif self.properties['have'] == False and self.properties['had']:	
 			eng.addToInventory(self) # adds to inventory and removes from current room 

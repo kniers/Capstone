@@ -4,27 +4,34 @@ class Foyer:
 	name = 'Foyer'
 	visited = False
 	visible = False
-	aliases = []
-	descriptions = {'shortDesc': "You're in the foyer again. There is an old lady sitting near the stairwell. " \
+	aliases = ['inside']
+	descriptions = {'shortDesc': "You're in the foyer again. " \
 								 "You have exits in all directions to choose from. ", 
 					'longDesc': "You're in the grand foyer at the front of the house. A dazzling chandelier hangs from the ceiling. " \
 								"Besides the staircase you came down earlier, there are doors in each direction. The one to the west looks like " \
 								"the entrance to the house. The other three... it's difficult to tell where they lead. ",
-					'drink': "A server sees you are empty handed and offers you a martini. You accept the drink just to fit in with the party."}
+					'drink': "A server sees you are empty handed and offers you a martini. You accept the drink just to fit in with the party.",
+					'bethal': "There is an old lady sitting near the stairwell."}
 	doors = {'up': 'staircase', 'west': 'frontDoor', 'north': 'foyerBallroomDoor', 'east': 'foyerGalleryDoor', 'south': 'foyerLibraryDoor'}
 	items = ['chandelier', 'martini', 'drink server', 'old lady']
 	properties = {'initialized': False}
 
 			
 	def _printShortDesc(self): 
-		return self.descriptions['shortDesc']
+		description = self.descriptions['shortDesc']
+		if 'old lady' in self.items:
+			description += self.descriptions['bethal']
+		return description
 
 			
 	def _printLongDesc(self):
 		if self.properties['initialized'] == False:
 			self.properties['initialized'] = True
 		
-		return self.descriptions['longDesc']
+		description = self.descriptions['longDesc']
+		if 'old lady' in self.items:
+			description += self.descriptions['bethal']
+		return description
 
 		
 	def enterRoom(self):

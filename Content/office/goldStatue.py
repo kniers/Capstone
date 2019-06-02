@@ -24,6 +24,7 @@ class GoldStatue:
 		if eng.inInventory(self):
 			return self.descriptions['alreadyTakenGS']
 		else:
+			eng.setScore(eng.getScore() + 100)
 			eng.addToInventory(self) # adds to inventory and removes from current room 
 			return self.descriptions['takeGS']
 
@@ -36,7 +37,7 @@ class GoldStatue:
 		if eng.inInventory(self) == False:
 			return self.descriptions['dropNoHold']
 		else:
-			eng.removeFromInventory(self)
+			eng.setScore(eng.getScore() - 100)
 			eng.dropItem(self)
 			return self.descriptions['drop']
 

@@ -29,7 +29,7 @@ class Emerald:
 			if self.properties['have'] == False:
 				eng.addToInventory(self)
 				score = eng.getScore()
-				eng.setScore(score + 100);
+				eng.setScore(score + 100)
 				self.properties['have'] = True
 				return self.descriptions['takeJewel']
 			else:

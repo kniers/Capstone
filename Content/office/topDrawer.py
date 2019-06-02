@@ -6,7 +6,7 @@ class TopDrawer:
 	visible = False 
 	aliases = []
 	descriptions = {'closedDesc': "It's the top drawer of the filing cabinet. It's identical in appearance to the bottom drawer for the most part.",
-					'openDescHit': "You look inside the drawer. Bingo! There's what you're looking for! Now you just have to take it and exit the front door.",
+					'openDescHit': "You look inside the drawer. Bingo! There are some papers here. They must be important.",
 					'openDescMiss': "You look inside the drawer. There's a small gold statue in there. It's not what you're here for, but it's a good consolation prize.",
 					'takeOnMe': "It's attached to the filing cabinet.",
 					'touchMe': "That's very touching of you.",
@@ -21,17 +21,13 @@ class TopDrawer:
 	def look(self):
 		self.visible = True
 		if self.properties['opened']:
-			meesa = eng.getItemByName("self")
-			meesa.properties['placesOpened'] = meesa.properties['placesOpened'] + 1
-			if meesa.properties['placesOpened'] == 3:
-				sp = eng.getItemByName('secret plans')
-				currRoom = eng.getCurrentRoom()
-				currRoom.items.add('secret plans')
+			currRoom = eng.getCurrentRoom()
+			if 'secret plans' in currRoom.items:
 				return self.descriptions['openDescHit']
-			else:
-				gs = eng.getItemByName('gold statue')
-				gs.visible = True
+			elif 'gold statue' in currRoom.items:
 				return self.descriptions['openDescMiss']
+			else:
+				return "It's empty."
 		else:
 			return self.descriptions['closedDesc']
 
@@ -44,6 +40,17 @@ class TopDrawer:
 		elif key.name == 'strange key':
 			self.properties['opened'] = True
 			self.properties['locked'] = False
+			currRoom = eng.getCurrentRoom()
+			meesa = eng.getItemByName("self")
+			meesa.properties['placesOpened'] = meesa.properties['placesOpened'] + 1
+			if meesa.properties['placesOpened'] == 3:
+				sp = eng.getItemByName('secret plans')
+				currRoom = eng.getCurrentRoom()
+				currRoom.items.append('secret plans')
+				currRoom.items.remove('gold statue')
+			else:
+				gs = eng.getItemByName('gold statue')
+				gs.visible = True
 			return self.descriptions['openMe'] + self.look()
 		else:
 			return self.descriptions['openBad']

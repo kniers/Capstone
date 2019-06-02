@@ -4,6 +4,7 @@ class TableLever:
     name = 'table lever'
     aliases = ['lever']
     visible = False
+    properties = {'used': False}
 
     def look(self):
         return "A small lever is on the underside of the billiard table. It's probably opens up the ball return system. "
@@ -28,25 +29,29 @@ class TableLever:
 
     # Opens table
     def twist(self):
-        room = eng.getCurrentRoom()
-        if 'billiard players' in room.items:
-            return "You can't get up to it because the players are in the way"
+        if self.properties['used']:
+            return "You twist it again, but nothing happened."
         else:
-            description = "With a great amount of force, you twist the lever and it opens a panel on the side of the pool table. "
-            table = eng.getItemByName('billiard table')
-            table.properties['open'] = True
-            character = eng.getItemByName('self')
-            character.properties['placesOpened'] += 1
-            if character.properties['placesOpened'] == 3:
-                room.items.append('secret plans')
-                table.properties['hasPlans'] = True
-                description += "\n\nThe Secret Plans are hidden inside!"
+            self.properties['used'] = True
+            room = eng.getCurrentRoom()
+            if 'billiard players' in room.items:
+                return "You can't get up to it because the players are in the way"
             else:
-                table.properties['hasRuby'] = True
-                ruby = eng.getItemByName('Ruby')
-                ruby.visible = True
-                description += "\n\nA Giant Ruby is inside!"
-            return description
+                description = "With a great amount of force, you twist the lever and it opens a panel on the side of the pool table. "
+                table = eng.getItemByName('billiard table')
+                table.properties['open'] = True
+                character = eng.getItemByName('self')
+                character.properties['placesOpened'] += 1
+                if character.properties['placesOpened'] == 3:
+                    room.items.append('secret plans')
+                    table.properties['hasPlans'] = True
+                    description += "\n\nThere are some papers hidden inside!"
+                else:
+                    table.properties['hasRuby'] = True
+                    ruby = eng.getItemByName('Ruby')
+                    ruby.visible = True
+                    description += "\n\nA giant ruby is inside!"
+                return description
 
     def hit(self):
         return "You don't want to break the lever off just in case it's of some importance. There must be a secret to it..."

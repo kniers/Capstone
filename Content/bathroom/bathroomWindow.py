@@ -6,8 +6,7 @@ class BathroomWindow:
 	aliases = ['window']
 	descriptions = {'desc': "There's a small window on the outside wall of the bathroom. Could this be an escape route?",
 					'noExit': "You go to climb through the window, but notice that you're in full view of the front porch once you open it. " \
-							  "You definitely can't get out this way without making a scene. You're dressed for the party anyways, so why not just walk out " \
-							  "the front door when you've collected enough loot?"}
+							  "You definitely can't get out this way without making a scene."}
 	properties = {}
 	
 	
@@ -16,6 +15,7 @@ class BathroomWindow:
 
 
 	def look(self):
+		porch = eng.getRoomByName('')
 		return self.descriptions['desc']
 
 

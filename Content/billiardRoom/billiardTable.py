@@ -14,9 +14,9 @@ class BilliardTable:
             lever.visible = True
         if self.properties['open']:
             if self.properties['hasRuby']:
-                description += "\n\nA Giant Ruby is inside!"
+                description += "\n\nA giant ruby is inside!"
             if self.properties['hasPlans']:
-                description += "\n\nThe Secret Plans are inside!"
+                description += "\n\nSome important looking papers are inside!"
         return description
 
     def touch(self):

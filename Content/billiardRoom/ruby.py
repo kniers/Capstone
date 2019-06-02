@@ -12,13 +12,16 @@ class Ruby:
         if eng.inInventory(self):
             return "You already have it"
         else:
+            eng.setScore(eng.getScore() + 100)
             eng.addToInventory(self)
             eng.getItemByName('billiard table').properties['hasRuby'] = False
-            return "You grab the giant ruby out from inside the billiard table. What a find! You slip it into your pocket. The boss will be happy to see this! Or maybe you'll just keep it to yourself. You don't get paid enough for this anyway."
+            return "What a find! You slip it into your pocket. The boss will be happy to see this! Or maybe you'll just keep it to yourself. You don't get paid enough for this anyway."
 
     def drop(self):
         if eng.inInventory(self):
-            return "Not in a million years! You don't want to lose sight of it"
+            eng.setScore(eng.getScore() - 100)
+            eng.dropItem(self)
+            return "You set the ruby down in a place that you'll remember"
         else:
             return "You don't have it"
 
