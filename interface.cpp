@@ -89,9 +89,6 @@ WINDOW *createNewOutput(int h, int w, int y, int x){
 void introWindow(){
 	WINDOW *intro;
 	//Set colors
-	start_color();	
-	init_pair(1, COLOR_WHITE, COLOR_BLACK);
-	attron(COLOR_PAIR(1));
 	int row = 5;
 	int col = 0;
 	//PrevWord k and reset for tracking words for wraping text
@@ -101,7 +98,11 @@ void introWindow(){
 	//Intro game message
 	char buf[MAXSTR] = "You are a mobster on a mission to sneak into the CEO of Old Money Corporation's mansion, steal the wealth within and get out undetected. Try not to spill any blood like last time. The Boss doesn't like to clean up messes. If you don't get enough loot, the Boss will be angry. You know what happened to the last guy that made Big Al mad...  Press ENTER to continue.\n (Notice: Play game in fully maximized screen with 14-point or less.)\n";
 	initscr();
-        	
+
+	start_color();
+	init_pair(1, COLOR_WHITE, COLOR_BLACK);	
+	attron(COLOR_PAIR(1));
+	
 	intro = createNewOutput(LINES - 1,COLS - 1,1,1);
 mvwprintw(intro,0,0,"  ______    ______    ______   __    __  ________   ______   ______  __\n /      \\  /      \\  /      \\ |  \\  /  \\|        \\ /      \\ |      \\|  \\\n|  ######\\|  ######\\|  ######\\| ## /  ## \\########|  ######\\ \\######| ##\n| ##   \\##| ##  | ##| ##   \\##| ##/  ##    | ##   | ##__| ##  | ##  | ##\n| ##      | ##  | ##| ##      | ##  ##     | ##   | ##    ##  | ##  | ##\n| ##   __ | ##  | ##| ##   __ | #####\\     | ##   | ########  | ##  | ##\n| ##__/  \\| ##__/ ##| ##__/  \\| ## \\##\\    | ##   | ##  | ## _| ##_ | ##_____\n \\##    ## \\##    ## \\##    ##| ##  \\##\\   | ##   | ##  | ##|   ## \\| ##     \\\n  \\######   \\######   \\######  \\##   \\##    \\##    \\##   \\## \\###### \\########\n\n           __    __  ________  ______   ______  ________\n          |  \\  |  \\|        \\|      \\ /      \\|        \\\n          | ##  | ##| ######## \\######|  ######\\\\########\n          | ##__| ##| ##__      | ##  | ##___\\##  | ##\n          | ##    ##| ##  \\     | ##   \\##    \\   | ##\n          | ########| #####     | ##   _\\######\\  | ##\n          | ##  | ##| ##_____  _| ##_ |  \\__| ##  | ##\n          | ##  | ##| ##     \\|   ## \\ \\##    ##  | ##\n           \\##   \\## \\######## \\######  \\######    \\##\n");    
 	wrefresh(intro);
