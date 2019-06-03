@@ -57,6 +57,8 @@ class Mouse:
 				butler.properties['withMaid'] = True
 				currRoom.properties['maidAsleep'] = False
 				eng.removeFromInventory(self)
+				score = eng.getScore()
+				eng.setScore(score + 50)
 				return self.descriptions['dropYes']
 			else:
 				return self.descriptions['dropNo']

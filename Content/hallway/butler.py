@@ -23,8 +23,15 @@ class Butler:
 					'dropNoHold': "You have to pick him up before you can drop him.",
 					'dropButler': "You place the butler's body in an out-of-the-way corner.",
 					'hitButler': "If you hit the butler, he'll raise the alarm. That would be a problem.",
-					'talkButler': "If the butler notices you, he'll raise the alarm. That would be a problem."}
-	properties = {'dead': False, 'withMaid': False}
+					'talkButler': "If the butler notices you, he'll raise the alarm. That would be a problem.",
+					'takeHidden': "It's not worth the trouble to dig the body out from where you've hidden it.",
+					'dropOffice': "You open a closet and stick the butler inside. Nobody will find him for a while. Perfect.",
+					'dropGuest': "You quietly slip the body under the bed. Hopefully the maid doesn't find it when she wakes up.",
+					'dropMaster': "You quietly slip the body under the bed. Mr. Winston will smell it...eventually...",
+					'dropSecond': "Probably best not to hide the body with these children around.",
+					'dropBathroom': "You stick the body in the bathtub and close the curtain. Mr. Winston will have an unpleasant surprise for his bath tomorrow.",
+					'dropHallway': "You drop the body. It's not hidden, though. You need to hide it before you go downstairs."}
+	properties = {'dead': False, 'withMaid': False, 'bodyHidden': False}
 	
 	
 	def look(self):
@@ -38,6 +45,8 @@ class Butler:
 	
 	
 	def take(self):
+		if self.properties['bodyHidden']
+			return self.descriptions['takeHidden']
 		if eng.inInventory(self):
 			return self.descriptions['alreadyTakenButler']
 		else:
@@ -46,17 +55,52 @@ class Butler:
 				return self.descriptions['takeButlerDead']
 			else:
 				return self.descriptions['takeButlerAlive']
-		#FIXME: We should prevent the player from carrying the butler downstairs somehow.
-
-
+	
+	
 	def drop(self):
-		#FIXME: Give varying amounts of points depending on how good the player's hiding place is
 		if eng.inInventory(self) == False:
 			return self.descriptions['dropNoHold']
 		else:
-			eng.removeFromInventory(self)
-			eng.dropItem(self)
-			return self.descriptions['dropButler']
+			here = eng.getCurrentRoom()
+			if here.name == 'Guest Bedroom':
+				score = eng.getScore()
+				eng.setScore(score + 20)
+				eng.removeFromInventory(self)
+				eng.dropItem(self)
+				self.properties['bodyHidden'] = True
+				return self.descriptions['dropGuest']
+			elif here.name == 'Office':
+				score = eng.getScore()
+				eng.setScore(score + 40)
+				eng.removeFromInventory(self)
+				eng.dropItem(self)
+				self.properties['bodyHidden'] = True
+				return self.descriptions['dropOffice']
+			elif here.name == 'Second Bedroom':
+				return self.descriptions['dropSecond']
+			elif here.name == 'Master Bedroom':
+				score = eng.getScore()
+				eng.setScore(score + 30)
+				eng.removeFromInventory(self)
+				eng.dropItem(self)
+				self.properties['bodyHidden'] = True
+				return self.descriptions['dropMaster']
+			elif here.name == 'Master Bathroom':
+				score = eng.getScore()
+				eng.setScore(score + 10)
+				eng.removeFromInventory(self)
+				eng.dropItem(self)
+				self.properties['bodyHidden'] = True
+				return self.descriptions['dropBathroom']
+			elif here.name == 'Hallway':
+				eng.removeFromInventory(self)
+				eng.dropItem(self)
+				return self.descriptions['dropHallway']
+			else:
+				# default behavior; this should never happen normally
+				eng.removeFromInventory(self)
+				eng.dropItem(self)
+				return self.descriptions['dropButler']
 
 
 	def touch(self):
@@ -89,10 +133,6 @@ class Butler:
 			return self.descriptions['killDead']
 		else:
 			if weapon is None:
-				letterOpener = eng.getItemByName('letter opener')
-				if eng.inInventory(letterOpener):
-					self.properties['dead'] = True 
-					return self.descriptions['killButlerLOSuccess']
 				return self.descriptions['killButlerUnarmed']
 			elif weapon is letterOpener:
 				if letterOpener.properties['sharp'] == True:
