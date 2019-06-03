@@ -95,7 +95,7 @@ int main()
             continue;
         }
         if (!debugMode && input.compare("help") == 0) {
-            description = "\nHelp Menu\n\nSpecial Commands\n quit - exit the game\n help - display this help menu\n inventory - display items you are holding\n savegame - save your current state\n loadgame - load a previous save\n\nGameplay\n Use natural language in short command to tell your character what to do. Try interacting with your environment using these common verbs:\n look\n take\n use\n go\n talk\n open\n close\n touch\n wear\n read\n drop\n break\n give\n listen\n eat\n This is not the complete list. Some tasks can only be completed with special verbs not on this list.";
+            description = "\nHelp Menu\n\nSpecial Commands\n quit - exit the game\n help - display this help menu\n inventory - display items you are holding\n savegame - save your current state\n loadgame - load a previous save\n\nGameplay\n Use natural language in short command to tell your character what to do. Try interacting with your environment using these common verbs:\n look, take, use, go, talk, open, close, touch, wear, read, drop, break, give, listen, eat\n\n This is not the complete list. Some tasks can only be completed with special verbs not on this list.";
             continue;
         }
 	if(input.compare("inventory") == 0 || input.compare("Inventory") == 0){
