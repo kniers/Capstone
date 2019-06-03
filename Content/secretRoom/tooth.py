@@ -13,7 +13,7 @@ class Tooth:
 					'eatTooth': "Yeah, that isn't happening. ",
 					'underTooth': "Under the tooth you see an emerald. ",
 					'secretPlans': "Under the tooth you see some papers wrapped in plastic partially burried under the rocks. It must be pretty important if they're hidden in a shark tank!",
-					'cant': "Seems like you can't get to it maybe the sharks are hungry or the tank is closed. "}
+					'cant': "Seems like you can't get to it; maybe the sharks are hungry or the tank is closed. "}
 	properties = {'have': False, 'had':False}
 
 	def look(self):

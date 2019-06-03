@@ -10,8 +10,8 @@ class PortraitGallery:
 							"They look down disapprovingly at you. The opposite wall contains mostly paintings of naked mythological figures " \
 							"in various seductive poses, but there's a landscape and a still life that look interesting. ",
 				'exits': "Once you're done in here, there are exits to the north, south, and back west to the foyer. ",
-				'criticFragmentA': " There's a male critic looking at one of the portraits.",
-				'criticFragmentB': " There's a female critic looking at the large landscape."}
+				'criticFragmentA': "There's a male critic looking at one of the portraits. ",
+				'criticFragmentB': "There's a female critic looking at the large landscape. "}
 	doors = {'north': 'barGalleryDoor', 'west': 'foyerGalleryDoor', 'south': 'galleryBilliardRoomDoor'}
 	items = ['still life', 'landscape', 'portraits', 'male critic', 'female critic', 'strange key', 'rodin location']
 	properties = {'initialized': False}

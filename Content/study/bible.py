@@ -54,6 +54,11 @@ class Bible:
 			eng.setScore(score - 30)
 			return self.descriptions['droppedBible']
 
+
+	def open(self):
+		return self.read()
+
+
 	def read(self):
 		if self.properties['read'] == False:
 			self.properties['read'] = True

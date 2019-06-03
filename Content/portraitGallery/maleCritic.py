@@ -4,7 +4,7 @@ class MaleCritic:
 	name = 'male critic'
 	#type = 'Item'
 	visible = True 
-	aliases = ['critic', 'Bennings', 'man']
+	aliases = ['critic', 'Bennings', 'man', 'guy']
 	descriptions = {'desc': "The critic is wearing suit and staring intently at one of the portraits. He has an expression on his face calculated to make him seem smarter than he actually is. He seems friendly, though.",
 					'takeMC': "He's invested in the art. He doesn't want to go anywhere.",
 					'touchMC': "You poke the critic. He's so interested in the painting he doesn't even notice.",

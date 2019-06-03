@@ -21,6 +21,8 @@ class Purse:
 	def take(self):
 		eng.addToInventory(self)
 		suit = eng.getItemByName('suit')
+		score = eng.getScore()
+		eng.setScore(score + 50)
 		if eng.inInventory(suit):
 			return self.descriptions['take'] + self.descriptions['pocketSuit']
 		else:

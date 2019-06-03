@@ -4,7 +4,7 @@ import eng
 verbs = { 
         "eat": {"eat", "drink"},
         "take": {"take", "grab", "get", "steal", "snatch"},
-        "look": {"look", "inspect", "examine"},
+        "look": {"look", "inspect", "examine", "check"},
         "go": {"go", "walk", "step", "climb"},
         "use": {"use"},
         "kill": {"kill"},

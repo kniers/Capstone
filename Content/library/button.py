@@ -26,7 +26,7 @@ class Button:
 			secretDoor = eng.getItemByName('librarySecretRoomDoor')
 			if secretDoor is not None:
 				secretDoor.visible = False
-			return self.descriptions['bookselfCloses']
+			return self.descriptions['bookshelfCloses']
 		else:
 			self.properties['buttonPushed'] = True
 			currRoom = eng.getCurrentRoom()

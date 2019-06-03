@@ -3,7 +3,7 @@ import eng
 class Tuna:
 	name = 'tuna'
 	visible = False 
-	aliases = ['whole tuna']
+	aliases = ['whole tuna', 'fish']
 	descriptions = {'desc': "It is a whole small tuna. Sashimi grade! ",
 					'takeTuna': "You take the whole tuna. ",
 					'giveTuna': "You give the sharks the tuna, They attack it viciously. Hope that kills their appetite. ",

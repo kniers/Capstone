@@ -9,7 +9,6 @@ class Cake:
 					'giveCake': "You give the men the cake, and, as promised, receive cigars in return. Big Al will be pleased with some nice Cuban cigars. ",
 					'wrongPerson': "They politely decline the cake. Maybe someone else wants it. "}
 	properties = {}
-	
 
 	def look(self):
 		self.visible = True
@@ -37,6 +36,8 @@ class Cake:
 			cigars = eng.getItemByName('cigars')
 			cigars.visible = True
 			eng.addToInventory(cigars)
+			score = eng.getScore()
+			eng.setScore(score + 50)
 			return self.descriptions['giveCake']
 		
 		return self.descriptions['wrongPerson']

@@ -8,7 +8,7 @@ class LibrarySecretRoomDoor:
 	descriptions = {'desc': "It is an old iron hatch. Looks very sturdy.",
 				'lockedDoor': "The hatch is locked. ",
 				'unlockFail': "The lock didn't turn",
-				'unlockSuccess': "The old lock creeks and turns. The hatch opens to a stone stairwell leading downward. ",
+				'unlockSuccess': "The old lock creaks and turns. The hatch opens to a stone stairwell leading downward. ",
 				'alreadyOpen': "It's already open. You can head down now. "}
 	properties = {'locked': True}
 
