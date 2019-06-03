@@ -45,7 +45,7 @@ class Butler:
 	
 	
 	def take(self):
-		if self.properties['bodyHidden']
+		if self.properties['bodyHidden']:
 			return self.descriptions['takeHidden']
 		if eng.inInventory(self):
 			return self.descriptions['alreadyTakenButler']
