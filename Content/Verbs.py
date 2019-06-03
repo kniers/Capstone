@@ -4,9 +4,9 @@ import eng
 verbs = { 
         "eat": {"eat", "drink"},
         "take": {"take", "grab", "get", "steal", "snatch"},
-        "look": {"look", "inspect", "examine", "check"},
+        "look": {"look", "inspect", "examine", "check", "search"},
         "go": {"go", "walk", "step", "climb"},
-        "use": {"use"},
+        "use": {"use", "flip"},
         "kill": {"kill"},
         "open": {"open", "unlock", "pull out"},
         "close": {"close"},
@@ -18,10 +18,11 @@ verbs = {
         "talk": {"talk", "speak", "ask"}, 
         "sharpen": {"sharpen", "whet"}, 
         "give": {"give", "feed"},
-	"search": {"search"},
+	"feel": {"feel"},
 	"listen": {"listen"},
 	"push": {"push"},
-        "twist": {"twist"}
+	"twist": {"twist"},
+	"investigate": {"investigate"}
     }
 
 eng.setVerbs(verbs)

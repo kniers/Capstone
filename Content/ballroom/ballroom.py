@@ -6,7 +6,7 @@ class Ballroom:
 	visible = False
 	aliases = []
 	descriptions = {'shortDesc': "You're in the ballroom again. It looks like the CEO of Old Money Corp is here. He looks very popular. ",
-					'longDesc': "The door leads you to what looks like a grand ballroom. " \
+					'longDesc': "You're now in what looks like a grand ballroom. " \
 								"One couple dances by, off in their own little world. Another couple is sitting at a table, chatting quietly. " \
 								"One of the more striking features of the room is a large statue at the end. ", 
 					'doorDesc': "There are doors to the east and west, swinging doors to the north where staff are entering and leaving, " \

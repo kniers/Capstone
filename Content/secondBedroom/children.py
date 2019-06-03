@@ -7,7 +7,7 @@ class Children:
 	descriptions = {'desc': "There are three children playing with toys. They look like they are have an interesting conversations. Maybe we can LISTEN in. ",
 					'listenMore':"'That's lame I really wanted to see them eat.' 'Sharks are so cool! Maybe we could find the key ourselves?' ",
 					'sharks': "'Yeah, my grandpa keeps sharks in the basement, but we can't get in there without a key.' ",
-					'roomKey': "'Grandpa keeps the key hidden somewhere in the bar. It's really creepy. It is made out of bone. Anyways we should avoid going in there without Grandpa. Last time I went in there alone, he got really mad. I wish we could get in there and SEARCH everything.' ",
+					'roomKey': "'Grandpa keeps the key hidden somewhere in the bar. It's really creepy. It is made out of bone. Anyways we should avoid going in there without Grandpa. Last time I went in there alone, he got really mad. I wish we could get in there and INVESTIGATE everything.' ",
 					'converse': "Stranger danger!!! They are doing their best to ignore you and have their own conversation, hoping you'll go away. ",
 					'kill': "Listen to yourself. Just LISTEN to yourself! Be better than that.",
 					'touch': "...\nOk, listen here. I know this is just a game and all, but there's no reason to be a creep. I'll just pretend you said \"go east\". \n\nYou find yourself back in the Hallway and all that. Blah, blah, blah. I don't want to have this conversation with you again, weirdo."}
