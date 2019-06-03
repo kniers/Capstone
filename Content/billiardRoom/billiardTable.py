@@ -2,7 +2,7 @@ import eng
 
 class BilliardTable:
     name = "billiard table"
-    aliases = ['pool table', 'table']
+    aliases = ['pool table']
     properties = {'open': False, 'hasRuby': False, 'hasPlans': False}
 
     def look(self):
