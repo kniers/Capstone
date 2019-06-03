@@ -2,7 +2,7 @@ import eng
 
 class Margaret:
     name = 'margaret'
-    aliases = ['woman']
+    aliases = ['woman', 'lady']
     properties = {'hasBeer': True}
 
     def look(self):
@@ -18,7 +18,7 @@ class Margaret:
                 if eng.inInventory(martini):
                     return "Margaret:\n\"Hello there. I'm Margaret. It's nice to meet you. Isn't this stuff so cool? They were about to run out of beer so I grabbed two glasses. I would offer you one, but it looks like you already have a martini.\""
                 else:
-                    return "Margaret:\n\"Hello there. I'm Margaret. It's nice to meet you. Isn't this stuff so cool? They were about to run out of beer so I grabbed two glasses. Do you want one?\""
+                    return "Margaret:\n\"Hello there. I'm Margaret. It's nice to meet you. Isn't this stuff so cool? They were about to run out of beer so I grabbed two glasses. Take one if you want it.\""
             else:
                 return "Margaret:\n\"Wow, it must have taken them years to collect this stuff.\""
         elif about.name == 'artifacts':

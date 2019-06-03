@@ -6,7 +6,7 @@ class FrontPorch:
 	visible = False
 	aliases = ['outside']
 	descriptions = {'shortDesc': "You're on the front porch. ", 
-					'longDesc': "The door leads you to the porch at the front of the house. Several luxary cars are parked by the house. At the other end of the long driveway is a guard shack. ",
+					'longDesc': "The door leads you to the porch at the front of the house. Several luxury cars are parked by the house. At the other end of the long driveway is a guard shack. ",
 					'bethal': "The old lady from the foyer is now out here calling for the guards. The jig is up. You'll never get past the guards. You need to find another way out, and quick!"}
 	doors = {'east': 'frontDoor'} #, 'north': 'ballroom', 'east': 'portraitGallery', 'west': 'frontPorch'}
 	items = ['cars', 'guards', 'guard shack']

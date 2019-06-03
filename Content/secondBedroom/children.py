@@ -9,6 +9,7 @@ class Children:
 					'sharks': "'Yeah, my grandpa keeps sharks in the basement, but we can't get in there without a key.' ",
 					'roomKey': "'Grandpa keeps the key hidden somewhere in the bar. It's really creepy. It is made out of bone. Anyways we should avoid going in there without Grandpa. Last time I went in there alone, he got really mad. I wish we could get in there and SEARCH everything.' ",
 					'converse': "Stranger danger!!! They are doing their best to ignore you and have their own conversation, hoping you'll go away. ",
+					'kill': "Listen to yourself. Just LISTEN to yourself! Be better than that.",
 					'touch': "...\nOk, listen here. I know this is just a game and all, but there's no reason to be a creep. I'll just pretend you said \"go east\". \n\nYou find yourself back in the Hallway and all that. Blah, blah, blah. I don't want to have this conversation with you again, weirdo."}
 	properties = {'listened':False, 'listenAll':False}
 	
@@ -17,7 +18,10 @@ class Children:
 		return self.descriptions['desc']
 
 	def talk(self):
-		return self.descriptions['converse']	
+		return self.descriptions['converse']
+
+	def kill(self):
+		return self.descriptions['kill']	
 
 	def listen(self):
 		if self.properties['listened'] == False:
