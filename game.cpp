@@ -83,7 +83,7 @@ int main()
 	invCommand = false; //reset invCommand to not show inventory
 
         // Handle high level commands
-        if (input.compare("quit") == 0 || input.compare("exit") == 0) exit(1); // exit game
+        if (input.compare("quit") == 0) exit(1); // exit game
         if (input.compare("debug") == 0 && !debugMode) { // Enter debug mode
             debugMode = true;
         }
@@ -95,7 +95,7 @@ int main()
             continue;
         }
         if (!debugMode && input.compare("help") == 0) {
-            description = "Here's where I'd put a help menu. IF I HAD ONE!";
+            description = "\nHelp Menu\n\nSpecial Commands\n quit - exit the game\n help - display this help menu\n inventory - display items you are holding\n savegame - save your current state\n loadgame - load a previous save\n\nGameplay\n Use natural language in short command to tell your character what to do. Try interacting with your environment using these common verbs:\n look\n take\n use\n go\n talk\n open\n close\n touch\n wear\n read\n drop\n break\n give\n listen\n eat\n This is not the complete list. Some tasks can only be completed with special verbs not on this list.";
             continue;
         }
 	if(input.compare("inventory") == 0 || input.compare("Inventory") == 0){
@@ -152,13 +152,13 @@ int main()
                     if (command->dirObj->hasVerb(command->verb, true)) {
                         description = command->dirObj->runVerb(command->verb, command->indObj);
                     } else {
-                        description = "That won't work";
+                        description = "You can't " + input.substr(0, input.find(" ")) + " that.";
                     }
                 } else { // No indirect object
                     if (command->dirObj->hasVerb(command->verb, false)) {
                         description = command->dirObj->runVerb(command->verb);
                     } else {
-                        description = "That won't work";
+                        description = "You can't " + input.substr(0, input.find(" ")) + " that.";
                     }
                 }
             } else { // Failure from parser

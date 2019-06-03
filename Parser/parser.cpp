@@ -123,7 +123,7 @@ Command* parseIt(std::string parseMe, Command* com){
 	    if (addMe->isDuplicate() == true){
 	        if (addMe->isDoor() == false || com->direction == 0){
 		    com->errMessage = "Which " + token + "?";
-		    if (com->direction == 0){
+		    if (token.compare("door") == 0){
 		        com->errMessage += " There are doors in multiple directions. ";
 		    }
 		    com->status = 1;
