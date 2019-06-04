@@ -30,7 +30,7 @@ class Bible:
 	def take(self):
 		if self.properties['read'] == False:
 			return self.descriptions['warning']
-		if self.properties['read'] == True:
+		if self.properties['read'] == True and self.properties['have'] == False:
 			self.properties['have'] = True 
 			eng.addToInventory(self) # adds to inventory and removes from current room 
 			#increase score
