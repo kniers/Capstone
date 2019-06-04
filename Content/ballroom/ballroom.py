@@ -5,14 +5,14 @@ class Ballroom:
 	visited = False
 	visible = False
 	aliases = []
-	descriptions = {'shortDesc': "You're in the ballroom again. It looks like the CEO of Old Money Corp is here. He looks very popular. ",
+	descriptions = {'shortDesc': "You're in the ballroom again. It looks like the CEO of Old Money Corp is here. He looks very popular. He is speaking with a Japanese businessman. ",
 					'longDesc': "You're now in what looks like a grand ballroom. " \
-								"One couple dances by, off in their own little world. Another couple is sitting at a table, chatting quietly. " \
+								"One couple dances by, off in their own little world. Another couple is sitting at a table, chatting quietly." \
 								"One of the more striking features of the room is a large statue at the end. ", 
 					'doorDesc': "There are doors to the east and west, swinging doors to the north where staff are entering and leaving, " \
 								"and a set of double doors to the south that lead out to the foyer. "}
 	doors = {'south': 'foyerBallroomDoor', 'north': 'ballroomKitchenDoor', 'east': 'ballroomBarDoor', 'west': 'ballroomBathroomDoor'}
-	items = ['rodin statue', 'dancing couple', 'sitting couple', 'CharlesWinston4']
+	items = ['rodin statue', 'dancing couple', 'sitting couple', 'CharlesWinston4','Yamazaki','business card']
 	properties = {'initialized': False}
 
 			
