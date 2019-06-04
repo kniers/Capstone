@@ -1,6 +1,6 @@
 /* filename: interface.cpp
  * description: ncurses user interface for TBA3 Capstone project
- * version: 2019-05-31.1
+ * version: 2019-06-03.1
  * compile: g++ interface.cpp -o uiinit -lncurses: test run with uiinit
  * author: Adam Deaton
  */
@@ -252,7 +252,7 @@ WINDOW *inputScr(){
  */
 void printMap(WINDOW *graphicOut, char *cRoomName){
 	//Show mansion floor plan
-	mvwprintw(graphicOut,0,0,"                    00000000000000\n                    0|||||  0    0\n                    000000  0    0\n        0000000000  0    0  0_0000\n        0        0  0    |  0    0\n0000000000_0000000  000000  0    0\n0            |   0  0    0  |    0\n0000         0   0  0 0_ 0  0    0\n0  |         0   |  000     0    0\n000000_0000000_000  0 0 _0000_0000\n    0  |||0      0  0    |  0    0\n    |     |      0  00000000000000\n    0     0      0   SECOND FLOOR\n00000_000000_00000_00000\n0   0    0 0     0     0\n0   0    000     0     0\n0   |      |     |     0\n000000000000000000000000\n      FIRST FLOOR\n");
+	mvwprintw(graphicOut,0,0,"                    00000000000000\n                    0|||||  0    0\n                    000000  0    0\n        0000000000  0    0  0_0000\n        0        0  0    |  0    0\n0000000000_0000000  000000  0    0\n0            |   0  0    0  |    0\n0000         0   0  0 0_ 0  0    0\n0  |         0   |  000     0    0\n000000_0000000_000  0 0 _0000_0000\n    0  |||0      0  0       0    0\n    |     |      0  00000000000000\n    0     0      0   SECOND FLOOR\n00000_000000_00000_00000\n0   0    0 0     0     0\n0   0    000     0     0\n0   |      |     |     0\n000000000000000000000000\n      FIRST FLOOR\n");
 	//Get player location	
 	//Set position char to red
 	wattron(graphicOut,COLOR_PAIR(2));
@@ -312,6 +312,9 @@ void printMap(WINDOW *graphicOut, char *cRoomName){
 	}
 	if(strcmp("Office",cRoomName) == 0){
 		mvwprintw(graphicOut,10,22,"$");	
+	}
+	if(strcmp("Front Porch",cRoomName) == 0){
+		mvwprintw(graphicOut,11,2,"$");
 	}
 	wrefresh(graphicOut);
 	attron(COLOR_PAIR(1));
