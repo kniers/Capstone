@@ -10,7 +10,7 @@ class CharlesWinston4:
 					'converse':"YOU: I am a friend of, um um, your butler. CHARLES: My butler would never invite a friend to a Winston party. He knows his position.",
 					'shock':"Get your hands off me.",
 					'suspiciousTalk': "I don't know who you are, but you don't belong here. Wallace escort this man to the door.\n...YOU HAVE RESTARTED IN MASTER BEDROOM. YOU WERE CAUGHT!! -10 points ",
-					'sharks': "Yes, I still have those leopard sharks in the basement. I can show you after the party. It will be about time to feed them anyways by then. You know it all started when Uncle Nathaniel brought their descendants back from his adventures. " }
+					'sharks': "Yes, I still have those leopard sharks in the basement. I can show you after the party. It will be about time to feed them anyways by then. You know it all started when Uncle Nathaniel brought their ancestors back from his adventures. " }
 	properties = {'suspicious':False, 'conversation':False}
 	
 	
