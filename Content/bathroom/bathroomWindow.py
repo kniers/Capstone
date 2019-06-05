@@ -15,7 +15,6 @@ class BathroomWindow:
 
 
 	def look(self):
-		porch = eng.getRoomByName('')
 		return self.descriptions['desc']
 
 
