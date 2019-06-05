@@ -34,6 +34,10 @@ class CharlesWinston4:
 
 	def touch(self):
 		if self.properties['suspicious']:
+			masterBedroom = eng.getRoomByName('Master Bedroom')	
+			score = eng.getScore()
+			eng.setScore(score - 10)
+			eng.goToRoom(masterBedroom) # Caught start over at Master Bedroom
 			return self.descriptions['suspiciousTalk']
 		else:
 			self.properties['suspicious'] = True

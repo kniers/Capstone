@@ -26,7 +26,7 @@ class Vanity:
 
 
 	def touch(self):
-		return self.descriptions['touchSI']
+		return self.descriptions['touchVanity']
 
 
 	def open(self):

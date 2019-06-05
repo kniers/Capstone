@@ -42,7 +42,8 @@ class Gown:
 			return returnMe + self.descriptions['alreadyWearing']
 		
 		
-	# Take off the gown, if player is wearing it 
+	# Take off the gown, if player is wearing it
+	# This function cannot be accessed in normal gameplay 
 	def remove(self):
 		currRoom = eng.getCurrentRoom()
 		if currRoom.name != "Master Bedroom":

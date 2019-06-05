@@ -45,6 +45,7 @@ class Toothpaste:
 	def eat(self):
 		return self.descriptions['eatPaste']
 
+
 	def use(self):
 		return self.descriptions['usePaste']
 			
