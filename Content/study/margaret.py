@@ -38,6 +38,8 @@ class Margaret:
                     return "Mararet:\n\"Here, take one! I'm happy to share.\""
             else:
                 return "Margaret:\n\"That's the last beer that they had. Enjoy!\""
+	else:
+		return "She pretends not to hear you. Evidentally she doesn't want to talk about that."
 
     def hit(self):
         return "Didn't your mother ever teach you not to hit a woman?"

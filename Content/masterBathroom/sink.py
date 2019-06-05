@@ -6,7 +6,7 @@ class Sink:
 	visible = True 
 	aliases = []
 	descriptions = {'desc': "It's a sink. Whatever.",
-				'touchSI': "You wash your hands. Best not to spread disease if you can help it.",
+				'touchSink': "You wash your hands. Best not to spread disease if you can help it.",
 				'hitSink': "You punch the sink as hard as you can. OUCH! That hurt.",
 				'openSink': "You turn on the water to the sink. This will raise the owner's water bill, giving Big Al a slight budgetary advantage.",
 				'alreadyOpen': "You already did that."}
@@ -27,11 +27,11 @@ class Sink:
 
 
 	def touch(self):
-		return self.descriptions['touchSI']
+		return self.descriptions['touchSink']
 
 
 	def use(self):
-		return self.descriptions['useSI']
+		return self.descriptions['touchSink']
 
 
 	def kill(self):

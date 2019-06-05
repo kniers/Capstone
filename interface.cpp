@@ -96,7 +96,7 @@ void introWindow(){
 	int k = 0;
 	int reset = k;
 	//Intro game message
-	char buf[MAXSTR] = "You are a mobster on a mission to sneak into the CEO of MacGuffin Inc's mansion, steal the secret plans hidden within, and get out undetected. Feel free to steal anything else you can hold. Try not to spill any blood like last time. The Boss doesn't like to clean up messes. If you don't get enough loot, the Boss will be angry. You know what happened to the last guy that made Big Al mad...  Press ENTER to continue.\n (Notice: Play game in fully maximized screen with 14-point or less.)\n";
+	char buf[MAXSTR] = "You are a mobster on a mission to sneak into the CEO of MacGuffin Inc's mansion, steal the secret plans hidden within, and get out undetected. Feel free to steal anything else you can hold. Try not to spill any blood like last time. The Boss doesn't like to clean up messes. If you don't get enough loot, the Boss will be angry. You know what happened to the last guy that made Big Al mad...  Press ENTER to continue.\n (Notice: For the best results, we recommend playing the game with a fully maximized screen with 14-point or less.)\n";
 	initscr();
 
 	start_color();

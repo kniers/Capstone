@@ -12,7 +12,7 @@ class Gown:
 					'remove': "You've removed the gown",
 					'dontStrip': "If you're trying not to be noticed, you probably don't want to strip.",
 					'removeNotWearing': "How can you remove something that you're not even wearing? ",
-					'eat': "You put the hem of the gown in your mouth. It doesn't taste very good, and it's hard to chew, so you take it out. "}
+					'eatGown': "You put the hem of the gown in your mouth. It doesn't taste very good, and it's hard to chew, so you take it out. "}
 	properties = {'wearing': False}
 		
 
