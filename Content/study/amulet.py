@@ -1,7 +1,7 @@
 import eng
 
 class Amulet:
-    name = 'egyptian amulet'
+    name = 'mummy\'s curse'
     aliases = ['amulet']
 
     def look(self):
