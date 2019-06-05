@@ -29,6 +29,7 @@ class TableLever:
 
     # Opens table
     def twist(self):
+        room = eng.getCurrentRoom()
         if 'billiard players' in room.items:
             return "You can't get up to it because the players are in the way"
         if self.properties['used']:
