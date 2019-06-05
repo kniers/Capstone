@@ -10,7 +10,7 @@ class ConservatoryWindows:
 
     def open(self):
         if self.properties['broken']:
-            return "You already broke the window. Let's just say you permantently opened it."
+            return "You already broke the window. Let's just say you permanently opened it."
         else:
             if self.properties['opened']:
                 return "The windows are already open."
@@ -28,7 +28,7 @@ class ConservatoryWindows:
                 self.properties['opened'] = False
                 escape = eng.getItemByName('escape')
                 escape.visible = False
-                return "You close the windows. They were letting in too much smoke anyway."
+                return "You close the windows. They were letting in too much fresh air anyway."
             else:
                 return "The windows are already closed."
 
