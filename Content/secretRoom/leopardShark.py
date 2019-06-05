@@ -25,7 +25,7 @@ class Sharks:
 		if self.properties['hungry']:
 			return self.descriptions['crazy']
 		elif tank.properties['opened'] == False:
-			return tank.descriptions['closeDesc']
+			return tank.descriptions['closedDesc']
 		else:
 			return self.descriptions['swim']
 	
