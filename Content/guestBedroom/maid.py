@@ -6,6 +6,7 @@ class Maid:
 	visible = True 
 	aliases = []
 	descriptions = {'desc': "The maid is snoring in the corner. She's holding a picture of the butler to her chest and smiling. Probably best not to wake her.",
+					'awakeDesc': "The maid is sitting in the corner quietly chatting with the butler. She seems to like him.",
 					'takeMaid': "You mean out to dinner? She's not your type.",
 					'touchMaid': "Don't be that guy.",
 					'eatMaid': "Don't be a cannibal.",
@@ -16,7 +17,11 @@ class Maid:
 	
 	def look(self):
 		self.visible = True
-		return self.descriptions['desc']
+		room = eng.getCurrentRoom()
+		if 'butler' in room.items:
+			return self.descriptions['awakeDesc']
+		else:
+			return self.descriptions['desc']
 	
 	
 	def take(self):

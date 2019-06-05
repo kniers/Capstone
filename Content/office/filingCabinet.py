@@ -42,7 +42,7 @@ class FilingCabinet:
 		return self.descriptions['openFC']
 
 
-	def eat(self, otherThing):
+	def eat(self):
 		return self.descriptions['eatFC']
 			
 

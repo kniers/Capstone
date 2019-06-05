@@ -25,7 +25,7 @@ class Landscape:
 		return self.descriptions['touchLS']
 
 
-	def eat(self, otherThing):
+	def eat(self):
 		return self.descriptions['eatLS']
 			
 

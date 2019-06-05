@@ -1,8 +1,8 @@
 import eng
 
 class Amulet:
-    name = 'mummy\'s curse'
-    aliases = ['amulet', 'egyptian amulet']
+    name = 'egyptian amulet'
+    aliases = ['amulet']
 
     def look(self):
         return "It's a golden amulet from ancient Egypt. Looks authentic. You have a bad feeling about it..."

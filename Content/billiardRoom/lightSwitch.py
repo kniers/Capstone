@@ -2,7 +2,7 @@ import eng
 
 class LightSwitch:
     name = 'light switch'
-    aliases = ['switch', 'lightswitch', 'lights!']
+    aliases = ['switch', 'lightswitch']
     properties = {'lightsOff': False}
 
     def look(self):

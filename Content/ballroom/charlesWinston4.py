@@ -4,7 +4,7 @@ class CharlesWinston4:
 	name = 'CharlesWinston4'
 	#type = 'Item'
 	visible = True 
-	aliases = ['Charles', 'Winston', 'Charles Winston', 'Charles WinstonIV', 'Master Winston', 'Sir Charles', 'Mr. Winston', 'CEO']
+	aliases = ['Charles', 'Winston', 'Charles Winston', 'Master Winston', 'Sir Charles', 'Mr. Winston', 'CEO']
 	descriptions = {'desc': "The CEO is male about 6'2 , looks about mid-fifies, graying hair on the sides, standing in the midst of three other people. He looks very important in the world of old money. It might be best to avoid him or raise suspicion.",
 					'intro': "Hello, nice to meet you I am Charles Winston IV. I don't recognize you.",
 					'converse':"YOU: I am a friend of, um um, your butler. CHARLES: My butler would never invite a friend to a Winston party. He knows his position.",

@@ -4,7 +4,7 @@ class RubberDuck:
 	name = 'rubber duck'
 	#type = 'Item'
 	visible = False 
-	aliases = ['rubber ducky', 'duck']
+	aliases = ['rubber ducky', 'duck', 'ducky']
 	descriptions = {'desc': "It's a perfectly average rubber duck. It looks quite intelligent for an inanimate object.",
 					'takeDuck': "You pick up the duck.",
 					'alreadyTakenDuck': "You already took that.",

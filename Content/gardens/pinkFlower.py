@@ -24,7 +24,7 @@ class PinkFlower:
 	
 	
 	def take(self):
-		return self.descriptions['takePF']
+		return self.wear()
 
 
 	def touch(self):

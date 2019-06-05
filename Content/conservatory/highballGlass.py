@@ -2,7 +2,7 @@ import eng
 
 class HighballGlass:
     name = 'highball glass'
-    aliases = ['highball', 'glass']
+    aliases = ['glass']
 
     def look(self, other):
         return "A full drink in a highball glass sits on the table. The ice has melted and it doesn't look like it's been touched."

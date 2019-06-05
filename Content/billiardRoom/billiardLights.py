@@ -29,7 +29,7 @@ class BilliardLights:
             if self.properties['broken']:
                 return "The lights are already broken, thanks to you."
             else:
-                return "You smash the ligths above the pool table and they shatter onto the billiard table. Someone has to pay for that you know. "
+                return "You smash the lights above the pool table and they shatter onto the billiard table. Someone has to pay for that you know. "
 
     def touch(self):
         room = eng.getRoomByName('Billiard Room')

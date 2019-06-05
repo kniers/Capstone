@@ -29,6 +29,8 @@ class TableLever:
 
     # Opens table
     def twist(self):
+        if 'billiard players' in room.items:
+            return "You can't get up to it because the players are in the way"
         if self.properties['used']:
             return "You twist it again, but nothing happened."
         else:
