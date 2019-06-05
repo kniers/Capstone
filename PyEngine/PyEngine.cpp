@@ -795,7 +795,8 @@ void PyEngine::LoadPyFiles(std::string directoryName)
                 FILE* fp;
                 std::string filename = directoryName + "/" + dp->d_name;
                 if (filename.size() >= 3 && filename.compare(filename.size() - 3, 3, ".py") == 0) {
-                    fp = _Py_fopen(filename.c_str(), "r");
+                    //fp = _Py_fopen(filename.c_str(), "r");
+                    fp = fopen(filename.c_str(), "r");
                     if (fp != NULL) {
                         currentFile = strdup(filename.c_str());
                         printf("Reading file: %s\n", currentFile);
@@ -804,6 +805,7 @@ void PyEngine::LoadPyFiles(std::string directoryName)
                         if (failure) {
                             printf("^^^Error in file!^^^\n\n");
                         }
+                        fclose(fp);
                     } else {
                         fprintf(stderr, "Could not open file \n");
                     }       
