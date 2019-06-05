@@ -8,7 +8,7 @@ class SharkTank:
 	descriptions = {'tankDesc': "It is a large shark tank about 18-ft x 24-ft in size. Inside there are five leopard sharks swimming around. The undersea environment has rocks, coral, and various seaweeds. ",
 					'openDesc': "You have opened the top of the tank. Inside there are five leopard sharks swimming around. The undersea environment has rocks, coral, and various seaweeds. ",
 					'alreadyOpen': "Can't open it twice",
-					'closeDesc': "The tank is closed. ",
+					'closedDesc': "The tank is closed. ",
 					'alreadyClosed': "It is closed ",
 					'tooth': "You look closer and you notice a huge shark tooth at the bottom in the rocks."}
 	properties = {'opened': False, 'hasPlans': False}

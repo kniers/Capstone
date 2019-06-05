@@ -32,7 +32,7 @@ class Desk:
 		elif 'fountain pen' in currRoom.items:
 			description += self.descriptions['hasPen']
 		elif 'letter opener' in currRoom.items:
-			description += self.descriptions['letter opener']
+			description += self.descriptions['hasOpener']
 		return description
 	
 	

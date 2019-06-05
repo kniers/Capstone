@@ -11,6 +11,7 @@ class RubberDuck:
 					'touchDuck': "You touch the duck. It squeaks.",
 					'eatDuck': "You raise the duck to your mouth, then you see the following warning:\n\nChoking Hazard: Not for children under three years old.",
 					'dropDuck': "You put the duck down.",
+					'dropNoHold': "You can't drop something that you've never picked up.",
 					'useDuck': "You squeeze the duck. You feel a little better about your sad life.",
 					'killDuck': "Why would you do that, you heartless wretch?",
 					'talkDuck': "'Well, what do you think?' you ask the duck. It doesn't respond, keeping its wisdom to itself."}
