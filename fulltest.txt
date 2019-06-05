@@ -361,7 +361,7 @@ use strange key
 use strange key on still life
 touch strange key
 west
-north
+up
 south
 top drawer
 take top drawer
@@ -370,7 +370,7 @@ open top drawer
 open top drawer with letter opener
 drop mouse
 eat top drawer
-use strange key on top drawer
+open top drawer with strange key
 top drawer
 open top drawer
 gold statue
@@ -391,8 +391,8 @@ talk to ceo
 talk to mr. winston
 talk to sir charles
 loadgame
-touch ceo
-touch ceo
+touch master winston
+touch charles
 loadgame
 listen to charles
 dancing couple
@@ -761,7 +761,7 @@ drop plans
 escape
 take purse
 take ruby
-take statue
+take gold statue
 take plans
 take bible
 go window
