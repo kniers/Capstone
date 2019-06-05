@@ -1,0 +1,89 @@
+
+open closet
+wear suit
+open nightstand
+take key
+unlock west door with key
+go west
+go west
+look dresser
+open mousetrap
+go east
+go north
+drop mouse
+go south
+go down
+go north
+look statue
+go east
+go east
+wear flower
+go west
+go south
+talk to female critic
+talk to male critic
+talk to male critic about rodin
+touch still life
+take painting key
+go west
+go up
+go south
+look cabinet
+unlock top drawer with painting key
+take gold statue
+go north
+go west
+listen to children
+listen to children
+listen to children
+go east
+go down
+go north
+go east
+look at counter
+investigate counter
+take bone key
+go west
+listen to CEO
+go north
+open fridge
+take tuna
+go south
+go south
+go south
+look at bookshelf
+take Nathaniel Winston
+push button
+open hatch with bone key
+go down
+open tank
+feed sharks tuna
+take tooth
+take emerald
+go up
+go east
+look plants
+use light switch
+look at billiard table
+go east
+talk to man
+go west
+go west
+go west
+talk to woman
+drop martini
+take beer
+go east
+go east
+go east
+give beer to man
+talk to man about pool table
+go west
+twist lever
+take papers
+go east
+open window
+escape
+savegame
+quit
+
