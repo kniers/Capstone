@@ -2,7 +2,7 @@ class Bookcharles:
 	name = 'Charles Winston'
 	#type = 'Item'
 	visible = True
-	aliases = ['Adventures of Charles Winton II', 'adventuresofcharleswinston2', 'adventures of charles winston II']
+	aliases = []
 	descriptions = {'desc': "Adventures of Charles Winston II: 1919 to 1923. ",
 					'descHaveBook': "You have Adventures of Charles Winston II in your inventory. ",
 					'read': "July 8, 1920, Somewhere north of Mt. Everest, We have been going in circles for two days. Maybe I chose the wrong guide... ",

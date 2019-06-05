@@ -18,7 +18,7 @@ class Beer:
                 margaret.properties['hasBeer'] = False
                 return "Margaret:\n\"Here you go. Enjoy!\""
             else:
-                return "You already have it."    
+                return "You already took it."    
 
     def eat(self):
         return "Something tells you that you have a better use for it"

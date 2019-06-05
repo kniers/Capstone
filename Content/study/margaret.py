@@ -22,7 +22,7 @@ class Margaret:
             else:
                 return "Margaret:\n\"Wow, it must have taken them years to collect this stuff.\""
         elif about.name == 'artifacts':
-            if 'mummy\'s curse' in eng.getCurrentRoom().items:
+            if 'egyptian amulet' in eng.getCurrentRoom().items:
                 return "Margaret:\n\"I recognize this one. It's an amulet from ancient Egypt. It's said that any mortal who possesses it would be cursed. Haha, if you believe such a thing!"
             else:
                 return "Margaret:\n\"So many interesting things here.\""

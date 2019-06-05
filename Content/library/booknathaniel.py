@@ -4,7 +4,7 @@ class Booknathaniel:
 	name = 'Nathaniel Winston'
 	#type = 'Item'
 	visible = True
-	aliases = ['adventuresofnathanielwinston', 'Adventures of Nathaniel Winston']
+	aliases = []
 	descriptions = {'desc': "Adventures of Nathaniel Winston - 1905 to 1911. It's an old black leather bound book. ",
 					'descHaveBook': "There is a gap where the book was. You see a silver button at the back of the bookself",
 					'read': "You randomly open the book: July 12, 1907 - 300 miles off the coast of Sumatra. I caught a exceptionally large tiger shark...",

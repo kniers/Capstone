@@ -5,6 +5,6 @@ class Artifacts:
     name = 'artifacts'
 
     def look(self):
-        return "The walls of the study are lined with all sorts of artifacts from around the world. They're behind glass."
+        return "The walls of the study are lined with all sorts of artifacts from around the world. Most of them are behind glass."
 
 eng.setupItem(Artifacts())

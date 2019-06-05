@@ -4,7 +4,7 @@ class Bible:
 	name = 'Bible'
 	#type = 'Item'
 	visible = False
-	aliases = ['King James Bible', 'the good news', 'bible']
+	aliases = []
 	descriptions = {'desc': "A beautiful leather bound bible. On the front cover is a gold cross and seven enlaid diamonds. Must be priceless.",
 					'read': "You randomly open the Bible and read. Exodus 20:15 Thou shalt not steal. Okay now you have a guilt trip.",
 					'readMore': "Thou shalt not bear false witness against thy neighbour. 'Last thing I want are witnesses', you think.",

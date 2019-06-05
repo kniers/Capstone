@@ -1,0 +1,768 @@
+
+closet
+open closet
+wardrobe
+open closet
+wear suit
+self
+closet
+wear dress
+self
+closet
+eat closet
+gown
+suit
+take suit
+take tux
+take gown
+take gown
+wear outfit
+wear suit
+wear gown
+wear gown
+eat gown
+eat suit
+window
+go window
+bedroom
+nightstand
+open dresser
+drawer
+spare key
+use key
+take spare key
+take key
+drop key
+drop key
+use key
+use key on suit
+nightstand
+open nightstand
+open west door with key
+bedroom
+help
+inventory
+north
+tub
+take bathtub
+talk to tub
+use tub
+touch tub
+eat tub
+bathroom
+duck
+talk to rubber duck
+kill rubber ducky
+hit ducky
+use duck
+take duck
+take duck
+drop duck
+drop duck
+touch duck
+eat duck
+sink
+open sink
+open sink
+touch sink
+use sink
+kill sink
+hit sink
+vanity
+open vanity
+vanity
+touch vanity
+open vanity
+toothpaste
+take toothpaste
+take toothpaste
+touch tube
+eat toothpaste
+use toothpaste
+vanity
+strop
+take strop
+take strop
+drop strop
+drop strop
+take strop
+touch strop
+eat strop
+drawer
+drop toothpaste
+drop toothpaste
+vanity
+south
+west
+south
+office
+desk
+fountain pen
+drop fountain pen
+take pen
+take fountain pen
+touch fountain pen
+eat fountain pen
+use fontain pen
+desk
+drop letter opener
+take letter opener
+take letter opener
+touch letter opener
+eat letter opener
+drop letter opener
+take letter opener
+drop strop
+sharpen letter opener
+sharpen letter opener with fountain pen
+take strop
+sharpen letter opener with strop
+desk
+drop fountain pen
+desk
+take desk
+touch desk
+eat desk
+use desk
+open desk
+drawers
+open drawers
+look drawers
+take drawers
+eat drawer
+touch drawers
+cabinet
+take cabinet
+touch cabinet
+open cabinet
+eat filing cabinet
+take bottom drawer
+touch bottom drawer
+eat bottom drawer
+bottom drawer
+open bottom drawer
+open bottom drawer
+bottom drawer
+drop map
+take blueprints
+take blueprint
+plans
+touch map
+drop map
+take map
+eat map
+bottom drawer
+take top drawer
+touch top drawer
+eat top drawer
+open top drawer
+north
+west
+dresser
+take dresser
+touch dresser
+eat dresser
+open dresser
+mousetrap
+mouse
+drop mouse
+take mousetrap
+touch mousetrap
+eat trap
+open mousetrap
+open mousetrap
+mousetrap
+mouse
+take mouse
+touch mouse
+eat mouse
+hit mouse
+kill mouse
+drop mouse
+bedroom
+children
+talk to children
+kill kids
+listen to children
+listen to children
+listen to children
+touch children
+north
+bedroom
+maid
+take maid
+use maid
+touch maid
+eat maid
+kill maid
+hit maid
+talk to maid
+photo
+take picture frame
+touch photo
+eat frame
+savegame
+drop mouse
+kill butler
+maid
+loadgame
+south
+hallway
+abstract painting
+drop masterpiece
+take painting
+masterpiece
+take magnificent painting
+eat huge painting
+give painting
+down
+butler
+kill butler
+give butler
+touch butler
+kill butler with painting
+kill butler with letter opener
+sharpen letter opener with strop
+kill butler with letter opener
+down
+touch butler
+kill butler
+butler
+eat butler
+touch butler
+hit butler
+talk to butler
+down
+take butler
+butler
+down
+savegame
+north
+drop butler
+loadgame
+south
+drop butler
+loadgame
+east
+drop butler
+loadgame
+west
+drop butler
+loadgame
+east
+north
+drop butler
+south
+west
+down
+drop masterpiece
+down
+chandelier
+dazzling chandelier
+take lights
+ceiling
+kill server
+talk to drink server
+hit server
+server
+martini
+eat martini
+take martini
+drop martini
+drop dry martini
+take cocktail
+talk to martini
+give martini
+hit martini
+foyer
+old lady
+touch lady
+kill bethal
+talk to bethal haut
+talk to mrs. haut
+talk to lady
+west
+front porch
+outside
+look at cars
+take luxary cars
+guard shack
+shack
+guardshack
+guards
+kill guards
+east
+north
+statue
+south
+east
+female critic
+take lady
+touch stoges
+critic
+talk to woman about portraits
+talk to woman about still life
+talk to woman about landscape
+talk to woman
+rodin
+talk to woman about statue
+talk to woman about rodin clue
+talk to woman about rodin location
+talk to woman about male critic
+male critic
+touch still life
+touch man
+take guy
+talk to bennings
+talk to guy about portraits
+talk to guy aboud landscape
+talk to guy about still life
+talk to guy about female critic
+talk to guy about rodin
+north
+east
+gardens
+pink flowers
+wear flower
+take flowers
+touch flower
+drop flower
+drop flower
+wear flower
+wear flower
+eat flower
+smokers
+talk to guys
+talk to smokers
+west
+south
+talk to female critic
+landscape
+take landscape
+touch landscape
+eat landscape
+portrait gallery
+portraits
+take portraits
+touch portraits
+eat portraits
+still life
+take still life
+touch still life
+take painting key
+touch still life
+eat still life
+take strange key
+drop painted key
+drop strange key
+take strange key
+eat strange key
+use strange key
+use strange key on still life
+touch strange key
+west
+north
+south
+top drawer
+take top drawer
+touch top drawer
+open top drawer
+open top drawer with letter opener
+drop mouse
+eat top drawer
+use strange key on top drawer
+top drawer
+open top drawer
+gold statue
+drop statue
+take statue
+take statue
+drop statue
+take statue
+eat statue
+touch statue
+north
+down
+north
+ballroom
+ceo
+savegame
+talk to ceo
+talk to mr. winston
+talk to sir charles
+loadgame
+touch ceo
+touch ceo
+loadgame
+listen to charles
+dancing couple
+talk to rick
+hit ashley
+give dancers
+take dancers
+kill rick
+talk to rick
+touch rick
+eat rick
+statue
+rodin statue
+sitting couple
+hit felix
+give sara
+take felix
+kill sara
+talk to felix
+touch sara
+eat felix
+yamazaki
+talk to mr. yamazaki
+talk to genzo yamazaki
+touch japanese businessman
+take business card
+drop meishi
+drop meishi
+take meishi
+meishi
+north
+kitchen
+fridge
+move fridge
+open fridge
+fridge
+fish
+drop fish
+take tuna
+take whole fish
+drop fish
+take fish
+give tuna
+give tuna to fridge
+eat tuna
+eat tuna
+cake
+drop cake
+take the cake
+take cake
+drop cake
+take cake
+eat cake
+eat cake
+take cake
+give cake
+give cake to fridge
+fridge
+open fridge
+close refrigerator
+close fridge
+south
+west
+bathroom
+window
+go window
+take purse
+open purse
+east
+east
+bar
+counter
+investigate marble counter
+investigate marble counter
+bartender
+hit bartender
+kill bartender
+touch bartender
+talk to bartender
+bone key
+drop bonekey
+take bonekey
+take bonekey
+drop bonekey
+take bonekey
+use bonekey
+eat bonekey
+catholic priest
+talk to priest
+talk to father mcvicker
+talk to priest
+touch priest
+east
+give smokers cake
+talk to smokers
+cigars
+south
+conservatory
+conservatory windows
+go window
+close window
+open windows
+open window
+close window
+hit window
+hit window
+close window
+open window
+craftsman
+kill man
+hit hank
+talk to hank
+talk to hank about highball glass
+talk to hank about mahogany table
+talk to hank about tuna
+highball glass
+take glass
+eat glass
+table
+wood table
+wooden table
+mahogany table
+west
+billiard lights
+take billiards lights
+hit pool lights
+touch lights
+willie
+jake
+talk to pool players
+touch gentlemen
+hit billiard players
+kill billiards players
+players
+billiard room
+touch billiard table
+take pool table
+eat pool table
+pool table
+plants
+eat plant
+take potted plants
+decorative plants
+artificial plants
+use lever
+take lever
+touch lever
+twist lever
+open lever
+hit lever
+use switch
+use lightswitch
+light switch
+touch lightswitch
+hit lightswitch
+pool table
+take lights
+touch lights
+hit lights
+take lights
+touch lights
+hit lights
+east
+table lever
+billiard lever
+billiards table
+pool table
+billiard table
+talk to hank about lever
+west
+use lever
+open lever
+touch lever
+take lever
+lever
+twist lever
+twist lever
+pool table
+drop ruby
+take ruby
+take ruby
+drop ruby
+eat ruby
+give ruby
+take ruby
+eat ruby
+give ruby
+giant ruby
+west
+west
+talk to margaret about artifacts
+egyptian amulet
+give amulet
+drop amulet
+eat amulet
+hit amulet
+take amulet
+take amulet
+give amulet
+drop amulet
+eat amulet
+hit amulet
+talk to margaret about artifacts
+artifacts
+beer
+lady
+talk to margaret
+talk to margaret about beer
+take beer
+drop martini
+talk to woman about beer
+talk to lady
+take beer
+take beer
+talk to woman
+eat beer
+give beer
+give beer to margaret
+east
+east
+east
+give beer to hank
+give beer
+talk to hank
+west
+west
+west
+study
+margaret
+talk to margaret about artifacts
+talk to margaret about amulet
+talk to margaret about beer
+talk to margaret about tuna
+hit woman
+kill woman
+touch woman
+desk
+open drawer
+long desk
+bible
+open desk
+take bible
+desk
+read bible
+take bible
+bible
+eat bible
+take bible
+drop bible
+drop bible
+take bible
+open bible
+open bible
+east
+library
+bookshelf
+book case
+books
+charles winston
+drop charles winston
+take charles winston
+charles winston
+take charles winston
+eat charles winston
+drop charles winston
+read charles winston
+read charles winston
+nathaniel winston
+drop nathaniel winston
+take nathaniel winston
+nathaniel winston
+take nathaniel winston
+eat nathaniel winston
+drop nathaniel winston
+read nathaniel winston
+read nathaniel winston
+take nathaniel winston
+bookcase
+dracula
+drop dracula
+take dracula
+dracula
+take dracula
+drop dracula
+eat dracula
+read dracula
+read dracula
+great expectations
+drop great expectations
+take great expectations
+great expectations
+take great expectations
+drop great expectations
+eat great expectations
+read great expectations
+read great expectations
+lotr
+drop lotr
+take lotr
+hobbit
+take hobbit
+drop lotr
+eat hobbit
+read hobbit
+read the hobbit
+silver button
+push button
+silverbutton
+book shelf
+push button
+push button
+hatch
+open hatch with bone key
+down
+secret room
+sharks
+touch sharks
+hit sharks
+kill sharks
+take sharks
+give sharks tuna
+touch leopard sharks
+tank
+open tank
+open tank
+close tank
+close tank
+open tank
+touch sharks
+take tooth
+tank
+plans
+drop paper
+take papers
+touch plans
+take plans
+megalodon tooth
+take shark tooth
+eat tooth
+drop tooth
+drop tooth
+take tooth
+up
+north
+west
+talk to lady
+kill lady
+guards
+kill self
+hit self
+eat self
+take self
+use self
+talk yourself
+listen myself
+self
+east
+east
+south
+east
+drop bible
+drop purse
+drop statue
+drop ruby
+drop plans
+escape
+take purse
+take ruby
+take statue
+take plans
+take bible
+go window
+quit
