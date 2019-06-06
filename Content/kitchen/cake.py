@@ -48,6 +48,9 @@ class Cake:
 			if currRoom.name == 'Kitchen':
 				eng.removeFromInventory(self)
 				return "You put the cake back in the refrigerator with the rest of it."
+			elif 'cake' in currRoom.droppedItems:
+				eng.removeFromInventory(self)
+				return "You put the cake with the other cake. My goodness, that's a lot of cake."
 			else:
 				eng.dropItem(self)
 				return "You set the cake down. "
