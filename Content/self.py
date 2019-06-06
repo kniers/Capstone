@@ -14,7 +14,7 @@ class character:
         if eng.inInventory(suit):
             description = "You look like a fine gentleman. "
             if not eng.inInventory(flower):
-                description += "You would look even better with a boutonnière. Maybe there's a flower somewhere around here."
+                description += "You would look even better with a boutonniere. Maybe there's a flower somewhere around here."
             return description
         elif eng.inInventory(gown):
             description = "You look like a fine lady. "
