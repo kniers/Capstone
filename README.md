@@ -22,5 +22,6 @@ Run a test by directing a file to the input.
 The basic test is successful if the game completes with a "Congratulations" message
 ./game < test.txt
 
-The full test is successful if no errors are thrown during the test
+The full test is successful if no errors are thrown during the test and the game
+completes with a "Congratulations" message
 ./game < fulltest.txt
